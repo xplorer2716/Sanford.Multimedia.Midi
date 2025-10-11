@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -37,9 +37,9 @@ using System.Collections;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Provides functionality for building ChannelMessages.
-	/// </summary>
+    /// <summary>
+    /// Provides functionality for building ChannelMessages.
+    /// </summary>
     public class ChannelMessageBuilder : IMessageBuilder
     {
         #region ChannelMessageBuilder Members
@@ -82,7 +82,7 @@ namespace Sanford.Multimedia.Midi
         /// The ChannelMessageEventArgs to use for initializing the ChannelMessageBuilder.
         /// </param>
         /// <remarks>
-        /// The ChannelMessageBuilder uses the specified ChannelMessageEventArgs to 
+        /// The ChannelMessageBuilder uses the specified ChannelMessageEventArgs to
         /// initialize its property values.
         /// </remarks>
         public ChannelMessageBuilder(ChannelMessage message)
@@ -95,7 +95,7 @@ namespace Sanford.Multimedia.Midi
         #region Methods
 
         /// <summary>
-        /// Initializes the ChannelMessageBuilder with the specified 
+        /// Initializes the ChannelMessageBuilder with the specified
         /// ChannelMessageEventArgs.
         /// </summary>
         /// <param name="message">
@@ -112,7 +112,7 @@ namespace Sanford.Multimedia.Midi
         public static void Clear()
         {
             messageCache.Clear();
-        }        
+        }
 
         #endregion
 
@@ -141,7 +141,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Gets or sets the ChannelMessageEventArgs as a packed integer. 
+        /// Gets or sets the ChannelMessageEventArgs as a packed integer.
         /// </summary>
         internal int Message
         {
@@ -156,7 +156,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Gets or sets the Command value to use for building the 
+        /// Gets or sets the Command value to use for building the
         /// ChannelMessageEventArgs.
         /// </summary>
         public ChannelCommand Command
@@ -172,7 +172,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Gets or sets the MIDI channel to use for building the 
+        /// Gets or sets the MIDI channel to use for building the
         /// ChannelMessageEventArgs.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -191,7 +191,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Gets or sets the first data value to use for building the 
+        /// Gets or sets the first data value to use for building the
         /// ChannelMessageEventArgs.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -210,7 +210,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Gets or sets the second data value to use for building the 
+        /// Gets or sets the second data value to use for building the
         /// ChannelMessageEventArgs.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -242,7 +242,7 @@ namespace Sanford.Multimedia.Midi
             result = (ChannelMessage)messageCache[message];
 
             // If the message does not exist.
-            if(result == null)
+            if (result == null)
             {
                 result = new ChannelMessage(message);
 

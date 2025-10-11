@@ -1,20 +1,18 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
-using System;
-
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
-	/// Represents the functionality and properties of AVL nodes.
-	/// </summary>
-	internal interface IAvlNode
-	{
+    /// <summary>
+    /// Represents the functionality and properties of AVL nodes.
+    /// </summary>
+    internal interface IAvlNode
+    {
         /// <summary>
         /// Removes the current node from the AVL tree.
         /// </summary>
@@ -32,7 +30,7 @@ namespace Sanford.Collections.Immutable
         IAvlNode Balance();
 
         /// <summary>
-        /// Indicates whether or not the subtree the node represents is in 
+        /// Indicates whether or not the subtree the node represents is in
         /// balance.
         /// </summary>
         /// <returns>
@@ -87,5 +85,5 @@ namespace Sanford.Collections.Immutable
         {
             get;
         }
-	}
+    }
 }

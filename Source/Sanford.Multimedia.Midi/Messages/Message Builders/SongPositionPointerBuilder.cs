@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -36,11 +36,11 @@ using System;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Provides functionality for building song position pointer messages.
-	/// </summary>
-	public class SongPositionPointerBuilder : IMessageBuilder
-	{
+    /// <summary>
+    /// Provides functionality for building song position pointer messages.
+    /// </summary>
+    public class SongPositionPointerBuilder : IMessageBuilder
+    {
         #region SongPositionPointerBuilder Members
 
         #region Constants
@@ -89,7 +89,7 @@ namespace Sanford.Multimedia.Midi
         /// with the specified song position pointer message.
         /// </summary>
         /// <param name="message">
-        /// The song position pointer message to use for initializing the 
+        /// The song position pointer message to use for initializing the
         /// SongPositionPointerBuilder.
         /// </param>
         /// <exception cref="ArgumentException">
@@ -110,11 +110,11 @@ namespace Sanford.Multimedia.Midi
         #region Methods
 
         /// <summary>
-        /// Initializes the SongPositionPointerBuilder with the specified 
+        /// Initializes the SongPositionPointerBuilder with the specified
         /// SysCommonMessage.
         /// </summary>
         /// <param name="message">
-        /// The SysCommonMessage to use to initialize the 
+        /// The SysCommonMessage to use to initialize the
         /// SongPositionPointerBuilder.
         /// </param>
         /// <exception cref="ArgumentException">
@@ -124,11 +124,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(message == null)
+            if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
-            else if(message.SysCommonType != SysCommonType.SongPositionPointer)
+            else if (message.SysCommonType != SysCommonType.SongPositionPointer)
             {
                 throw new ArgumentException(
                     "Message is not a song position pointer message.");
@@ -151,8 +151,8 @@ namespace Sanford.Multimedia.Midi
         /// </exception>
         /// <remarks>
         /// Note: the position in ticks value is converted to the song position
-        /// pointer value. Since the song position pointer has a lower 
-        /// resolution than the position in ticks, there is a probable loss of 
+        /// pointer value. Since the song position pointer has a lower
+        /// resolution than the position in ticks, there is a probable loss of
         /// resolution when setting the position in ticks value.
         /// </remarks>
         public int PositionInTicks
@@ -165,7 +165,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("PositionInTicks", value,
                         "Position in ticks out of range.");
@@ -175,7 +175,7 @@ namespace Sanford.Multimedia.Midi
 
                 SongPosition = value / (tickScale * TicksPer16thNote);
             }
-        }        
+        }
 
         /// <summary>
         /// Gets or sets the PulsesPerQuarterNote object.
@@ -193,7 +193,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < PpqnClock.PpqnMinValue)
+                if (value < PpqnClock.PpqnMinValue)
                 {
                     throw new ArgumentOutOfRangeException("Ppqn", value,
                          "Pulses per quarter note is smaller than 24.");
@@ -217,13 +217,13 @@ namespace Sanford.Multimedia.Midi
         {
             get
             {
-                return (builder.Data2 << Shift) | builder.Data1;                
+                return (builder.Data2 << Shift) | builder.Data1;
             }
             set
             {
                 #region Require
 
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("SongPosition", value,
                         "Song position pointer out of range.");

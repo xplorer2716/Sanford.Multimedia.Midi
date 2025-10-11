@@ -1,12 +1,11 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
@@ -30,9 +29,10 @@ namespace Sanford.Collections.Immutable
 
         // Left and right children.
         private readonly RalTreeNode leftChild = null;
+
         private readonly RalTreeNode rightChild = null;
-        
-        #endregion
+
+        #endregion Instance Fields
 
         #region Construction
 
@@ -50,8 +50,8 @@ namespace Sanford.Collections.Immutable
         /// The right child.
         /// </param>
         public RalTreeNode(
-            object value, 
-            RalTreeNode leftChild, 
+            object value,
+            RalTreeNode leftChild,
             RalTreeNode rightChild)
         {
             this.value = value;
@@ -60,7 +60,7 @@ namespace Sanford.Collections.Immutable
 
             count = 1;
 
-            if(leftChild != null)
+            if (leftChild != null)
             {
                 count += leftChild.Count * 2;
 
@@ -69,7 +69,7 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
 
@@ -78,8 +78,8 @@ namespace Sanford.Collections.Immutable
         /// subtree.
         /// </summary>
         /// <param name="index">
-        /// An integer that represents the position of the random access list 
-        /// subtree element to get. 
+        /// An integer that represents the position of the random access list
+        /// subtree element to get.
         /// </param>
         /// <returns>
         /// The value at the specified position in the random access list
@@ -89,7 +89,7 @@ namespace Sanford.Collections.Immutable
         {
             Debug.Assert(index < Count);
 
-            return GetValue(index, this);            
+            return GetValue(index, this);
         }
 
         // Recursive method for getting the value at the specified position.
@@ -98,18 +98,18 @@ namespace Sanford.Collections.Immutable
             object result;
 
             // If the position of the value to get has been reached.
-            if(index == 0)
+            if (index == 0)
             {
                 // Get the value.
                 result = node.Value;
             }
             // Else the position of the value to get has not been reached.
             else
-            { 
+            {
                 int n = node.Count / 2;
 
                 // If the value is in the left subtree.
-                if(index <= n)
+                if (index <= n)
                 {
                     Debug.Assert(node.LeftChild != null);
 
@@ -130,18 +130,18 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Sets the specified element in the current random access list 
+        /// Sets the specified element in the current random access list
         /// subtree to the specified value.
         /// </summary>
         /// <param name="value">
-        /// The new value for the specified element. 
+        /// The new value for the specified element.
         /// </param>
         /// <param name="index">
-        /// An integer that represents the position of the random access list  
-        /// subtree element to set. 
+        /// An integer that represents the position of the random access list
+        /// subtree element to set.
         /// </param>
         /// <returns>
-        /// A new random access list tree node with the element at the specified 
+        /// A new random access list tree node with the element at the specified
         /// position set to the specified value.
         /// </returns>
         public RalTreeNode SetValue(object value, int index)
@@ -155,7 +155,7 @@ namespace Sanford.Collections.Immutable
             RalTreeNode result;
 
             // If the position of the value to set has been reached.
-            if(index == 0)
+            if (index == 0)
             {
                 // Set the value.
                 result = new RalTreeNode(
@@ -171,7 +171,7 @@ namespace Sanford.Collections.Immutable
                 int n = Count / 2;
 
                 // If the value is in the left subtree.
-                if(index <= n)
+                if (index <= n)
                 {
                     // Descend into the left subtree.
                     result = new RalTreeNode(
@@ -195,7 +195,7 @@ namespace Sanford.Collections.Immutable
             return result;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -243,8 +243,8 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Properties
 
-        #endregion
+        #endregion RalTreeNode Members
     }
 }

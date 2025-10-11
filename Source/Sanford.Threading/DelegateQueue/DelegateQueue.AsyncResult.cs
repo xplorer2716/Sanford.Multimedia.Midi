@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Threading;
 
 namespace Sanford.Threading
 {
@@ -33,11 +31,11 @@ namespace Sanford.Threading
             private NotificationType notificationType;
 
             public DelegateQueueAsyncResult(
-                object owner, 
-                Delegate method, 
-                object[] args, 
-                bool synchronously, 
-                NotificationType notificationType) 
+                object owner,
+                Delegate method,
+                object[] args,
+                bool synchronously,
+                NotificationType notificationType)
                 : base(owner, null, null)
             {
                 this.method = method;
@@ -66,7 +64,7 @@ namespace Sanford.Threading
                 {
                     returnValue = method.DynamicInvoke(args);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     error = ex;
                 }

@@ -1,8 +1,8 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
@@ -14,7 +14,7 @@ using System.Diagnostics;
 namespace Sanford.Collections.Immutable
 {
     /// <summary>
-    /// Represents a collection of key-and-value pairs that are sorted by the 
+    /// Represents a collection of key-and-value pairs that are sorted by the
     /// keys and are accessible by key.
     /// </summary>
     [ImmutableObject(true)]
@@ -29,7 +29,7 @@ namespace Sanford.Collections.Immutable
         /// </summary>
         public static readonly SortedList Empty = new SortedList();
 
-        #endregion
+        #endregion Class Fields
 
         #region Instance Fields
 
@@ -45,13 +45,13 @@ namespace Sanford.Collections.Immutable
         // The actual delegate to use for comparing keys.
         private CompareHandler compareHandler;
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the SortedList class that is empty 
-        /// and is sorted according to the IComparable interface implemented by 
+        /// Initializes a new instance of the SortedList class that is empty
+        /// and is sorted according to the IComparable interface implemented by
         /// each key added to the SortedList.
         /// </summary>
         public SortedList()
@@ -60,12 +60,12 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Initializes a new instance of the SortedList class that is empty 
+        /// Initializes a new instance of the SortedList class that is empty
         /// and is sorted according to the specified IComparer interface.
         /// </summary>
         /// <param name="comparer">
-        /// The IComparer implementation to use when comparing keys, or a null 
-        /// reference to use the IComparable implementation of each key. 
+        /// The IComparer implementation to use when comparing keys, or a null
+        /// reference to use the IComparable implementation of each key.
         /// </param>
         public SortedList(IComparer comparer)
         {
@@ -75,7 +75,7 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Initializes a new instance of the SortedList class with the 
+        /// Initializes a new instance of the SortedList class with the
         /// specified root node and the IComparer interface to use for sorting
         /// keys.
         /// </summary>
@@ -83,7 +83,7 @@ namespace Sanford.Collections.Immutable
         /// The root of the AVL tree.
         /// </param>
         /// <param name="comparer">
-        /// The IComparer implementation to use when comparing keys, or a null 
+        /// The IComparer implementation to use when comparing keys, or a null
         /// reference to use the IComparable implementation of each key.
         /// </param>
         private SortedList(IAvlNode root, IComparer comparer)
@@ -94,7 +94,7 @@ namespace Sanford.Collections.Immutable
             InitializeCompareHandler();
         }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
 
@@ -108,7 +108,7 @@ namespace Sanford.Collections.Immutable
         /// The value of the element to add. The value can be a null reference.
         /// </param>
         /// <returns>
-        /// A new SortedList with the specified key and value added to the 
+        /// A new SortedList with the specified key and value added to the
         /// previous SortedList.
         /// </returns>
         /// <exception cref="ArgumentNullException">
@@ -116,18 +116,18 @@ namespace Sanford.Collections.Immutable
         /// </exception>
         /// <exception cref="ArgumentException">
         /// An element with the specified key already exists in the SortedList,
-        /// or The SortedList is set to use the IComparable interface, and key 
+        /// or The SortedList is set to use the IComparable interface, and key
         /// does not implement the IComparable interface.
         /// </exception>
         public SortedList Add(object key, object value)
         {
             // Preconditions.
-            if(key == null)
+            if (key == null)
             {
-                throw new ArgumentNullException("key", 
+                throw new ArgumentNullException("key",
                     "Key cannot be null.");
             }
-            else if(comparer == null && !(key is IComparable))
+            else if (comparer == null && !(key is IComparable))
             {
                 throw new ArgumentException(
                     "Key does not implement IComparable interface.");
@@ -142,19 +142,19 @@ namespace Sanford.Collections.Immutable
         /// Determines whether the SortedList contains a specific key.
         /// </summary>
         /// <param name="key">
-        /// The key to locate in the SortedList. 
+        /// The key to locate in the SortedList.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the SortedList contains an element with the 
+        /// <b>true</b> if the SortedList contains an element with the
         /// specified <i>key</i>; otherwise, <b>false</b>.
         /// </returns>
         public bool Contains(object key)
         {
-            return this[key] != null;            
+            return this[key] != null;
         }
 
         /// <summary>
-        /// Returns an IDictionaryEnumerator that can iterate through the 
+        /// Returns an IDictionaryEnumerator that can iterate through the
         /// SortedList.
         /// </summary>
         /// <returns>
@@ -171,36 +171,36 @@ namespace Sanford.Collections.Immutable
         /// <param name="key">
         /// </param>
         /// <returns>
-        /// The <i>key</i> of the element to remove. 
+        /// The <i>key</i> of the element to remove.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// <i>key</i> is a null reference.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// The SortedList is set to use the IComparable interface, and key 
+        /// The SortedList is set to use the IComparable interface, and key
         /// does not implement the IComparable interface.
         /// </exception>
         public SortedList Remove(object key)
         {
             // Preconditions.
-            if(key == null)
+            if (key == null)
             {
-                throw new ArgumentNullException("key", 
+                throw new ArgumentNullException("key",
                     "Key cannot be null.");
             }
-            else if(comparer == null && !(key is IComparable))
+            else if (comparer == null && !(key is IComparable))
             {
                 throw new ArgumentException(
                     "Key does not implement IComparable interface.");
             }
 
             return new SortedList(Remove(key, root), comparer);
-        }        
+        }
 
         // Initializes the delegate to use for making key comparisons.
         private void InitializeCompareHandler()
         {
-            if(comparer == null)
+            if (comparer == null)
             {
                 compareHandler = new CompareHandler(CompareWithoutComparer);
             }
@@ -228,7 +228,7 @@ namespace Sanford.Collections.Immutable
             IAvlNode result;
 
             // If the bottom of the tree has been reached.
-            if(node == AvlNode.NullNode)
+            if (node == AvlNode.NullNode)
             {
                 // Create new node representing the new key/value pair.
                 result = new AvlNode(
@@ -243,7 +243,7 @@ namespace Sanford.Collections.Immutable
                 int compareResult = compareHandler(key, entry.Key);
 
                 // If the specified key is less than the current key.
-                if(compareResult < 0)
+                if (compareResult < 0)
                 {
                     // Create new node and continue searching to the left.
                     result = new AvlNode(
@@ -252,7 +252,7 @@ namespace Sanford.Collections.Immutable
                         node.RightChild);
                 }
                 // Else the specified key is greater than the current key.
-                else if(compareResult > 0)
+                else if (compareResult > 0)
                 {
                     // Create new node and continue searching to the right.
                     result = new AvlNode(
@@ -270,7 +270,7 @@ namespace Sanford.Collections.Immutable
             }
 
             // If the current node is not balanced.
-            if(!result.IsBalanced())
+            if (!result.IsBalanced())
             {
                 // Balance node.
                 result = result.Balance();
@@ -285,7 +285,7 @@ namespace Sanford.Collections.Immutable
             object result;
 
             // If the key is not in the SortedList.
-            if(node == AvlNode.NullNode)
+            if (node == AvlNode.NullNode)
             {
                 // Result is null.
                 result = null;
@@ -297,13 +297,13 @@ namespace Sanford.Collections.Immutable
                 int compareResult = compareHandler(key, entry.Key);
 
                 // If the specified key is less than the current key.
-                if(compareResult < 0)
+                if (compareResult < 0)
                 {
                     // Search to the left.
                     result = Search(key, node.LeftChild);
                 }
-                    // Else if the specified key is greater than the current key.
-                else if(compareResult > 0)
+                // Else if the specified key is greater than the current key.
+                else if (compareResult > 0)
                 {
                     // Search to the right.
                     result = Search(key, node.RightChild);
@@ -325,7 +325,7 @@ namespace Sanford.Collections.Immutable
             IAvlNode result;
 
             // The the key does not exist in the SortedList.
-            if(node == AvlNode.NullNode)
+            if (node == AvlNode.NullNode)
             {
                 // Result is null.
                 result = node;
@@ -337,7 +337,7 @@ namespace Sanford.Collections.Immutable
                 int compareResult = compareHandler(key, entry.Key);
 
                 // If the specified key is less than the current key.
-                if(compareResult < 0)
+                if (compareResult < 0)
                 {
                     // Create node and continue searching to the left.
                     result = new AvlNode(
@@ -346,7 +346,7 @@ namespace Sanford.Collections.Immutable
                         node.RightChild);
                 }
                 // Else if the specified key is greater than the current key.
-                else if(compareResult > 0)
+                else if (compareResult > 0)
                 {
                     // Create node and continue searching to the right.
                     result = new AvlNode(
@@ -358,12 +358,12 @@ namespace Sanford.Collections.Immutable
                 else
                 {
                     // Remove node.
-                    result = node.Remove();                    
+                    result = node.Remove();
                 }
             }
 
             // If the node is out of balance.
-            if(!result.IsBalanced())
+            if (!result.IsBalanced())
             {
                 // Rebalance node.
                 result = result.Balance();
@@ -375,7 +375,7 @@ namespace Sanford.Collections.Immutable
             return result;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -388,8 +388,8 @@ namespace Sanford.Collections.Immutable
             {
                 return Search(key, root);
             }
-        }  
-      
+        }
+
         /// <summary>
         /// Gets the number of elements contained in the SortedList.
         /// </summary>
@@ -401,7 +401,7 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region SortedListEnumerator Class
 
@@ -416,12 +416,12 @@ namespace Sanford.Collections.Immutable
 
             private AvlEnumerator enumerator;
 
-            #endregion
+            #endregion Instance Fields
 
             #region Construction
 
             /// <summary>
-            /// Initializes a new instance of the SortedListEnumerator class 
+            /// Initializes a new instance of the SortedListEnumerator class
             /// with the specified root of the AVL tree to iterate over.
             /// </summary>
             /// <param name="root">
@@ -432,9 +432,9 @@ namespace Sanford.Collections.Immutable
                 enumerator = new AvlEnumerator(root);
             }
 
-            #endregion
+            #endregion Construction
 
-            #endregion
+            #endregion SortedListEnumerator Members
 
             #region IDictionaryEnumerator Members
 
@@ -468,7 +468,7 @@ namespace Sanford.Collections.Immutable
                 }
             }
 
-            #endregion
+            #endregion IDictionaryEnumerator Members
 
             #region IEnumerator Members
 
@@ -487,15 +487,15 @@ namespace Sanford.Collections.Immutable
 
             public bool MoveNext()
             {
-                return enumerator.MoveNext();                    
+                return enumerator.MoveNext();
             }
 
-            #endregion
+            #endregion IEnumerator Members
         }
 
-        #endregion
+        #endregion SortedListEnumerator Class
 
-        #endregion
+        #endregion SortedList Members
 
         #region IEnumerable Members
 
@@ -504,6 +504,6 @@ namespace Sanford.Collections.Immutable
             return new AvlEnumerator(root);
         }
 
-        #endregion
+        #endregion IEnumerable Members
     }
 }

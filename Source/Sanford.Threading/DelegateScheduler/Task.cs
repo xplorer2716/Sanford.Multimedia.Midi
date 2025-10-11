@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2007 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,7 +33,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Sanford.Threading
@@ -98,7 +97,7 @@ namespace Sanford.Threading
 
             object returnValue = method.DynamicInvoke(args);
 
-            if(count == DelegateScheduler.Infinite)
+            if (count == DelegateScheduler.Infinite)
             {
                 nextTimeout = nextTimeout.AddMilliseconds(millisecondsTimeout);
             }
@@ -106,7 +105,7 @@ namespace Sanford.Threading
             {
                 count--;
 
-                if(count > 0)
+                if (count > 0)
                 {
                     nextTimeout = nextTimeout.AddMilliseconds(millisecondsTimeout);
                 }
@@ -177,10 +176,9 @@ namespace Sanford.Threading
 
         #region IComparable Members
 
-        
         /// <summary>
-		/// Compares the current instance with another object of the same type and returns an integer indicates whenever the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
-		/// </summary>
+        /// Compares the current instance with another object of the same type and returns an integer indicates whenever the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+        /// </summary>
         /// <returns>
         /// Compares between the subtracted next timeout and the task.
         /// </returns>
@@ -188,7 +186,7 @@ namespace Sanford.Threading
         {
             Task t = obj as Task;
 
-            if(t == null)
+            if (t == null)
             {
                 throw new ArgumentException("obj is not the same type as this instance.");
             }

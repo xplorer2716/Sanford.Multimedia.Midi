@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -37,11 +37,11 @@ using System.Text;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Provides functionality for building meta text messages.
-	/// </summary>
-	public class MetaTextBuilder : IMessageBuilder
-	{
+    /// <summary>
+    /// Provides functionality for building meta text messages.
+    /// </summary>
+    public class MetaTextBuilder : IMessageBuilder
+    {
         #region MetaTextBuilder Members
 
         #region Fields
@@ -55,7 +55,7 @@ namespace Sanford.Multimedia.Midi
         // The built MetaMessage.
         private MetaMessage result = null;
 
-        // Indicates whether or not the text has changed since the message was 
+        // Indicates whether or not the text has changed since the message was
         // last built.
         private bool changed = true;
 
@@ -72,7 +72,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the MetaMessageTextBuilder class with the 
+        /// Initializes a new instance of the MetaMessageTextBuilder class with the
         /// specified type.
         /// </summary>
         /// <param name="type">
@@ -82,7 +82,7 @@ namespace Sanford.Multimedia.Midi
         /// If the MetaMessage type is not a text based type.
         /// </exception>
         /// <remarks>
-        /// The MetaMessage type must be one of the following text based 
+        /// The MetaMessage type must be one of the following text based
         /// types:
         /// <list>
         /// <item>
@@ -113,14 +113,14 @@ namespace Sanford.Multimedia.Midi
         /// TrackName
         /// </item>
         /// </list>
-        /// If the MetaMessage is not a text based type, an exception 
+        /// If the MetaMessage is not a text based type, an exception
         /// will be thrown.
         /// </remarks>
         public MetaTextBuilder(MetaType type)
         {
             #region Require
 
-            if(!IsTextType(type))
+            if (!IsTextType(type))
             {
                 throw new ArgumentException("Not text based meta message type.",
                     "message");
@@ -132,7 +132,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the MetaMessageTextBuilder class with the 
+        /// Initializes a new instance of the MetaMessageTextBuilder class with the
         /// specified type.
         /// </summary>
         /// <param name="type">
@@ -145,7 +145,7 @@ namespace Sanford.Multimedia.Midi
         /// If the MetaMessage type is not a text based type.
         /// </exception>
         /// <remarks>
-        /// The MetaMessage type must be one of the following text based 
+        /// The MetaMessage type must be one of the following text based
         /// types:
         /// <list>
         /// <item>
@@ -176,14 +176,14 @@ namespace Sanford.Multimedia.Midi
         /// TrackName
         /// </item>
         /// </list>
-        /// If the MetaMessage is not a text based type, an exception 
+        /// If the MetaMessage is not a text based type, an exception
         /// will be thrown.
         /// </remarks>
         public MetaTextBuilder(MetaType type, string text)
         {
             #region Require
 
-            if(!IsTextType(type))
+            if (!IsTextType(type))
             {
                 throw new ArgumentException("Not text based meta message type.",
                     "message");
@@ -193,7 +193,7 @@ namespace Sanford.Multimedia.Midi
 
             this.type = type;
 
-            if(text != null)
+            if (text != null)
             {
                 this.text = text;
             }
@@ -203,7 +203,6 @@ namespace Sanford.Multimedia.Midi
             }
         }
 
-        
         /// <summary>
         /// Initializes a new instance of the MetaMessageTextBuilder class with the
         /// specified MetaMessage.
@@ -245,13 +244,13 @@ namespace Sanford.Multimedia.Midi
         /// TrackName
         /// </item>
         /// </list>
-        /// If the MetaMessage is not a text based type, an exception will be 
+        /// If the MetaMessage is not a text based type, an exception will be
         /// thrown.
         /// </remarks>
-		public MetaTextBuilder(MetaMessage message)
+        public MetaTextBuilder(MetaMessage message)
         {
             Initialize(message);
-		}
+        }
 
         #endregion
 
@@ -270,7 +269,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(!IsTextType(message.MetaType))
+            if (!IsTextType(message.MetaType))
             {
                 throw new ArgumentException("Not text based meta message.",
                     "message");
@@ -285,21 +284,21 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Indicates whether or not the specified MetaType is a text based 
+        /// Indicates whether or not the specified MetaType is a text based
         /// type.
         /// </summary>
         /// <param name="type">
         /// The MetaType to test.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the MetaType is a text based type; 
+        /// <b>true</b> if the MetaType is a text based type;
         /// otherwise, <b>false</b>.
         /// </returns>
         private bool IsTextType(MetaType type)
         {
             bool result;
 
-            if(type == MetaType.Copyright || 
+            if (type == MetaType.Copyright ||
                 type == MetaType.CuePoint ||
                 type == MetaType.DeviceName ||
                 type == MetaType.InstrumentName ||
@@ -334,7 +333,7 @@ namespace Sanford.Multimedia.Midi
             }
             set
             {
-                if(value != null)
+                if (value != null)
                 {
                     text = value;
                 }
@@ -363,7 +362,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(!IsTextType(value))
+                if (!IsTextType(value))
                 {
                     throw new ArgumentException("Not text based meta message type.",
                         "message");
@@ -399,9 +398,9 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         public void Build()
         {
-            // If the text has changed since the last time this method was 
+            // If the text has changed since the last time this method was
             // called.
-            if(changed)
+            if (changed)
             {
                 //
                 // Build text MetaMessage.

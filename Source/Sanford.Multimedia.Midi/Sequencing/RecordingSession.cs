@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Sanford.Multimedia.Midi
 {
@@ -32,7 +30,7 @@ namespace Sanford.Multimedia.Midi
 
             buffer.Sort(new TimestampComparer());
 
-            foreach(TimestampedMessage tm in buffer)
+            foreach (TimestampedMessage tm in buffer)
             {
                 result.Insert(tm.ticks, tm.message);
             }
@@ -62,7 +60,7 @@ namespace Sanford.Multimedia.Midi
 		/// </summary>
         public void Record(ChannelMessage message)
         {
-            if(clock.IsRunning)
+            if (clock.IsRunning)
             {
                 buffer.Add(new TimestampedMessage(clock.Ticks, message));
             }
@@ -73,7 +71,7 @@ namespace Sanford.Multimedia.Midi
 		/// </summary>
         public void Record(SysExMessage message)
         {
-            if(clock.IsRunning)
+            if (clock.IsRunning)
             {
                 buffer.Add(new TimestampedMessage(clock.Ticks, message));
             }
@@ -98,11 +96,11 @@ namespace Sanford.Multimedia.Midi
 
             public int Compare(TimestampedMessage x, TimestampedMessage y)
             {
-                if(x.ticks > y.ticks)
+                if (x.ticks > y.ticks)
                 {
                     return 1;
                 }
-                else if(x.ticks < y.ticks)
+                else if (x.ticks < y.ticks)
                 {
                     return -1;
                 }
@@ -112,7 +110,7 @@ namespace Sanford.Multimedia.Midi
                 }
             }
 
-            #endregion
+            #endregion IComparer<TimestampedMessage> Members
         }
     }
 }

@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -51,7 +51,6 @@ namespace Sanford.Multimedia.Midi
             get;
             set;
         }
-
     }
 
     /// <summary>
@@ -63,7 +62,7 @@ namespace Sanford.Multimedia.Midi
     /// realtime messages, and system common messages.
     /// </remarks>
     public class ShortMessage : MidiMessageBase, IMidiMessage
-	{
+    {
         #region ShortMessage Members
 
         #region Constants
@@ -71,7 +70,7 @@ namespace Sanford.Multimedia.Midi
         /// <summary>
 		/// The maximum value for data.
 		/// </summary>
-        public const int DataMaxValue= 127;
+        public const int DataMaxValue = 127;
 
         /// <summary>
 		/// The maximum value for statuses.
@@ -83,10 +82,12 @@ namespace Sanford.Multimedia.Midi
         //
 
         private const int StatusMask = ~255;
+
         /// <summary>
 		/// Bit manipulation constant for data mask.
 		/// </summary>
         protected const int DataMask = ~StatusMask;
+
         private const int Data1Mask = ~65280;
         private const int Data2Mask = ~Data1Mask + DataMask;
         private const int Shift = 8;
@@ -98,8 +99,8 @@ namespace Sanford.Multimedia.Midi
 		/// </summary>
         protected int msg = 0;
 
-        byte[] message;
-        bool rawMessageBuilt;
+        private byte[] message;
+        private bool rawMessageBuilt;
 
         #region Methods
 
@@ -160,13 +161,13 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(status < 0 || status > StatusMaxValue)
+            if (status < 0 || status > StatusMaxValue)
             {
                 throw new ArgumentOutOfRangeException("status", status,
                     "Status value out of range.");
             }
 
-            #endregion            
+            #endregion
 
             return (message & StatusMask) | status;
         }
@@ -175,7 +176,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(data1 < 0 || data1 > DataMaxValue)
+            if (data1 < 0 || data1 > DataMaxValue)
             {
                 throw new ArgumentOutOfRangeException("data1", data1,
                     "Data 1 value out of range.");
@@ -190,7 +191,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(data2 < 0 || data2 > DataMaxValue)
+            if (data2 < 0 || data2 > DataMaxValue)
             {
                 throw new ArgumentOutOfRangeException("data2", data2,
                     "Data 2 value out of range.");
@@ -289,9 +290,9 @@ namespace Sanford.Multimedia.Midi
                 return MessageType.Short;
             }
         }
-   
+
         #endregion
 
         #endregion
-	}
+    }
 }

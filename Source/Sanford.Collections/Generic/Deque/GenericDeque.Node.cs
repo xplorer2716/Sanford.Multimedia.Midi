@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sanford.Collections.Generic
 {
@@ -56,6 +54,6 @@ namespace Sanford.Collections.Generic
             }
         }
 
-        #endregion
+        #endregion Node Class
     }
 }

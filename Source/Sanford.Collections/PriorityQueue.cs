@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -38,10 +38,10 @@ using System.Diagnostics;
 
 namespace Sanford.Collections
 {
-	/// <summary>
-	/// Represents the priority queue data structure.
-	/// </summary>
-	public class PriorityQueue : ICollection
+    /// <summary>
+    /// Represents the priority queue data structure.
+    /// </summary>
+    public class PriorityQueue : ICollection
     {
         #region PriorityQueue Members
 
@@ -79,7 +79,7 @@ namespace Sanford.Collections
         /// Initializes a new instance of the PriorityQueue class.
         /// </summary>
         /// <remarks>
-        /// The PriorityQueue will cast its elements to the IComparable 
+        /// The PriorityQueue will cast its elements to the IComparable
         /// interface when making comparisons.
         /// </remarks>
         public PriorityQueue()
@@ -101,7 +101,7 @@ namespace Sanford.Collections
         public PriorityQueue(IComparer comparer)
         {
             // If no comparer was provided.
-            if(comparer == null)
+            if (comparer == null)
             {
                 // Use the DefaultComparer.
                 this.comparer = new DefaultComparer();
@@ -131,7 +131,7 @@ namespace Sanford.Collections
         {
             #region Require
 
-            if(element == null)
+            if (element == null)
             {
                 throw new ArgumentNullException("element");
             }
@@ -143,20 +143,20 @@ namespace Sanford.Collections
             int nextLevel = NextLevel();
 
             // Find the place in the queue to insert the new element.
-            for(int i = currentLevel - 1; i >= 0; i--)
+            for (int i = currentLevel - 1; i >= 0; i--)
             {
-                while(x[i] != null && comparer.Compare(x[i].Element, element) > 0)
+                while (x[i] != null && comparer.Compare(x[i].Element, element) > 0)
                 {
                     x = x[i];
                 }
 
-                update[i] = x;                                
-            }     
-            
+                update[i] = x;
+            }
+
             // If the new node's level is greater than the current level.
-            if(nextLevel > currentLevel)
+            if (nextLevel > currentLevel)
             {
-                for(int i = currentLevel; i < nextLevel; i++)
+                for (int i = currentLevel; i < nextLevel; i++)
                 {
                     update[i] = header;
                 }
@@ -169,7 +169,7 @@ namespace Sanford.Collections
             Node newNode = new Node(element, nextLevel);
 
             // Insert the new node into the list.
-            for(int i = 0; i < nextLevel; i++)
+            for (int i = 0; i < nextLevel; i++)
             {
                 newNode[i] = update[i][i];
                 update[i][i] = newNode;
@@ -206,7 +206,7 @@ namespace Sanford.Collections
         {
             #region Require
 
-            if(Count == 0)
+            if (Count == 0)
             {
                 throw new InvalidOperationException(
                     "Cannot dequeue into an empty PriorityQueue.");
@@ -222,14 +222,14 @@ namespace Sanford.Collections
 
             // Update the header so that its pointers that pointed to the
             // node to be removed now point to the node that comes after it.
-            for(int i = 0; i < currentLevel && header[i] == oldNode; i++)
+            for (int i = 0; i < currentLevel && header[i] == oldNode; i++)
             {
                 header[i] = oldNode[i];
             }
 
             // Update the current level of the list in case the node that
             // was removed had the highest level.
-            while(currentLevel > 1 && header[currentLevel - 1] == null)
+            while (currentLevel > 1 && header[currentLevel - 1] == null)
             {
                 currentLevel--;
             }
@@ -267,7 +267,7 @@ namespace Sanford.Collections
         {
             #region Require
 
-            if(element == null)
+            if (element == null)
             {
                 throw new ArgumentNullException("element");
             }
@@ -279,29 +279,29 @@ namespace Sanford.Collections
             int nextLevel = NextLevel();
 
             // Find the specified element.
-            for(int i = currentLevel - 1; i >= 0; i--)
+            for (int i = currentLevel - 1; i >= 0; i--)
             {
-                while(x[i] != null && comparer.Compare(x[i].Element, element) > 0)
+                while (x[i] != null && comparer.Compare(x[i].Element, element) > 0)
                 {
                     x = x[i];
                 }
 
-                update[i] = x;                                
-            }  
-   
+                update[i] = x;
+            }
+
             x = x[0];
 
             // If the specified element was found.
-            if(x != null && comparer.Compare(x.Element, element) == 0)
+            if (x != null && comparer.Compare(x.Element, element) == 0)
             {
                 // Remove element.
-                for(int i = 0; i < currentLevel && update[i][i] == x; i++)
+                for (int i = 0; i < currentLevel && update[i][i] == x; i++)
                 {
                     update[i][i] = x[i];
                 }
 
                 // Update list level.
-                while(currentLevel > 1 && header[currentLevel - 1] == null)
+                while (currentLevel > 1 && header[currentLevel - 1] == null)
                 {
                     currentLevel--;
                 }
@@ -334,7 +334,7 @@ namespace Sanford.Collections
         {
             #region Guard
 
-            if(element == null)
+            if (element == null)
             {
                 return false;
             }
@@ -342,12 +342,12 @@ namespace Sanford.Collections
             #endregion
 
             bool found;
-            Node x = header;            
+            Node x = header;
 
             // Find the specified element.
-            for(int i = currentLevel - 1; i >= 0; i--)
+            for (int i = currentLevel - 1; i >= 0; i--)
             {
-                while(x[i] != null && comparer.Compare(x[i].Element, element) > 0)
+                while (x[i] != null && comparer.Compare(x[i].Element, element) > 0)
                 {
                     x = x[i];
                 }
@@ -356,7 +356,7 @@ namespace Sanford.Collections
             x = x[0];
 
             // If the element is in the PriorityQueue.
-            if(x != null && comparer.Compare(x.Element, element) == 0)
+            if (x != null && comparer.Compare(x.Element, element) == 0)
             {
                 found = true;
             }
@@ -370,7 +370,7 @@ namespace Sanford.Collections
         }
 
         /// <summary>
-        /// Returns the element at the head of the PriorityQueue without 
+        /// Returns the element at the head of the PriorityQueue without
         /// removing it.
         /// </summary>
         /// <returns>
@@ -380,7 +380,7 @@ namespace Sanford.Collections
         {
             #region Require
 
-            if(Count == 0)
+            if (Count == 0)
             {
                 throw new InvalidOperationException(
                     "Cannot peek into an empty PriorityQueue.");
@@ -426,8 +426,8 @@ namespace Sanford.Collections
         public static PriorityQueue Synchronized(PriorityQueue queue)
         {
             #region Require
-            
-            if(queue == null)
+
+            if (queue == null)
             {
                 throw new ArgumentNullException("queue");
             }
@@ -442,8 +442,8 @@ namespace Sanford.Collections
         {
             int nextLevel = 1;
 
-            while(rand.NextDouble() < Probability && 
-                nextLevel < LevelMaxValue && 
+            while (rand.NextDouble() < Probability &&
+                nextLevel < LevelMaxValue &&
                 nextLevel <= currentLevel)
             {
                 nextLevel++;
@@ -457,11 +457,11 @@ namespace Sanford.Collections
         private void AssertValid()
         {
             int n = 0;
-            Node x = header[0];           
+            Node x = header[0];
 
-            while(x != null)
+            while (x != null)
             {
-                if(x[0] != null)
+                if (x[0] != null)
                 {
                     Debug.Assert(comparer.Compare(x.Element, x[0].Element) >= 0, "Order test");
                 }
@@ -472,12 +472,12 @@ namespace Sanford.Collections
 
             Debug.Assert(n == Count, "Count test.");
 
-            for(int i = 1; i < currentLevel; i++)
+            for (int i = 1; i < currentLevel; i++)
             {
                 Debug.Assert(header[i] != null, "Level non-null test.");
             }
 
-            for(int i = currentLevel; i < LevelMaxValue; i++)
+            for (int i = currentLevel; i < LevelMaxValue; i++)
             {
                 Debug.Assert(header[i] == null, "Level null test.");
             }
@@ -494,7 +494,7 @@ namespace Sanford.Collections
             int count = 1000;
             int element;
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 element = r.Next();
                 queue.Enqueue(element);
@@ -505,9 +505,9 @@ namespace Sanford.Collections
             Debug.Assert(queue.Count == count, "Count Test");
 
             int previousElement = (int)queue.Peek();
-            int peekElement;          
+            int peekElement;
 
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 peekElement = (int)queue.Peek();
                 element = (int)queue.Dequeue();
@@ -538,11 +538,11 @@ namespace Sanford.Collections
             {
                 #region Require
 
-                if(queue == null)
+                if (queue == null)
                 {
                     throw new ArgumentNullException("queue");
                 }
-                
+
                 #endregion
 
                 this.queue = queue;
@@ -552,7 +552,7 @@ namespace Sanford.Collections
 
             public override void Enqueue(object element)
             {
-                lock(root)
+                lock (root)
                 {
                     queue.Enqueue(element);
                 }
@@ -560,7 +560,7 @@ namespace Sanford.Collections
 
             public override object Dequeue()
             {
-                lock(root)
+                lock (root)
                 {
                     return queue.Dequeue();
                 }
@@ -568,7 +568,7 @@ namespace Sanford.Collections
 
             public override void Remove(object element)
             {
-                lock(root)
+                lock (root)
                 {
                     queue.Remove(element);
                 }
@@ -576,7 +576,7 @@ namespace Sanford.Collections
 
             public override void Clear()
             {
-                lock(root)
+                lock (root)
                 {
                     queue.Clear();
                 }
@@ -584,7 +584,7 @@ namespace Sanford.Collections
 
             public override bool Contains(object element)
             {
-                lock(root)
+                lock (root)
                 {
                     return queue.Contains(element);
                 }
@@ -592,7 +592,7 @@ namespace Sanford.Collections
 
             public override object Peek()
             {
-                lock(root)
+                lock (root)
                 {
                     return queue.Peek();
                 }
@@ -600,7 +600,7 @@ namespace Sanford.Collections
 
             public override void CopyTo(Array array, int index)
             {
-                lock(root)
+                lock (root)
                 {
                     queue.CopyTo(array, index);
                 }
@@ -610,7 +610,7 @@ namespace Sanford.Collections
             {
                 get
                 {
-                    lock(root)
+                    lock (root)
                     {
                         return queue.Count;
                     }
@@ -635,7 +635,7 @@ namespace Sanford.Collections
 
             public override IEnumerator GetEnumerator()
             {
-                lock(root)
+                lock (root)
                 {
                     return queue.GetEnumerator();
                 }
@@ -655,7 +655,7 @@ namespace Sanford.Collections
             {
                 #region Require
 
-                if(!(y is IComparable))
+                if (!(y is IComparable))
                 {
                     throw new ArgumentException(
                         "Item does not implement IComparable.");
@@ -690,7 +690,7 @@ namespace Sanford.Collections
                 this.element = element;
             }
 
-            public Node this[int index]            
+            public Node this[int index]
             {
                 get
                 {
@@ -740,10 +740,10 @@ namespace Sanford.Collections
             #region IEnumerator Members
 
             public void Reset()
-            {     
+            {
                 #region Require
 
-                if(version != owner.version)
+                if (version != owner.version)
                 {
                     throw new InvalidOperationException(
                         "The PriorityQueue was modified after the enumerator was created.");
@@ -751,7 +751,7 @@ namespace Sanford.Collections
 
                 #endregion
 
-                currentNode = head;  
+                currentNode = head;
                 moveResult = true;
             }
 
@@ -761,7 +761,7 @@ namespace Sanford.Collections
                 {
                     #region Require
 
-                    if(currentNode == head || currentNode == null)
+                    if (currentNode == head || currentNode == null)
                     {
                         throw new InvalidOperationException(
                             "The enumerator is positioned before the first " +
@@ -778,7 +778,7 @@ namespace Sanford.Collections
             {
                 #region Require
 
-                if(version != owner.version)
+                if (version != owner.version)
                 {
                     throw new InvalidOperationException(
                         "The PriorityQueue was modified after the enumerator was created.");
@@ -786,17 +786,17 @@ namespace Sanford.Collections
 
                 #endregion
 
-                if(moveResult)
+                if (moveResult)
                 {
                     currentNode = currentNode[0];
                 }
 
-                if(currentNode == null)
+                if (currentNode == null)
                 {
                     moveResult = false;
                 }
 
-                return moveResult;                
+                return moveResult;
             }
 
             #endregion
@@ -839,26 +839,26 @@ namespace Sanford.Collections
         {
             #region Require
 
-            if(array == null)
+            if (array == null)
             {
                 throw new ArgumentNullException("array");
             }
-            else if(index < 0)
+            else if (index < 0)
             {
                 throw new ArgumentOutOfRangeException("index", index,
                     "Array index out of range.");
             }
-            else if(array.Rank > 1)
+            else if (array.Rank > 1)
             {
                 throw new ArgumentException(
                     "Array has more than one dimension.", "array");
             }
-            else if(index >= array.Length)
+            else if (index >= array.Length)
             {
                 throw new ArgumentException(
                     "index is equal to or greater than the length of array.", "index");
             }
-            else if(Count > array.Length - index)
+            else if (Count > array.Length - index)
             {
                 throw new ArgumentException(
                     "The number of elements in the PriorityQueue is greater " +
@@ -870,7 +870,7 @@ namespace Sanford.Collections
 
             int i = index;
 
-            foreach(object element in this)
+            foreach (object element in this)
             {
                 array.SetValue(element, i);
                 i++;

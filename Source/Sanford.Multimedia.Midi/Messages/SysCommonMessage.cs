@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -68,12 +68,12 @@ namespace Sanford.Multimedia.Midi
 
     #endregion
 
-	/// <summary>
-	/// Represents MIDI system common messages.
-	/// </summary>
-	[ImmutableObject(true)]
-	public sealed class SysCommonMessage : ShortMessage
-	{
+    /// <summary>
+    /// Represents MIDI system common messages.
+    /// </summary>
+    [ImmutableObject(true)]
+    public sealed class SysCommonMessage : ShortMessage
+    {
         #region SysCommonMessage Members
 
         #region Construction
@@ -86,7 +86,7 @@ namespace Sanford.Multimedia.Midi
         /// The type of SysCommonMessage.
         /// </param>
 		public SysCommonMessage(SysCommonType type)
-		{
+        {
             msg = (int)type;
 
             #region Ensure
@@ -97,7 +97,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the SysCommonMessage class with the 
+        /// Initializes a new instance of the SysCommonMessage class with the
         /// specified type and the first data value.
         /// </summary>
         /// <param name="type">
@@ -110,7 +110,7 @@ namespace Sanford.Multimedia.Midi
         /// If data1 is less than zero or greater than 127.
         /// </exception>
         public SysCommonMessage(SysCommonType type, int data1)
-        { 
+        {
             msg = (int)type;
             msg = PackData1(msg, data1);
 
@@ -123,7 +123,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the SysCommonMessage class with the 
+        /// Initializes a new instance of the SysCommonMessage class with the
         /// specified type, first data value, and second data value.
         /// </summary>
         /// <param name="type">
@@ -151,8 +151,8 @@ namespace Sanford.Multimedia.Midi
             Debug.Assert(Data2 == data2);
 
             #endregion
-        }       
- 
+        }
+
         internal SysCommonMessage(int message)
         {
             this.msg = message;
@@ -163,7 +163,7 @@ namespace Sanford.Multimedia.Midi
         #region Methods
 
         /// <summary>
-        /// Returns a value for the current SysCommonMessage suitable for use 
+        /// Returns a value for the current SysCommonMessage suitable for use
         /// in hashing algorithms.
         /// </summary>
         /// <returns>
@@ -181,14 +181,14 @@ namespace Sanford.Multimedia.Midi
         /// The SysCommonMessage to compare with the current SysCommonMessage.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the specified SysCommonMessage is equal to the 
+        /// <b>true</b> if the specified SysCommonMessage is equal to the
         /// current SysCommonMessage; otherwise, <b>false</b>.
         /// </returns>
         public override bool Equals(object obj)
         {
             #region Guard
 
-            if(!(obj is SysCommonMessage))
+            if (!(obj is SysCommonMessage))
             {
                 return false;
             }
@@ -216,7 +216,7 @@ namespace Sanford.Multimedia.Midi
                 return (SysCommonType)UnpackStatus(msg);
             }
         }
-        
+
         /// <summary>
         /// Gets the first data value.
         /// </summary>
@@ -236,7 +236,7 @@ namespace Sanford.Multimedia.Midi
             get
             {
                 return UnpackData2(msg);
-            }                    
+            }
         }
 
         /// <summary>

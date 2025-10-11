@@ -1,23 +1,22 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
-using System;
 using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
-	/// Represents the top nodes in a RandomAccessList.
-	/// </summary>
-	[ImmutableObject(true)]
-	internal class RalTopNode
-	{
+    /// <summary>
+    /// Represents the top nodes in a RandomAccessList.
+    /// </summary>
+    [ImmutableObject(true)]
+    internal class RalTopNode
+    {
         #region RalTopNode Members
 
         #region Instance Fields
@@ -28,12 +27,12 @@ namespace Sanford.Collections.Immutable
         // The next top node in the list.
         private readonly RalTopNode nextNode;
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the RalTopNode with the specified 
+        /// Initializes a new instance of the RalTopNode with the specified
         /// root of the tree this node represents and the next top node in the
         /// list.
         /// </summary>
@@ -44,14 +43,14 @@ namespace Sanford.Collections.Immutable
         /// The next top node in the list.
         /// </param>
 		public RalTopNode(RalTreeNode root, RalTopNode nextNode)
-		{
+        {
             Debug.Assert(root != null);
 
             this.root = root;
             this.nextNode = nextNode;
-		}
+        }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
 
@@ -59,19 +58,19 @@ namespace Sanford.Collections.Immutable
         /// Gets the value at the specified element in the random access list.
         /// </summary>
         /// <param name="index">
-        /// An integer that represents the position of the random access list 
-        /// element to get. 
+        /// An integer that represents the position of the random access list
+        /// element to get.
         /// </param>
         /// <returns>
         /// The value at the specified position in the random access list.
         /// </returns>
         public object GetValue(int index)
-        {            
+        {
             int i = index;
             RalTopNode currentNode = this;
 
             // Find the top node containing the specified element.
-            while(i >= currentNode.Root.Count)
+            while (i >= currentNode.Root.Count)
             {
                 i -= currentNode.Root.Count;
                 currentNode = currentNode.NextNode;
@@ -83,31 +82,31 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Sets the specified element in the current random access list to the 
+        /// Sets the specified element in the current random access list to the
         /// specified value.
         /// </summary>
         /// <param name="value">
-        /// The new value for the specified element. 
+        /// The new value for the specified element.
         /// </param>
         /// <param name="index">
-        /// An integer that represents the position of the random access list  
-        /// element to set. 
+        /// An integer that represents the position of the random access list
+        /// element to set.
         /// </param>
         /// <returns>
-        /// A new random access list top node with the element at the specified 
+        /// A new random access list top node with the element at the specified
         /// position set to the specified value.
         /// </returns>
         public RalTopNode SetValue(object value, int index)
         {
             RalTopNode result;
 
-            // If the element is in the tree represented by the current top 
+            // If the element is in the tree represented by the current top
             // node.
-            if(index < Root.Count)
+            if (index < Root.Count)
             {
                 // Descend into the tree.
                 result = new RalTopNode(
-                    root.SetValue(value, index), 
+                    root.SetValue(value, index),
                     NextNode);
             }
             // Else the element is further along in the list.
@@ -115,14 +114,14 @@ namespace Sanford.Collections.Immutable
             {
                 // Move to the next top node.
                 result = new RalTopNode(
-                    root, 
+                    root,
                     NextNode.SetValue(value, index - Root.Count));
             }
 
             return result;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -136,7 +135,7 @@ namespace Sanford.Collections.Immutable
                 return root;
             }
         }
-        
+
         /// <summary>
         /// Gets the next top node in the random access list.
         /// </summary>
@@ -148,8 +147,8 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Properties
 
-        #endregion
-	}
+        #endregion RalTopNode Members
+    }
 }

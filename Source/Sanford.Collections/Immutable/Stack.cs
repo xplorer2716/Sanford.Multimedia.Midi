@@ -1,8 +1,8 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
@@ -12,12 +12,12 @@ using System.ComponentModel;
 
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
+    /// <summary>
     /// Represents a simple last-in-first-out collection of objects.
-	/// </summary>
-	[ImmutableObject(true)]
-	public class Stack : IEnumerable
-	{
+    /// </summary>
+    [ImmutableObject(true)]
+    public class Stack : IEnumerable
+    {
         #region Stack Members
 
         #region Class Fields
@@ -27,7 +27,7 @@ namespace Sanford.Collections.Immutable
         /// </summary>
         public static readonly Stack Empty = new Stack();
 
-        #endregion
+        #endregion Class Fields
 
         #region Instance Fields
 
@@ -37,7 +37,7 @@ namespace Sanford.Collections.Immutable
         // The top node in the stack.
         private Node top = null;
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
@@ -45,12 +45,12 @@ namespace Sanford.Collections.Immutable
         /// Initializes a new instance of the Stack class.
         /// </summary>
 		public Stack()
-		{
+        {
             count = 0;
-		}
+        }
 
         /// <summary>
-        /// Initializes a new instance of the Stack class with the 
+        /// Initializes a new instance of the Stack class with the
         /// specified top node and the number of elements in the stack.
         /// </summary>
         /// <param name="top">
@@ -58,14 +58,14 @@ namespace Sanford.Collections.Immutable
         /// </param>
         /// <param name="count">
         /// The number of elements in the stack.
-        /// </param>        
+        /// </param>
         private Stack(Node top, int count)
         {
             this.top = top;
-            this.count = count;            
+            this.count = count;
         }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
 
@@ -95,9 +95,9 @@ namespace Sanford.Collections.Immutable
         /// The Stack is empty.
         /// </exception>
         public Stack Pop()
-        { 
+        {
             // Preconditions.
-            if(Count == 0)
+            if (Count == 0)
             {
                 throw new InvalidOperationException(
                     "Cannot pop an empty stack.");
@@ -105,7 +105,7 @@ namespace Sanford.Collections.Immutable
 
             Stack result;
 
-            if(Count - 1 == 0)
+            if (Count - 1 == 0)
             {
                 result = Empty;
             }
@@ -117,7 +117,7 @@ namespace Sanford.Collections.Immutable
             return result;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -142,7 +142,7 @@ namespace Sanford.Collections.Immutable
         {
             get
             {
-                if(Count == 0)
+                if (Count == 0)
                 {
                     throw new InvalidOperationException(
                         "Cannot access the top when the stack is empty.");
@@ -152,7 +152,7 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Node Class
 
@@ -188,7 +188,7 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion 
+        #endregion Node Class
 
         #region StackEnumerator Class
 
@@ -213,12 +213,12 @@ namespace Sanford.Collections.Immutable
             // The next node in the stack.
             private Node next;
 
-            #endregion
+            #endregion Instance Fields
 
             #region Construction
 
             /// <summary>
-            /// Initializes a new instance of the StackEnumerator class with 
+            /// Initializes a new instance of the StackEnumerator class with
             /// the specified stack to iterate over.
             /// </summary>
             /// <param name="owner">
@@ -231,12 +231,12 @@ namespace Sanford.Collections.Immutable
                 Reset();
             }
 
-            #endregion
+            #endregion Construction
 
             #region IEnumerator Members
 
             /// <summary>
-            /// Sets the enumerator to its initial position, which is before 
+            /// Sets the enumerator to its initial position, which is before
             /// the first element in the Stack.
             /// </summary>
             public void Reset()
@@ -250,7 +250,7 @@ namespace Sanford.Collections.Immutable
             /// Gets the current element in the Stack.
             /// </summary>
             /// <exception cref="InvalidOperationException">
-            /// The enumerator is positioned before the first element of the 
+            /// The enumerator is positioned before the first element of the
             /// Stack or after the last element.
             /// </exception>
             public object Current
@@ -258,7 +258,7 @@ namespace Sanford.Collections.Immutable
                 get
                 {
                     // Preconditions.
-                    if(index < 0 || index >= owner.Count)
+                    if (index < 0 || index >= owner.Count)
                     {
                         throw new InvalidOperationException(
                             "The enumerator is positioned before the first " +
@@ -277,7 +277,7 @@ namespace Sanford.Collections.Immutable
             {
                 index++;
 
-                if(index >= owner.Count)
+                if (index >= owner.Count)
                 {
                     return false;
                 }
@@ -288,14 +288,14 @@ namespace Sanford.Collections.Immutable
                 return true;
             }
 
-            #endregion
+            #endregion IEnumerator Members
         }
 
-        #endregion
+        #endregion StackEnumerator Members
 
-        #endregion
+        #endregion StackEnumerator Class
 
-        #endregion
+        #endregion Stack Members
 
         #region IEnumerable Members
 
@@ -310,6 +310,6 @@ namespace Sanford.Collections.Immutable
             return new StackEnumerator(this);
         }
 
-        #endregion
+        #endregion IEnumerable Members
     }
 }

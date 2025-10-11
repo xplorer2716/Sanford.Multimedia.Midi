@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -98,7 +98,7 @@ namespace Sanford.Multimedia.Midi
         public Sequence()
         {
             InitializeBackgroundWorkers();
-        }        
+        }
 
         /// <summary>
         /// Initializes a new instance of the Sequence class with the specified division.
@@ -127,7 +127,7 @@ namespace Sanford.Multimedia.Midi
 
             Load(fileName);
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the Sequence class with the specified
         /// file stream of the MIDI file to load.
@@ -141,7 +141,7 @@ namespace Sanford.Multimedia.Midi
 
             Load(fileStream);
         }
-        
+
         private void InitializeBackgroundWorkers()
         {
             loadWorker.DoWork += new DoWorkEventHandler(LoadDoWork);
@@ -153,7 +153,7 @@ namespace Sanford.Multimedia.Midi
             saveWorker.ProgressChanged += new ProgressChangedEventHandler(OnSaveProgressChanged);
             saveWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(OnSaveCompleted);
             saveWorker.WorkerReportsProgress = true;
-        }        
+        }
 
         #endregion
 
@@ -169,25 +169,25 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
-            else if(IsBusy)
+            else if (IsBusy)
             {
                 throw new InvalidOperationException();
             }
-            else if(fileName == null)
+            else if (fileName == null)
             {
                 throw new ArgumentNullException("fileName");
             }
 
-            #endregion                        
+            #endregion
 
             FileStream stream = new FileStream(fileName, FileMode.Open,
                 FileAccess.Read, FileShare.Read);
 
-            using(stream)
+            using (stream)
             {
                 MidiFileProperties newProperties = new MidiFileProperties();
                 TrackReader reader = new TrackReader();
@@ -195,7 +195,7 @@ namespace Sanford.Multimedia.Midi
 
                 newProperties.Read(stream);
 
-                for(int i = 0; i < newProperties.TrackCount; i++)
+                for (int i = 0; i < newProperties.TrackCount; i++)
                 {
                     reader.Read(stream);
                     newTracks.Add(reader.Track);
@@ -235,7 +235,7 @@ namespace Sanford.Multimedia.Midi
                 throw new ArgumentNullException("fileStream");
             }
 
-            #endregion                        
+            #endregion
 
             using (fileStream)
             {
@@ -269,15 +269,15 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
-            else if(IsBusy)
+            else if (IsBusy)
             {
                 throw new InvalidOperationException();
             }
-            else if(fileName == null)
+            else if (fileName == null)
             {
                 throw new ArgumentNullException("fileName");
             }
@@ -294,7 +294,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -314,11 +314,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
-            else if(fileName == null)
+            else if (fileName == null)
             {
                 throw new ArgumentNullException("fileName");
             }
@@ -345,7 +345,7 @@ namespace Sanford.Multimedia.Midi
 
             TrackWriter writer = new TrackWriter();
 
-            foreach(Track trk in tracks)
+            foreach (Track trk in tracks)
             {
                 writer.Track = trk;
                 writer.Write(stream);
@@ -359,15 +359,15 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
-            else if(IsBusy)
+            else if (IsBusy)
             {
                 throw new InvalidOperationException();
             }
-            else if(fileName == null)
+            else if (fileName == null)
             {
                 throw new ArgumentNullException("fileName");
             }
@@ -384,7 +384,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -401,14 +401,14 @@ namespace Sanford.Multimedia.Midi
         /// The length in ticks of the Sequence.
         /// </returns>
         /// <remarks>
-        /// The length in ticks of the Sequence is represented by the Track 
+        /// The length in ticks of the Sequence is represented by the Track
         /// with the longest length.
         /// </remarks>
         public int GetLength()
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -417,9 +417,9 @@ namespace Sanford.Multimedia.Midi
 
             int length = 0;
 
-            foreach(Track t in this)
+            foreach (Track t in this)
             {
-                if(t.Length > length)
+                if (t.Length > length)
                 {
                     length = t.Length;
                 }
@@ -432,7 +432,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<AsyncCompletedEventArgs> handler = LoadCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
             }
@@ -442,7 +442,7 @@ namespace Sanford.Multimedia.Midi
         {
             ProgressChangedEventHandler handler = LoadProgressChanged;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -455,7 +455,7 @@ namespace Sanford.Multimedia.Midi
             FileStream stream = new FileStream(fileName, FileMode.Open,
                 FileAccess.Read, FileShare.Read);
 
-            using(stream)
+            using (stream)
             {
                 MidiFileProperties newProperties = new MidiFileProperties();
                 TrackReader reader = new TrackReader();
@@ -465,7 +465,7 @@ namespace Sanford.Multimedia.Midi
 
                 float percentage;
 
-                for(int i = 0; i < newProperties.TrackCount && !loadWorker.CancellationPending; i++)
+                for (int i = 0; i < newProperties.TrackCount && !loadWorker.CancellationPending; i++)
                 {
                     reader.Read(stream);
                     newTracks.Add(reader.Track);
@@ -475,7 +475,7 @@ namespace Sanford.Multimedia.Midi
                     loadWorker.ReportProgress((int)(100 * percentage));
                 }
 
-                if(loadWorker.CancellationPending)
+                if (loadWorker.CancellationPending)
                 {
                     e.Cancel = true;
                 }
@@ -484,14 +484,14 @@ namespace Sanford.Multimedia.Midi
                     properties = newProperties;
                     tracks = newTracks;
                 }
-            }            
+            }
         }
 
         private void OnSaveCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             EventHandler<AsyncCompletedEventArgs> handler = SaveCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, new AsyncCompletedEventArgs(e.Error, e.Cancelled, null));
             }
@@ -501,7 +501,7 @@ namespace Sanford.Multimedia.Midi
         {
             ProgressChangedEventHandler handler = SaveProgressChanged;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -514,7 +514,7 @@ namespace Sanford.Multimedia.Midi
             FileStream stream = new FileStream(fileName, FileMode.Create,
                 FileAccess.Write, FileShare.None);
 
-            using(stream)
+            using (stream)
             {
                 properties.Write(stream);
 
@@ -522,7 +522,7 @@ namespace Sanford.Multimedia.Midi
 
                 float percentage;
 
-                for(int i = 0; i < tracks.Count && !saveWorker.CancellationPending; i++)
+                for (int i = 0; i < tracks.Count && !saveWorker.CancellationPending; i++)
                 {
                     writer.Track = tracks[i];
                     writer.Write(stream);
@@ -532,7 +532,7 @@ namespace Sanford.Multimedia.Midi
                     saveWorker.ReportProgress((int)(100 * percentage));
                 }
 
-                if(saveWorker.CancellationPending)
+                if (saveWorker.CancellationPending)
                 {
                     e.Cancel = true;
                 }
@@ -558,11 +558,11 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
-                else if(index < 0 || index >= Count)
+                else if (index < 0 || index >= Count)
                 {
                     throw new ArgumentOutOfRangeException("index", index,
                         "Sequence index out of range.");
@@ -583,7 +583,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
@@ -603,7 +603,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
@@ -616,11 +616,11 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
-                else if(IsBusy)
+                else if (IsBusy)
                 {
                     throw new InvalidOperationException();
                 }
@@ -640,7 +640,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
@@ -675,11 +675,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
-            } 
-            else if(item == null)
+            }
+            else if (item == null)
             {
                 throw new ArgumentNullException("item");
             }
@@ -698,7 +698,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -720,7 +720,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -737,7 +737,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -759,7 +759,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
@@ -782,7 +782,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Sequence");
                 }
@@ -803,7 +803,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -812,7 +812,7 @@ namespace Sanford.Multimedia.Midi
 
             bool result = tracks.Remove(item);
 
-            if(result)
+            if (result)
             {
                 properties.TrackCount = tracks.Count;
             }
@@ -831,7 +831,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -849,7 +849,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Sequence");
             }
@@ -894,7 +894,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
@@ -908,7 +908,7 @@ namespace Sanford.Multimedia.Midi
 
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, EventArgs.Empty);
             }

@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -38,7 +38,7 @@ using System.Diagnostics;
 namespace Sanford.Multimedia.Midi
 {
     /// <summary>
-    /// Represents a collection of MidiEvents and a MIDI track within a 
+    /// Represents a collection of MidiEvents and a MIDI track within a
     /// Sequence.
     /// </summary>
     public sealed partial class Track
@@ -94,30 +94,30 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(position < 0)
+            if (position < 0)
             {
                 throw new ArgumentOutOfRangeException("position", position,
                     "IMidiMessage position out of range.");
             }
-            else if(message == null)
+            else if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
 
-            #endregion            
+            #endregion
 
             MidiEvent newMidiEvent = new MidiEvent(this, position, message);
 
-            if(head == null)
+            if (head == null)
             {
                 head = newMidiEvent;
                 tail = newMidiEvent;
             }
-            else if(position >= tail.AbsoluteTicks)
+            else if (position >= tail.AbsoluteTicks)
             {
                 newMidiEvent.Previous = tail;
                 tail.Next = newMidiEvent;
-                tail = newMidiEvent;  
+                tail = newMidiEvent;
                 endOfTrackMidiEvent.SetAbsoluteTicks(Length);
                 endOfTrackMidiEvent.Previous = tail;
             }
@@ -125,7 +125,7 @@ namespace Sanford.Multimedia.Midi
             {
                 MidiEvent current = head;
 
-                while(current.AbsoluteTicks < position)
+                while (current.AbsoluteTicks < position)
                 {
                     current = current.Next;
                 }
@@ -133,7 +133,7 @@ namespace Sanford.Multimedia.Midi
                 newMidiEvent.Next = current;
                 newMidiEvent.Previous = current.Previous;
 
-                if(current.Previous != null)
+                if (current.Previous != null)
                 {
                     current.Previous.Next = newMidiEvent;
                 }
@@ -181,7 +181,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(trk == null)
+            if (trk == null)
             {
                 throw new ArgumentNullException("trk");
             }
@@ -190,11 +190,11 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(trk == this)
+            if (trk == this)
             {
                 return;
             }
-            else if(trk.Count == 1)
+            else if (trk.Count == 1)
             {
                 return;
             }
@@ -213,7 +213,7 @@ namespace Sanford.Multimedia.Midi
 
             Debug.Assert(b != null);
 
-            if(a != null && a.AbsoluteTicks <= b.AbsoluteTicks)
+            if (a != null && a.AbsoluteTicks <= b.AbsoluteTicks)
             {
                 current = new MidiEvent(this, a.AbsoluteTicks, a.MidiMessage);
                 a = a.Next;
@@ -226,9 +226,9 @@ namespace Sanford.Multimedia.Midi
 
             head = current;
 
-            while(a != null && b != null)
+            while (a != null && b != null)
             {
-                while(a != null && a.AbsoluteTicks <= b.AbsoluteTicks)
+                while (a != null && a.AbsoluteTicks <= b.AbsoluteTicks)
                 {
                     current.Next = new MidiEvent(this, a.AbsoluteTicks, a.MidiMessage);
                     current.Next.Previous = current;
@@ -236,9 +236,9 @@ namespace Sanford.Multimedia.Midi
                     a = a.Next;
                 }
 
-                if(a != null)
+                if (a != null)
                 {
-                    while(b != null && b.AbsoluteTicks <= a.AbsoluteTicks)
+                    while (b != null && b.AbsoluteTicks <= a.AbsoluteTicks)
                     {
                         current.Next = new MidiEvent(this, b.AbsoluteTicks, b.MidiMessage);
                         current.Next.Previous = current;
@@ -248,7 +248,7 @@ namespace Sanford.Multimedia.Midi
                 }
             }
 
-            while(a != null)
+            while (a != null)
             {
                 current.Next = new MidiEvent(this, a.AbsoluteTicks, a.MidiMessage);
                 current.Next.Previous = current;
@@ -256,7 +256,7 @@ namespace Sanford.Multimedia.Midi
                 a = a.Next;
             }
 
-            while(b != null)
+            while (b != null)
             {
                 current.Next = new MidiEvent(this, b.AbsoluteTicks, b.MidiMessage);
                 current.Next.Previous = current;
@@ -270,9 +270,11 @@ namespace Sanford.Multimedia.Midi
             endOfTrackMidiEvent.Previous = tail;
 
             #region Ensure
+
 #if(DEBUG)
             Debug.Assert(count == oldCount + trk.Count - 1);
 #endif
+
             #endregion
 
             #region Invariant
@@ -292,11 +294,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(index < 0)
+            if (index < 0)
             {
                 throw new ArgumentOutOfRangeException("index", index, "Track index out of range.");
             }
-            else if(index == Count - 1)
+            else if (index == Count - 1)
             {
                 throw new ArgumentException("Cannot remove the end of track event.", "index");
             }
@@ -305,7 +307,7 @@ namespace Sanford.Multimedia.Midi
 
             MidiEvent current = GetMidiEvent(index);
 
-            if(current.Previous != null)
+            if (current.Previous != null)
             {
                 current.Previous.Next = current.Next;
             }
@@ -316,7 +318,7 @@ namespace Sanford.Multimedia.Midi
                 head = head.Next;
             }
 
-            if(current.Next != null)
+            if (current.Next != null)
             {
                 current.Next.Previous = current.Previous;
             }
@@ -354,7 +356,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(index < 0 || index >= Count)
+            if (index < 0 || index >= Count)
             {
                 throw new ArgumentOutOfRangeException("index", index,
                     "Track index out of range.");
@@ -364,17 +366,17 @@ namespace Sanford.Multimedia.Midi
 
             MidiEvent result;
 
-            if(index == Count - 1)
+            if (index == Count - 1)
             {
                 result = endOfTrackMidiEvent;
             }
             else
             {
-                if(index < Count / 2)
+                if (index < Count / 2)
                 {
                     result = head;
 
-                    for(int i = 0; i < index; i++)
+                    for (int i = 0; i < index; i++)
                     {
                         result = result.Next;
                     }
@@ -383,7 +385,7 @@ namespace Sanford.Multimedia.Midi
                 {
                     result = tail;
 
-                    for(int i = Count - 2; i > index; i--)
+                    for (int i = Count - 2; i > index; i--)
                     {
                         result = result.Previous;
                     }
@@ -393,7 +395,7 @@ namespace Sanford.Multimedia.Midi
             #region Ensure
 
 #if(DEBUG)
-            if(index == Count - 1)
+            if (index == Count - 1)
             {
                 Debug.Assert(result.AbsoluteTicks == Length);
                 Debug.Assert(result.MidiMessage == MetaMessage.EndOfTrackMessage);
@@ -402,7 +404,7 @@ namespace Sanford.Multimedia.Midi
             {
                 MidiEvent t = head;
 
-                for(int i = 0; i < index; i++)
+                for (int i = 0; i < index; i++)
                 {
                     t = t.Next;
                 }
@@ -423,15 +425,15 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(e.Owner != this)
+            if (e.Owner != this)
             {
                 throw new ArgumentException("MidiEvent does not belong to this Track.");
             }
-            else if(newPosition < 0)
+            else if (newPosition < 0)
             {
                 throw new ArgumentOutOfRangeException("newPosition");
             }
-            else if(e == endOfTrackMidiEvent)
+            else if (e == endOfTrackMidiEvent)
             {
                 throw new InvalidOperationException(
                     "Cannot move end of track message. Use the EndOfTrackOffset property instead.");
@@ -442,43 +444,43 @@ namespace Sanford.Multimedia.Midi
             MidiEvent previous = e.Previous;
             MidiEvent next = e.Next;
 
-            if(e.Previous != null && e.Previous.AbsoluteTicks > newPosition)
+            if (e.Previous != null && e.Previous.AbsoluteTicks > newPosition)
             {
                 e.Previous.Next = e.Next;
 
-                if(e.Next != null)
+                if (e.Next != null)
                 {
                     e.Next.Previous = e.Previous;
                 }
 
-                while(previous != null && previous.AbsoluteTicks > newPosition)
+                while (previous != null && previous.AbsoluteTicks > newPosition)
                 {
                     next = previous;
                     previous = previous.Previous;
-                }                
+                }
             }
-            else if(e.Next != null && e.Next.AbsoluteTicks < newPosition)
+            else if (e.Next != null && e.Next.AbsoluteTicks < newPosition)
             {
                 e.Next.Previous = e.Previous;
 
-                if(e.Previous != null)
+                if (e.Previous != null)
                 {
                     e.Previous.Next = e.Next;
                 }
 
-                while(next != null && next.AbsoluteTicks < newPosition)
+                while (next != null && next.AbsoluteTicks < newPosition)
                 {
                     previous = next;
                     next = next.Next;
                 }
             }
 
-            if(previous != null)
+            if (previous != null)
             {
                 previous.Next = e;
             }
 
-            if(next != null)
+            if (next != null)
             {
                 next.Previous = e;
             }
@@ -487,14 +489,14 @@ namespace Sanford.Multimedia.Midi
             e.Next = next;
             e.SetAbsoluteTicks(newPosition);
 
-            if(newPosition < head.AbsoluteTicks)
+            if (newPosition < head.AbsoluteTicks)
             {
                 head = e;
             }
 
-            if(newPosition > tail.AbsoluteTicks)
+            if (newPosition > tail.AbsoluteTicks)
             {
-                tail = e;                
+                tail = e;
             }
 
             endOfTrackMidiEvent.SetAbsoluteTicks(Length);
@@ -514,17 +516,17 @@ namespace Sanford.Multimedia.Midi
             MidiEvent current = head;
             int ticks = 1;
 
-            while(current != null)
+            while (current != null)
             {
                 ticks += current.DeltaTicks;
 
-                if(current.Previous != null)
+                if (current.Previous != null)
                 {
                     Debug.Assert(current.AbsoluteTicks >= current.Previous.AbsoluteTicks);
                     Debug.Assert(current.DeltaTicks == current.AbsoluteTicks - current.Previous.AbsoluteTicks);
                 }
 
-                if(current.Next == null)
+                if (current.Next == null)
                 {
                     Debug.Assert(tail == current);
                 }
@@ -564,7 +566,7 @@ namespace Sanford.Multimedia.Midi
             {
                 int length = EndOfTrackOffset;
 
-                if(tail != null)
+                if (tail != null)
                 {
                     length += tail.AbsoluteTicks;
                 }
@@ -586,7 +588,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("EndOfTrackOffset", value,
                         "End of track offset out of range.");

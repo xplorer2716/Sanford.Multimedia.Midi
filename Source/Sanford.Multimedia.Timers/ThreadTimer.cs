@@ -1,50 +1,47 @@
 ﻿#region License
 
 /* Copyright (c) 2015 Andreas Grimme
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Text;
-using System.Threading;
 
 namespace Sanford.Multimedia.Timers
 {
     /// <summary>
     /// Replacement for the Windows multimedia timer that also runs on Mono
     /// </summary>
-    sealed class ThreadTimer : ITimer
+    internal sealed class ThreadTimer : ITimer
     {
-        ThreadTimerQueue queue;
+        private ThreadTimerQueue queue;
 
-        bool isRunning;
-        TimerMode mode;
-        TimeSpan period;
-        TimeSpan resolution;
+        private bool isRunning;
+        private TimerMode mode;
+        private TimeSpan period;
+        private TimeSpan resolution;
 
-        static object[] emptyArgs = new object[] { EventArgs.Empty };
+        private static object[] emptyArgs = new object[] { EventArgs.Empty };
 
         public ThreadTimer()
             : this(ThreadTimerQueue.Instance)
@@ -62,7 +59,7 @@ namespace Sanford.Multimedia.Timers
             tickRaiser = new EventRaiser(OnTick);
         }
 
-        ThreadTimer(ThreadTimerQueue queue)
+        private ThreadTimer(ThreadTimerQueue queue)
         {
             this.queue = queue;
         }
@@ -146,7 +143,7 @@ namespace Sanford.Multimedia.Timers
 
                 #endregion
 
-                return (int) period.TotalMilliseconds;
+                return (int)period.TotalMilliseconds;
             }
             set
             {
@@ -160,7 +157,7 @@ namespace Sanford.Multimedia.Timers
                 #endregion
 
                 var wasRunning = IsRunning;
-                
+
                 if (wasRunning)
                 {
                     Stop();
@@ -178,13 +175,13 @@ namespace Sanford.Multimedia.Timers
         public TimeSpan PeriodTimeSpan
         {
             get { return period; }
-        } 
+        }
 
         public int Resolution
         {
             get
             {
-                return (int) resolution.TotalMilliseconds;
+                return (int)resolution.TotalMilliseconds;
             }
 
             set
@@ -243,8 +240,11 @@ namespace Sanford.Multimedia.Timers
         }
 
         public event EventHandler Disposed;
+
         public event EventHandler Started;
+
         public event EventHandler Stopped;
+
         public event EventHandler Tick;
 
         public void Dispose()
@@ -300,9 +300,9 @@ namespace Sanford.Multimedia.Timers
             }
         }
 
-        #endregion        
+        #endregion
 
-        bool disposed = false;
+        private bool disposed = false;
 
         public void Start()
         {
@@ -382,6 +382,5 @@ namespace Sanford.Multimedia.Timers
                 OnStopped(EventArgs.Empty);
             }
         }
-
     }
 }

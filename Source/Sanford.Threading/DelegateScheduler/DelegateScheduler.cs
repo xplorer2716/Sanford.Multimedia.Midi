@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,19 +32,18 @@
 
 #endregion
 
+using Sanford.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using System.Timers;
-using Sanford.Collections;
 
 namespace Sanford.Threading
 {
-	/// <summary>
-	/// Provides functionality for timestamped delegate invocation.
-	/// </summary>
+    /// <summary>
+    /// Provides functionality for timestamped delegate invocation.
+    /// </summary>
     public partial class DelegateScheduler : IDisposable, IComponent
     {
         #region DelegateScheduler Members
@@ -94,7 +93,7 @@ namespace Sanford.Threading
         /// </summary>
         public DelegateScheduler()
         {
-            Initialize();            
+            Initialize();
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace Sanford.Threading
 		/// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 Stop();
 
@@ -144,10 +143,10 @@ namespace Sanford.Threading
 
                 OnDisposed(EventArgs.Empty);
 
-                GC.SuppressFinalize(this);            
+                GC.SuppressFinalize(this);
             }
         }
-        
+
         /// <summary>
         /// Adds a delegate to the DelegateScheduler.
         /// </summary>
@@ -170,33 +169,33 @@ namespace Sanford.Threading
         /// If the DelegateScheduler has already been disposed.
         /// </exception>
         /// <remarks>
-        /// If an unlimited count is desired, pass the DelegateScheduler.Infinity 
+        /// If an unlimited count is desired, pass the DelegateScheduler.Infinity
         /// constant as the count argument.
         /// </remarks>
         public Task Add(
             int count,
             int millisecondsTimeout,
-            Delegate method,            
+            Delegate method,
             params object[] args)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateScheduler");
             }
 
-            #endregion    
+            #endregion
 
             Task t = new Task(count, millisecondsTimeout, method, args);
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
-                // Only add the task to the DelegateScheduler if the count 
+                // Only add the task to the DelegateScheduler if the count
                 // is greater than zero or set to Infinite.
-                if(count > 0 || count == DelegateScheduler.Infinite)
+                if (count > 0 || count == DelegateScheduler.Infinite)
                 {
-                    if(IsRunning)
+                    if (IsRunning)
                     {
                         queue.Enqueue(t);
                     }
@@ -223,31 +222,31 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateScheduler");
             }
 
-            #endregion    
+            #endregion
 
             #region Guard
 
-            if(task == null)
+            if (task == null)
             {
                 return;
             }
 
             #endregion
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
-                if(IsRunning)
+                if (IsRunning)
                 {
                     queue.Remove(task);
                 }
                 else
                 {
-                    tasks.Remove(task);                    
+                    tasks.Remove(task);
                 }
             }
         }
@@ -262,7 +261,7 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -271,18 +270,18 @@ namespace Sanford.Threading
 
             #region Guard
 
-            if(IsRunning)
+            if (IsRunning)
             {
                 return;
             }
 
             #endregion
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
                 Task t;
 
-                while(tasks.Count > 0)
+                while (tasks.Count > 0)
                 {
                     t = tasks[tasks.Count - 1];
 
@@ -309,7 +308,7 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -318,17 +317,17 @@ namespace Sanford.Threading
 
             #region Guard
 
-            if(!IsRunning)
+            if (!IsRunning)
             {
                 return;
             }
 
             #endregion
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
                 // While there are still tasks left in the queue.
-                while(queue.Count > 0)
+                while (queue.Count > 0)
                 {
                     // Remove task from queue and add it to the Task list
                     // to be used again next time the DelegateScheduler is run.
@@ -351,14 +350,14 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
             #endregion
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
                 queue.Clear();
                 tasks.Clear();
@@ -370,11 +369,11 @@ namespace Sanford.Threading
         {
             Debug.WriteLine("Signal time: " + e.SignalTime.ToString());
 
-            lock(queue.SyncRoot)
+            lock (queue.SyncRoot)
             {
                 #region Guard
 
-                if(queue.Count == 0)
+                if (queue.Count == 0)
                 {
                     return;
                 }
@@ -388,15 +387,15 @@ namespace Sanford.Threading
                 // The return value from the delegate that will be invoked.
                 object returnValue;
 
-                // While there are still tasks in the queue and it is time 
+                // While there are still tasks in the queue and it is time
                 // to run one or more of them.
-                while(queue.Count > 0 && tk.NextTimeout <= e.SignalTime)
+                while (queue.Count > 0 && tk.NextTimeout <= e.SignalTime)
                 {
                     // Remove task from queue.
                     queue.Dequeue();
 
                     // While it's time for the task to run.
-                    while((tk.Count == Infinite || tk.Count > 0) && tk.NextTimeout <= e.SignalTime)
+                    while ((tk.Count == Infinite || tk.Count > 0) && tk.NextTimeout <= e.SignalTime)
                     {
                         try
                         {
@@ -413,7 +412,7 @@ namespace Sanford.Threading
                                 returnValue,
                                 null));
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             OnInvokeCompleted(
                                 new InvokeCompletedEventArgs(
@@ -425,14 +424,14 @@ namespace Sanford.Threading
                     }
 
                     // If this task should run again.
-                    if(tk.Count == Infinite || tk.Count > 0)
+                    if (tk.Count == Infinite || tk.Count > 0)
                     {
                         // Enqueue task back into priority queue.
                         queue.Enqueue(tk);
                     }
 
                     // If there are still tasks in the queue.
-                    if(queue.Count > 0)
+                    if (queue.Count > 0)
                     {
                         // Take a look at the next task to see if it is
                         // time to run.
@@ -449,7 +448,7 @@ namespace Sanford.Threading
         {
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -462,7 +461,7 @@ namespace Sanford.Threading
         {
             EventHandler<InvokeCompletedEventArgs> handler = InvokeCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -473,8 +472,8 @@ namespace Sanford.Threading
         #region Properties
 
         /// <summary>
-        /// Gets or sets the interval in milliseconds in which the 
-        /// DelegateScheduler polls its queue of delegates in order to 
+        /// Gets or sets the interval in milliseconds in which the
+        /// DelegateScheduler polls its queue of delegates in order to
         /// determine when they should run.
         /// </summary>
         public double PollingInterval
@@ -483,7 +482,7 @@ namespace Sanford.Threading
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("PriorityQueue");
                 }
@@ -496,7 +495,7 @@ namespace Sanford.Threading
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("PriorityQueue");
                 }
@@ -570,7 +569,7 @@ namespace Sanford.Threading
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
@@ -580,6 +579,6 @@ namespace Sanford.Threading
             Dispose(true);
         }
 
-        #endregion        
+        #endregion
     }
 }

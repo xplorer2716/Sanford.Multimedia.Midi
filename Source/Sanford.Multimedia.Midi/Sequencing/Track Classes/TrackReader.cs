@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -37,11 +37,11 @@ using System.IO;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Reads a track from a stream.
-	/// </summary>
-	internal class TrackReader
-	{
+    /// <summary>
+    /// Reads a track from a stream.
+    /// </summary>
+    internal class TrackReader
+    {
         private Track track = new Track();
 
         private Track newTrack = new Track();
@@ -64,13 +64,13 @@ namespace Sanford.Multimedia.Midi
 
         private int runningStatus;
 
-		public TrackReader()
-		{
-		}
+        public TrackReader()
+        {
+        }
 
         public void Read(Stream strm)
-        { 
-            stream = strm;     
+        {
+            stream = strm;
             FindTrack();
 
             int trackLength = GetTrackLength();
@@ -78,11 +78,11 @@ namespace Sanford.Multimedia.Midi
 
             int result = strm.Read(trackData, 0, trackLength);
 
-            if(result < 0)
+            if (result < 0)
             {
                 throw new MidiFileException("End of MIDI file unexpectedly reached.");
             }
-            
+
             newTrack = new Track();
 
             ParseTrackData();
@@ -95,23 +95,23 @@ namespace Sanford.Multimedia.Midi
             bool found = false;
             int result;
 
-            while(!found)
+            while (!found)
             {
                 result = stream.ReadByte();
 
-                if(result == 'M')
+                if (result == 'M')
                 {
                     result = stream.ReadByte();
 
-                    if(result == 'T')
+                    if (result == 'T')
                     {
                         result = stream.ReadByte();
 
-                        if(result == 'r')
+                        if (result == 'r')
                         {
                             result = stream.ReadByte();
 
-                            if(result == 'k')
+                            if (result == 'k')
                             {
                                 found = true;
                             }
@@ -119,7 +119,7 @@ namespace Sanford.Multimedia.Midi
                     }
                 }
 
-                if(result < 0)
+                if (result < 0)
                 {
                     throw new MidiFileException("Unable to find track in MIDI file.");
                 }
@@ -131,13 +131,13 @@ namespace Sanford.Multimedia.Midi
             byte[] trackLength = new byte[4];
 
             int result = stream.Read(trackLength, 0, trackLength.Length);
-            
-            if(result < trackLength.Length)
+
+            if (result < trackLength.Length)
             {
                 throw new MidiFileException("End of MIDI file unexpectedly reached.");
             }
 
-            if(BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(trackLength);
             }
@@ -149,13 +149,13 @@ namespace Sanford.Multimedia.Midi
         {
             trackIndex = ticks = runningStatus = 0;
 
-            while(trackIndex < trackData.Length)
+            while (trackIndex < trackData.Length)
             {
                 previousTicks = ticks;
 
                 ticks += ReadVariableLengthValue();
 
-                if((trackData[trackIndex] & 0x80) == 0x80)
+                if ((trackData[trackIndex] & 0x80) == 0x80)
                 {
                     status = trackData[trackIndex];
                     trackIndex++;
@@ -163,53 +163,53 @@ namespace Sanford.Multimedia.Midi
                 else
                 {
                     status = runningStatus;
-                }  
-              
-                ParseMessage();                
+                }
+
+                ParseMessage();
             }
         }
 
         private void ParseMessage()
         {
             // If this is a channel message.
-            if(status >= (int)ChannelCommand.NoteOff && 
-                status <= (int)ChannelCommand.PitchWheel + 
+            if (status >= (int)ChannelCommand.NoteOff &&
+                status <= (int)ChannelCommand.PitchWheel +
                 ChannelMessage.MidiChannelMaxValue)
             {
                 ParseChannelMessage();
             }
             // Else if this is a meta message.
-            else if(status == 0xFF)
+            else if (status == 0xFF)
             {
-                ParseMetaMessage();                
+                ParseMetaMessage();
             }
             // Else if this is the start of a system exclusive message.
-            else if(status == (int)SysExType.Start)
+            else if (status == (int)SysExType.Start)
             {
                 ParseSysExMessageStart();
             }
             // Else if this is a continuation of a system exclusive message.
-            else if(status == (int)SysExType.Continuation)
+            else if (status == (int)SysExType.Continuation)
             {
                 ParseSysExMessageContinue();
             }
             // Else if this is a system common message.
-            else if(status >= (int)SysCommonType.MidiTimeCode &&
+            else if (status >= (int)SysCommonType.MidiTimeCode &&
                 status <= (int)SysCommonType.TuneRequest)
             {
                 ParseSysCommonMessage();
             }
             // Else if this is a system realtime message.
-            else if(status >= (int)SysRealtimeType.Clock &&
+            else if (status >= (int)SysRealtimeType.Clock &&
                 status <= (int)SysRealtimeType.Reset)
             {
-                ParseSysRealtimeMessage();                
+                ParseSysRealtimeMessage();
             }
         }
 
         private void ParseChannelMessage()
         {
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
@@ -220,17 +220,17 @@ namespace Sanford.Multimedia.Midi
 
             trackIndex++;
 
-            if(ChannelMessage.DataBytesPerType(cmBuilder.Command) == 2)
+            if (ChannelMessage.DataBytesPerType(cmBuilder.Command) == 2)
             {
-                if(trackIndex >= trackData.Length)
+                if (trackIndex >= trackData.Length)
                 {
                     throw new MidiFileException("End of track unexpectedly reached.");
                 }
-                        
+
                 cmBuilder.Data2 = trackData[trackIndex];
 
                 trackIndex++;
-            }  
+            }
 
             cmBuilder.Build();
             newTrack.Insert(ticks, cmBuilder.Result);
@@ -239,7 +239,7 @@ namespace Sanford.Multimedia.Midi
 
         private void ParseMetaMessage()
         {
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
@@ -248,12 +248,12 @@ namespace Sanford.Multimedia.Midi
 
             trackIndex++;
 
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
 
-            if(type == MetaType.EndOfTrack)
+            if (type == MetaType.EndOfTrack)
             {
                 newTrack.EndOfTrackOffset = ticks - previousTicks;
 
@@ -263,7 +263,7 @@ namespace Sanford.Multimedia.Midi
             {
                 byte[] data = new byte[ReadVariableLengthValue()];
                 Array.Copy(trackData, trackIndex, data, 0, data.Length);
-                newTrack.Insert(ticks, new MetaMessage(type, data));                   
+                newTrack.Insert(ticks, new MetaMessage(type, data));
 
                 trackIndex += data.Length;
             }
@@ -287,17 +287,17 @@ namespace Sanford.Multimedia.Midi
         {
             trackIndex++;
 
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
 
             // System exclusive cancels running status.
             runningStatus = 0;
-           
-            // If this is an escaped message rather than a system exclusive 
+
+            // If this is an escaped message rather than a system exclusive
             // continuation message.
-            if((trackData[trackIndex] & 0x80) == 0x80)
+            if ((trackData[trackIndex] & 0x80) == 0x80)
             {
                 status = trackData[trackIndex];
                 trackIndex++;
@@ -318,7 +318,7 @@ namespace Sanford.Multimedia.Midi
 
         private void ParseSysCommonMessage()
         {
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
@@ -328,7 +328,7 @@ namespace Sanford.Multimedia.Midi
 
             scBuilder.Type = (SysCommonType)status;
 
-            switch((SysCommonType)status)
+            switch ((SysCommonType)status)
             {
                 case SysCommonType.MidiTimeCode:
                     scBuilder.Data1 = trackData[trackIndex];
@@ -339,7 +339,7 @@ namespace Sanford.Multimedia.Midi
                     scBuilder.Data1 = trackData[trackIndex];
                     trackIndex++;
 
-                    if(trackIndex >= trackData.Length)
+                    if (trackIndex >= trackData.Length)
                     {
                         throw new MidiFileException("End of track unexpectedly reached.");
                     }
@@ -367,7 +367,7 @@ namespace Sanford.Multimedia.Midi
         {
             SysRealtimeMessage e = null;
 
-            switch((SysRealtimeType)status)
+            switch ((SysRealtimeType)status)
             {
                 case SysRealtimeType.ActiveSense:
                     e = SysRealtimeMessage.ActiveSenseMessage;
@@ -403,7 +403,7 @@ namespace Sanford.Multimedia.Midi
 
         private int ReadVariableLengthValue()
         {
-            if(trackIndex >= trackData.Length)
+            if (trackIndex >= trackData.Length)
             {
                 throw new MidiFileException("End of track unexpectedly reached.");
             }
@@ -414,7 +414,7 @@ namespace Sanford.Multimedia.Midi
 
             trackIndex++;
 
-            if((result & 0x80) == 0x80)
+            if ((result & 0x80) == 0x80)
             {
                 result &= 0x7F;
 
@@ -422,7 +422,7 @@ namespace Sanford.Multimedia.Midi
 
                 do
                 {
-                    if(trackIndex >= trackData.Length)
+                    if (trackIndex >= trackData.Length)
                     {
                         throw new MidiFileException("End of track unexpectedly reached.");
                     }
@@ -431,10 +431,10 @@ namespace Sanford.Multimedia.Midi
                     trackIndex++;
                     result <<= 7;
                     result |= temp & 0x7F;
-                }while((temp & 0x80) == 0x80);
+                } while ((temp & 0x80) == 0x80);
             }
 
-            return result;            
+            return result;
         }
 
         public Track Track
@@ -444,5 +444,5 @@ namespace Sanford.Multimedia.Midi
                 return track;
             }
         }
-	}
+    }
 }

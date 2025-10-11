@@ -28,11 +28,11 @@ namespace Sanford.Multimedia.Midi
             ChannelMessage message = new ChannelMessage(ChannelCommand.NoteOff, 0, 60, 0);
             Random r = new Random();
 
-            for(int i = 0; i < midiEventCount; i++)
+            for (int i = 0; i < midiEventCount; i++)
             {
                 position = r.Next(positionMax);
 
-                if(position > length)
+                if (position > length)
                 {
                     length = position;
                 }

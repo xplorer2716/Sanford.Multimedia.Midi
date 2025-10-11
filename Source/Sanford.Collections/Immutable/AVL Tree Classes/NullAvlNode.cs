@@ -1,22 +1,21 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
-using System;
 using System.ComponentModel;
 
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
-	/// Represents a null AVL node.
-	/// </summary>
-	[ImmutableObject(true)]
-	internal class NullAvlNode : IAvlNode
-	{
+    /// <summary>
+    /// Represents a null AVL node.
+    /// </summary>
+    [ImmutableObject(true)]
+    internal class NullAvlNode : IAvlNode
+    {
         #region IAvlNode Members
 
         /// <summary>
@@ -42,7 +41,7 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Indicates whether or not the subtree the node represents is in 
+        /// Indicates whether or not the subtree the node represents is in
         /// balance.
         /// </summary>
         /// <returns>
@@ -119,6 +118,6 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion IAvlNode Members
     }
 }

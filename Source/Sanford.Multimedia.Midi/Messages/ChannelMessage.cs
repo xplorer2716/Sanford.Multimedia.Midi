@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -43,7 +43,7 @@ namespace Sanford.Multimedia.Midi
     /// <summary>
     /// Defines constants for ChannelMessage types.
     /// </summary>
-    public enum ChannelCommand 
+    public enum ChannelCommand
     {
         /// <summary>
         /// Represents the note-off command type.
@@ -63,19 +63,19 @@ namespace Sanford.Multimedia.Midi
         /// <summary>
         /// Represents the controller command type.
         /// </summary>
-        Controller = 0xB0,  
-  
+        Controller = 0xB0,
+
         /// <summary>
         /// Represents the program change command type.
         /// </summary>
         ProgramChange = 0xC0,
 
         /// <summary>
-        /// Represents the channel pressure (aftertouch) command 
+        /// Represents the channel pressure (aftertouch) command
         /// type.
         /// </summary>
-        ChannelPressure = 0xD0,   
-     
+        ChannelPressure = 0xD0,
+
         /// <summary>
         /// Represents the pitch wheel command type.
         /// </summary>
@@ -340,7 +340,7 @@ namespace Sanford.Multimedia.Midi
         /// The Tremolo Level.
         /// </summary>
         TremoloLevel,
-        
+
         /// <summary>
         /// The Chorus Level.
         /// </summary>
@@ -400,7 +400,7 @@ namespace Sanford.Multimedia.Midi
         /// The Local Keyboard.
         /// </summary>
         LocalKeyboard,
-        
+
         /// <summary>
         /// The All Notes Off.
         /// </summary>
@@ -429,12 +429,12 @@ namespace Sanford.Multimedia.Midi
 
     #endregion
 
-	/// <summary>
-	/// Represents MIDI channel messages.
-	/// </summary>
-	[ImmutableObject(true)]
-	public sealed class ChannelMessage : ShortMessage
-	{
+    /// <summary>
+    /// Represents MIDI channel messages.
+    /// </summary>
+    [ImmutableObject(true)]
+    public sealed class ChannelMessage : ShortMessage
+    {
         #region ChannelEventArgs Members
 
         #region Constants
@@ -448,13 +448,13 @@ namespace Sanford.Multimedia.Midi
 
         /// <summary>
         /// Maximum value allowed for MIDI channels.
-        /// </summary> 
+        /// </summary>
         public const int MidiChannelMaxValue = 15;
 
         #endregion
 
         #region Construction
-        
+
         /// <summary>
         /// Initializes a new instance of the ChannelEventArgs class with the
         /// specified command, MIDI channel, and data 1 values.
@@ -469,11 +469,11 @@ namespace Sanford.Multimedia.Midi
         /// The data 1 value.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// If midiChannel is less than zero or greater than 15. Or if 
+        /// If midiChannel is less than zero or greater than 15. Or if
         /// data1 is less than zero or greater than 127.
         /// </exception>
         public ChannelMessage(ChannelCommand command, int midiChannel, int data1)
-        { 
+        {
             msg = 0;
 
             msg = PackCommand(msg, command);
@@ -487,10 +487,10 @@ namespace Sanford.Multimedia.Midi
             Debug.Assert(Data1 == data1);
 
             #endregion
-        }        
+        }
 
         /// <summary>
-        /// Initializes a new instance of the ChannelEventArgs class with the 
+        /// Initializes a new instance of the ChannelEventArgs class with the
         /// specified command, MIDI channel, data 1, and data 2 values.
         /// </summary>
         /// <param name="command">
@@ -506,10 +506,10 @@ namespace Sanford.Multimedia.Midi
         /// The data 2 value.
         /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// If midiChannel is less than zero or greater than 15. Or if 
-        /// data1 or data 2 is less than zero or greater than 127. 
+        /// If midiChannel is less than zero or greater than 15. Or if
+        /// data1 or data 2 is less than zero or greater than 127.
         /// </exception>
-        public ChannelMessage(ChannelCommand command, int midiChannel, 
+        public ChannelMessage(ChannelCommand command, int midiChannel,
             int data1, int data2)
         {
             msg = 0;
@@ -531,7 +531,7 @@ namespace Sanford.Multimedia.Midi
 
         internal ChannelMessage(int message)
         {
-            this.msg = message;            
+            this.msg = message;
         }
 
         #endregion
@@ -539,7 +539,7 @@ namespace Sanford.Multimedia.Midi
         #region Methods
 
         /// <summary>
-        /// Returns a value for the current ChannelEventArgs suitable for use in 
+        /// Returns a value for the current ChannelEventArgs suitable for use in
         /// hashing algorithms.
         /// </summary>
         /// <returns>
@@ -557,27 +557,27 @@ namespace Sanford.Multimedia.Midi
         /// The ChannelMessageEventArgs to compare with the current ChannelEventArgs.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the specified object is equal to the current 
+        /// <b>true</b> if the specified object is equal to the current
         /// ChannelMessageEventArgs; otherwise, <b>false</b>.
         /// </returns>
         public override bool Equals(object obj)
         {
             #region Guard
 
-            if(!(obj is ChannelMessage))
+            if (!(obj is ChannelMessage))
             {
                 return false;
             }
 
             #endregion
-            
-            ChannelMessage e = (ChannelMessage)obj;            
+
+            ChannelMessage e = (ChannelMessage)obj;
 
             return this.msg == e.msg;
         }
 
         /// <summary>
-        /// Returns a value indicating how many bytes are used for the 
+        /// Returns a value indicating how many bytes are used for the
         /// specified ChannelCommand.
         /// </summary>
         /// <param name="command">
@@ -590,7 +590,7 @@ namespace Sanford.Multimedia.Midi
         {
             int result;
 
-            if(command == ChannelCommand.ChannelPressure ||
+            if (command == ChannelCommand.ChannelPressure ||
                 command == ChannelCommand.ProgramChange)
             {
                 result = 1;
@@ -602,9 +602,9 @@ namespace Sanford.Multimedia.Midi
 
             return result;
         }
-   
+
         /// <summary>
-        /// Unpacks the command value from the specified integer channel 
+        /// Unpacks the command value from the specified integer channel
         /// message.
         /// </summary>
         /// <param name="message">
@@ -617,9 +617,9 @@ namespace Sanford.Multimedia.Midi
         {
             return (ChannelCommand)(message & DataMask & MidiChannelMask);
         }
-     
+
         /// <summary>
-        /// Unpacks the MIDI channel from the specified integer channel 
+        /// Unpacks the MIDI channel from the specified integer channel
         /// message.
         /// </summary>
         /// <param name="message">
@@ -652,7 +652,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Preconditons
 
-            if(midiChannel < 0 || midiChannel > MidiChannelMaxValue)
+            if (midiChannel < 0 || midiChannel > MidiChannelMaxValue)
             {
                 throw new ArgumentOutOfRangeException("midiChannel", midiChannel,
                     "MIDI channel out of range.");
@@ -678,12 +678,12 @@ namespace Sanford.Multimedia.Midi
         internal static int PackCommand(int message, ChannelCommand command)
         {
             return (message & CommandMask) | (int)command;
-        }        
+        }
 
         #endregion
 
         #region Properties
-        
+
         /// <summary>
         /// Gets the channel command value.
         /// </summary>
@@ -694,7 +694,7 @@ namespace Sanford.Multimedia.Midi
                 return UnpackCommand(msg);
             }
         }
-        
+
         /// <summary>
         /// Gets the MIDI channel.
         /// </summary>
@@ -703,6 +703,10 @@ namespace Sanford.Multimedia.Midi
             get
             {
                 return UnpackMidiChannel(msg);
+            }
+            set
+            {
+                PackMidiChannel(msg, value);
             }
         }
 
@@ -714,9 +718,9 @@ namespace Sanford.Multimedia.Midi
             get
             {
                 return UnpackData1(msg);
-            }                
+            }
         }
-        
+
         /// <summary>
         /// Gets the second data value.
         /// </summary>
@@ -741,6 +745,6 @@ namespace Sanford.Multimedia.Midi
 
         #endregion
 
-        #endregion        
+        #endregion
     }
 }

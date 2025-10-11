@@ -19,7 +19,7 @@ namespace Sanford.Multimedia.Midi
             }
         }
 
-        readonly List<MidiEvents> FMidiEventsList = new List<MidiEvents>();
+        private readonly List<MidiEvents> FMidiEventsList = new List<MidiEvents>();
 
         /// <summary>
 		/// Merges the MIDI events.
@@ -79,14 +79,14 @@ namespace Sanford.Multimedia.Midi
         {
             add
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.ShortMessageReceived += value;
                 }
             }
             remove
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.ShortMessageReceived -= value;
                 }
@@ -121,14 +121,14 @@ namespace Sanford.Multimedia.Midi
         {
             add
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysExMessageReceived += value;
                 }
             }
             remove
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysExMessageReceived -= value;
                 }
@@ -142,14 +142,14 @@ namespace Sanford.Multimedia.Midi
         {
             add
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysCommonMessageReceived += value;
                 }
             }
             remove
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysCommonMessageReceived -= value;
                 }
@@ -163,19 +163,18 @@ namespace Sanford.Multimedia.Midi
         {
             add
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysRealtimeMessageReceived += value;
                 }
             }
             remove
             {
-                foreach (var elem in FMidiEventsList) 
+                foreach (var elem in FMidiEventsList)
                 {
                     elem.SysRealtimeMessageReceived -= value;
                 }
             }
         }
-        
     }
 }

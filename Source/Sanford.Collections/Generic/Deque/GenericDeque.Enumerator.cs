@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Sanford.Collections.Generic
 {
@@ -37,17 +36,17 @@ namespace Sanford.Collections.Generic
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                else if(version != owner.version)
+                else if (version != owner.version)
                 {
                     throw new InvalidOperationException(
                         "The Deque was modified after the enumerator was created.");
                 }
 
-                #endregion
+                #endregion Require
 
                 currentNode = owner.front;
                 moveResult = false;
@@ -59,18 +58,18 @@ namespace Sanford.Collections.Generic
                 {
                     #region Require
 
-                    if(disposed)
+                    if (disposed)
                     {
                         throw new ObjectDisposedException(this.GetType().Name);
                     }
-                    else if(!moveResult)
+                    else if (!moveResult)
                     {
                         throw new InvalidOperationException(
                             "The enumerator is positioned before the first " +
                             "element of the Deque or after the last element.");
                     }
 
-                    #endregion
+                    #endregion Require
 
                     return current;
                 }
@@ -80,19 +79,19 @@ namespace Sanford.Collections.Generic
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                else if(version != owner.version)
+                else if (version != owner.version)
                 {
                     throw new InvalidOperationException(
                         "The Deque was modified after the enumerator was created.");
                 }
 
-                #endregion
+                #endregion Require
 
-                if(currentNode != null)
+                if (currentNode != null)
                 {
                     current = currentNode.Value;
                     currentNode = currentNode.Next;
@@ -107,7 +106,7 @@ namespace Sanford.Collections.Generic
                 return moveResult;
             }
 
-            #endregion
+            #endregion IEnumerator Members
 
             #region IEnumerator<T> Members
 
@@ -117,24 +116,24 @@ namespace Sanford.Collections.Generic
                 {
                     #region Require
 
-                    if(disposed)
+                    if (disposed)
                     {
                         throw new ObjectDisposedException(this.GetType().Name);
                     }
-                    else if(!moveResult)
+                    else if (!moveResult)
                     {
                         throw new InvalidOperationException(
                             "The enumerator is positioned before the first " +
                             "element of the Deque or after the last element.");
                     }
 
-                    #endregion
+                    #endregion Require
 
                     return current;
                 }
             }
 
-            #endregion
+            #endregion IEnumerator<T> Members
 
             #region IDisposable Members
 
@@ -143,9 +142,9 @@ namespace Sanford.Collections.Generic
                 disposed = true;
             }
 
-            #endregion
+            #endregion IDisposable Members
         }
 
-        #endregion
+        #endregion Enumerator Class
     }
 }

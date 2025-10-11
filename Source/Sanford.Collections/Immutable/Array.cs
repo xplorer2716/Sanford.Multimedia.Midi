@@ -1,8 +1,8 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
@@ -12,12 +12,12 @@ using System.ComponentModel;
 
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
-	/// Represents an array data structure.
-	/// </summary>
-	[ImmutableObject(true)]
-	public class Array : IEnumerable
-	{
+    /// <summary>
+    /// Represents an array data structure.
+    /// </summary>
+    [ImmutableObject(true)]
+    public class Array : IEnumerable
+    {
         #region Array Members
 
         #region Instance Fields
@@ -28,12 +28,12 @@ namespace Sanford.Collections.Immutable
         // The head node of the random access list.
         private RalTopNode head;
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
         /// <summary>
-        /// Initialize an instance of the Array class with the specified array 
+        /// Initialize an instance of the Array class with the specified array
         /// length.
         /// </summary>
         /// <param name="length">
@@ -42,7 +42,7 @@ namespace Sanford.Collections.Immutable
         public Array(int length)
         {
             // Precondition.
-            if(length < 0)
+            if (length < 0)
             {
                 throw new ArgumentOutOfRangeException("length", length,
                     "Array length out of range.");
@@ -62,7 +62,7 @@ namespace Sanford.Collections.Immutable
              */
 
             // While there are still nodes to create.
-            while(n > 0)
+            while (n > 0)
             {
                 // Get the log based 2 of the number of nodes.
                 exponent = (int)Math.Log(n, 2);
@@ -73,18 +73,18 @@ namespace Sanford.Collections.Immutable
                 // Create the top node representing the subtree.
                 head = new RalTopNode(
                     new RalTreeNode(
-                        null, 
-                        CreateSubTree(count), 
+                        null,
+                        CreateSubTree(count),
                         CreateSubTree(count)),
                     head);
 
                 // Get the remaining number of nodes to create.
                 n -= head.Root.Count;
-            }            
+            }
         }
 
         /// <summary>
-        /// Initializes a new instance of the Array class with the specified 
+        /// Initializes a new instance of the Array class with the specified
         /// head of the random access list and the length of the array.
         /// </summary>
         /// <param name="head">
@@ -96,19 +96,19 @@ namespace Sanford.Collections.Immutable
         private Array(RalTopNode head, int length)
         {
             this.head = head;
-            this.length = length;            
+            this.length = length;
         }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
 
         /// <summary>
-        /// Gets the value of the specified element in the current Array. 
+        /// Gets the value of the specified element in the current Array.
         /// </summary>
         /// <param name="index">
-        /// An integer that represents the position of the Array element to 
-        /// get. 
+        /// An integer that represents the position of the Array element to
+        /// get.
         /// </param>
         /// <returns>
         /// The value at the specified position in the Array.
@@ -119,27 +119,27 @@ namespace Sanford.Collections.Immutable
         public object GetValue(int index)
         {
             // Preconditions.
-            if(index < 0 || index >= Length)
+            if (index < 0 || index >= Length)
             {
                 throw new ArgumentOutOfRangeException(
                     "Index out of range.");
             }
 
-            return head.GetValue(index);            
+            return head.GetValue(index);
         }
 
         /// <summary>
-        /// Sets the specified element in the current Array to the specified 
+        /// Sets the specified element in the current Array to the specified
         /// value.
         /// </summary>
         /// <param name="value">
-        /// The new value for the specified element. 
+        /// The new value for the specified element.
         /// </param>
         /// <param name="index">
-        /// An integer that represents the position of the Array element to set. 
+        /// An integer that represents the position of the Array element to set.
         /// </param>
         /// <returns>
-        /// A new array with the element at the specified position set to the 
+        /// A new array with the element at the specified position set to the
         /// specified value.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -148,7 +148,7 @@ namespace Sanford.Collections.Immutable
         public Array SetValue(object value, int index)
         {
             // Preconditions.
-            if(index < 0 || index >= Length)
+            if (index < 0 || index >= Length)
             {
                 throw new ArgumentOutOfRangeException(
                     "Index out of range.");
@@ -162,7 +162,7 @@ namespace Sanford.Collections.Immutable
         {
             RalTreeNode result = null;
 
-            if(count > 0)
+            if (count > 0)
             {
                 int c = count / 2;
 
@@ -175,12 +175,12 @@ namespace Sanford.Collections.Immutable
             return result;
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
         /// <summary>
-        /// Gets an integer that represents the total number of elements in all 
+        /// Gets an integer that represents the total number of elements in all
         /// the dimensions of the Array.
         /// </summary>
         public int Length
@@ -191,9 +191,9 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion Properties
 
-        #endregion
+        #endregion Array Members
 
         #region IEnumerable Members
 
@@ -208,6 +208,6 @@ namespace Sanford.Collections.Immutable
             return new RalEnumerator(head, length);
         }
 
-        #endregion
+        #endregion IEnumerable Members
     }
 }

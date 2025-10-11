@@ -1,9 +1,7 @@
-﻿
-using System;
+﻿using System;
 
 namespace Sanford.Multimedia.Midi
 {
-    
     /// <summary>
     /// An event source that combines all possible midi events
     /// </summary>
@@ -22,20 +20,20 @@ namespace Sanford.Multimedia.Midi
         event MidiMessageEventHandler MessageReceived;
 
         /// <summary>
-        /// All incoming midi short messages 
+        /// All incoming midi short messages
         /// </summary>
         event EventHandler<ShortMessageEventArgs> ShortMessageReceived;
-        
+
         /// <summary>
         /// Channel messages like, note, controller, program, ...
         /// </summary>
         event EventHandler<ChannelMessageEventArgs> ChannelMessageReceived;
-       
+
         /// <summary>
         /// SysEx messages
         /// </summary>
         event EventHandler<SysExMessageEventArgs> SysExMessageReceived;
-        
+
         /// <summary>
         /// Midi timecode, song position, song select, tune request
         /// </summary>
@@ -46,8 +44,4 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         event EventHandler<SysRealtimeMessageEventArgs> SysRealtimeMessageReceived;
     }
-    
-    
-    
-    
 }

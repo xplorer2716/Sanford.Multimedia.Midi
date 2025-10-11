@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -128,19 +128,19 @@ namespace Sanford.Multimedia.Midi
 
     #endregion
 
-	/// <summary>
-	/// Represents MIDI meta messages.
-	/// </summary>
-	/// <remarks>
-	/// Meta messages are MIDI messages that are stored in MIDI files. These
-	/// messages are not sent or received via MIDI but are read and 
-	/// interpretted from MIDI files. They provide information that describes 
-	/// a MIDI file's properties. For example, tempo changes are implemented
-	/// using meta messages.
-	/// </remarks>
-	[ImmutableObject(true)]
-	public sealed class MetaMessage : MidiMessageBase, IMidiMessage
-	{
+    /// <summary>
+    /// Represents MIDI meta messages.
+    /// </summary>
+    /// <remarks>
+    /// Meta messages are MIDI messages that are stored in MIDI files. These
+    /// messages are not sent or received via MIDI but are read and
+    /// interpretted from MIDI files. They provide information that describes
+    /// a MIDI file's properties. For example, tempo changes are implemented
+    /// using meta messages.
+    /// </remarks>
+    [ImmutableObject(true)]
+    public sealed class MetaMessage : MidiMessageBase, IMidiMessage
+    {
         #region MetaMessage Members
 
         #region Constants
@@ -181,7 +181,7 @@ namespace Sanford.Multimedia.Midi
         /// <summary>
         /// End of track meta message.
         /// </summary>
-        public static readonly MetaMessage EndOfTrackMessage = 
+        public static readonly MetaMessage EndOfTrackMessage =
             new MetaMessage(MetaType.EndOfTrack, new byte[0]);
 
         #endregion
@@ -214,24 +214,24 @@ namespace Sanford.Multimedia.Midi
         /// The length of the MetaMessage is not valid for the MetaMessage type.
         /// </exception>
         /// <remarks>
-        /// Each MetaMessage has type and length properties. For certain 
+        /// Each MetaMessage has type and length properties. For certain
         /// types, the length of the message data must be a specific value. For
-        /// example, tempo messages must have a data length of exactly three. 
+        /// example, tempo messages must have a data length of exactly three.
         /// Some MetaMessage types can have any data length. Text messages are
         /// an example of a MetaMessage that can have a variable data length.
         /// When a MetaMessage is created, the length of the data is checked
         /// to make sure that it is valid for the specified type. If it is not,
-        /// an exception is thrown. 
+        /// an exception is thrown.
         /// </remarks>
 		public MetaMessage(MetaType type, byte[] data)
         {
             #region Require
 
-            if(data == null)
+            if (data == null)
             {
                 throw new ArgumentNullException("data");
             }
-            else if(!ValidateDataLength(type, data.Length))
+            else if (!ValidateDataLength(type, data.Length))
             {
                 throw new ArgumentException(
                     "Length of data not valid for meta message type.");
@@ -240,7 +240,7 @@ namespace Sanford.Multimedia.Midi
             #endregion
 
             this.type = type;
-            
+
             // Create storage for meta message data.
             this.data = new byte[data.Length];
 
@@ -253,7 +253,7 @@ namespace Sanford.Multimedia.Midi
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// Gets a copy of the data bytes for this meta message.
         /// </summary>
@@ -266,7 +266,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Returns a value for the current MetaMessage suitable for use in 
+        /// Returns a value for the current MetaMessage suitable for use in
         /// hashing algorithms.
         /// </summary>
         /// <returns>
@@ -274,7 +274,7 @@ namespace Sanford.Multimedia.Midi
         /// </returns>
         public override int GetHashCode()
         {
-            return hashCode;            
+            return hashCode;
         }
 
         /// <summary>
@@ -284,14 +284,14 @@ namespace Sanford.Multimedia.Midi
         /// The MetaMessage to compare with the current MetaMessage.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the specified MetaMessage is equal to the current 
+        /// <b>true</b> if the specified MetaMessage is equal to the current
         /// MetaMessage; otherwise, <b>false</b>.
         /// </returns>
         public override bool Equals(object obj)
         {
             #region Guard
 
-            if(!(obj is MetaMessage))
+            if (!(obj is MetaMessage))
             {
                 return false;
             }
@@ -302,24 +302,24 @@ namespace Sanford.Multimedia.Midi
             MetaMessage message = (MetaMessage)obj;
 
             // If the types do not match.
-            if(MetaType != message.MetaType)
+            if (MetaType != message.MetaType)
             {
                 // The messages are not equal
                 equal = false;
             }
 
             // If the message lengths are not equal.
-            if(equal && Length != message.Length)
+            if (equal && Length != message.Length)
             {
                 // The message are not equal.
                 equal = false;
             }
 
             // Check to see if the data is equal.
-            for(int i = 0; i < Length && equal; i++)
+            for (int i = 0; i < Length && equal; i++)
             {
                 // If a data value does not match.
-                if(this[i] != message[i])
+                if (this[i] != message[i])
                 {
                     // The messages are not equal.
                     equal = false;
@@ -331,22 +331,22 @@ namespace Sanford.Multimedia.Midi
 
         // Calculates the hash code.
         private void CalculateHashCode()
-        {            
+        {
             // TODO: This algorithm may need work.
 
             hashCode = (int)MetaType;
 
-            for(int i = 0; i < data.Length; i += 3)
+            for (int i = 0; i < data.Length; i += 3)
             {
                 hashCode ^= data[i];
             }
 
-            for(int i = 1; i < data.Length; i += 3)
+            for (int i = 1; i < data.Length; i += 3)
             {
                 hashCode ^= data[i] << Shift;
             }
 
-            for(int i = 2; i < data.Length; i += 3)
+            for (int i = 2; i < data.Length; i += 3)
             {
                 hashCode ^= data[i] << Shift * 2;
             }
@@ -362,7 +362,7 @@ namespace Sanford.Multimedia.Midi
         /// The length of the MetaMessage data.
         /// </param>
         /// <returns>
-        /// <b>true</b> if the data length is valid for this type of 
+        /// <b>true</b> if the data length is valid for this type of
         /// MetaMessage; otherwise, <b>false</b>.
         /// </returns>
         private bool ValidateDataLength(MetaType type, int length)
@@ -377,45 +377,45 @@ namespace Sanford.Multimedia.Midi
 
             // Determine which type of meta message this is and check to make
             // sure that the data length value is valid.
-            switch(type)
+            switch (type)
             {
                 case MetaType.SequenceNumber:
-                    if(length != 0 || length != 2)
+                    if (length != 0 || length != 2)
                     {
                         result = false;
                     }
                     break;
 
                 case MetaType.EndOfTrack:
-                    if(length != 0)
+                    if (length != 0)
                     {
                         result = false;
                     }
                     break;
 
                 case MetaType.Tempo:
-                    if(length != TempoLength)
+                    if (length != TempoLength)
                     {
                         result = false;
                     }
                     break;
 
                 case MetaType.SmpteOffset:
-                    if(length != SmpteOffsetLength)
+                    if (length != SmpteOffsetLength)
                     {
                         result = false;
                     }
                     break;
 
                 case MetaType.TimeSignature:
-                    if(length != TimeSigLength)
+                    if (length != TimeSigLength)
                     {
                         result = false;
                     }
                     break;
 
                 case MetaType.KeySignature:
-                    if(length != KeySigLength)
+                    if (length != KeySigLength)
                     {
                         result = false;
                     }
@@ -426,7 +426,7 @@ namespace Sanford.Multimedia.Midi
                     break;
             }
 
-            return result;      
+            return result;
         }
 
         #endregion
@@ -445,7 +445,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(index < 0 || index >= Length)
+                if (index < 0 || index >= Length)
                 {
                     throw new ArgumentOutOfRangeException("index", index,
                         "Index into MetaMessage out of range.");
@@ -463,11 +463,11 @@ namespace Sanford.Multimedia.Midi
         public int Length
         {
             get
-            { 
+            {
                 return data.Length;
             }
         }
-        
+
         /// <summary>
         /// Gets the type of meta message.
         /// </summary>
@@ -481,7 +481,7 @@ namespace Sanford.Multimedia.Midi
 
         #endregion
 
-        #endregion        
+        #endregion
 
         #region IMidiMessage Members
 

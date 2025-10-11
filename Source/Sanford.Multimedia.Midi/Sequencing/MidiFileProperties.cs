@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -78,13 +78,13 @@ namespace Sanford.Multimedia.Midi
         /// The SMPTE Sequence Type.
         /// </summary>
         Smpte
-    }    
+    }
 
-	/// <summary>
-	/// Represents MIDI file properties.
-	/// </summary>
-	internal class MidiFileProperties
-	{
+    /// <summary>
+    /// Represents MIDI file properties.
+    /// </summary>
+    internal class MidiFileProperties
+    {
         private const int PropertyLength = 2;
 
         private static readonly byte[] MidiFileHeader =
@@ -93,8 +93,8 @@ namespace Sanford.Multimedia.Midi
                 (byte)'T',
                 (byte)'h',
                 (byte)'d',
-                0, 
-                0, 
+                0,
+                0,
                 0,
                 6
             };
@@ -107,15 +107,15 @@ namespace Sanford.Multimedia.Midi
 
         private SequenceType sequenceType = SequenceType.Ppqn;
 
-		public MidiFileProperties()
-		{
-		}
+        public MidiFileProperties()
+        {
+        }
 
         public void Read(Stream strm)
         {
             #region Require
 
-            if(strm == null)
+            if (strm == null)
             {
                 throw new ArgumentNullException("strm");
             }
@@ -141,23 +141,23 @@ namespace Sanford.Multimedia.Midi
             bool found = false;
             int result;
 
-            while(!found)
+            while (!found)
             {
                 result = stream.ReadByte();
 
-                if(result == 'M')
+                if (result == 'M')
                 {
                     result = stream.ReadByte();
 
-                    if(result == 'T')
+                    if (result == 'T')
                     {
                         result = stream.ReadByte();
 
-                        if(result == 'h')
+                        if (result == 'h')
                         {
                             result = stream.ReadByte();
 
-                            if(result == 'd')
+                            if (result == 'd')
                             {
                                 found = true;
                             }
@@ -165,16 +165,16 @@ namespace Sanford.Multimedia.Midi
                     }
                 }
 
-                if(result < 0)
+                if (result < 0)
                 {
                     throw new MidiFileException("Unable to find MIDI file header.");
                 }
             }
 
             // Eat the header length.
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if(stream.ReadByte() < 0)
+                if (stream.ReadByte() < 0)
                 {
                     throw new MidiFileException("Unable to find MIDI file header.");
                 }
@@ -187,12 +187,12 @@ namespace Sanford.Multimedia.Midi
 
             int result = strm.Read(data, 0, data.Length);
 
-            if(result != data.Length)
+            if (result != data.Length)
             {
                 throw new MidiFileException("End of MIDI file unexpectedly reached.");
             }
 
-            if(BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(data);
             }
@@ -204,7 +204,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(strm == null)
+            if (strm == null)
             {
                 throw new ArgumentNullException("strm");
             }
@@ -221,7 +221,7 @@ namespace Sanford.Multimedia.Midi
         {
             byte[] data = BitConverter.GetBytes(property);
 
-            if(BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(data);
             }
@@ -233,13 +233,13 @@ namespace Sanford.Multimedia.Midi
         {
             bool result;
             byte[] data = BitConverter.GetBytes((short)division);
-            
-            if(BitConverter.IsLittleEndian)
+
+            if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(data);
             }
 
-            if((sbyte)data[0] < 0)
+            if ((sbyte)data[0] < 0)
             {
                 result = true;
             }
@@ -254,12 +254,12 @@ namespace Sanford.Multimedia.Midi
         [Conditional("DEBUG")]
         private void AssertValid()
         {
-            if(trackCount > 1)
+            if (trackCount > 1)
             {
                 Debug.Assert(Format == 1 || Format == 2);
             }
 
-            if(IsSmpte(Division))
+            if (IsSmpte(Division))
             {
                 Debug.Assert(SequenceType == SequenceType.Smpte);
             }
@@ -280,12 +280,12 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 0 || value > 2)
+                if (value < 0 || value > 2)
                 {
                     throw new ArgumentOutOfRangeException("Format", value,
                         "MIDI file format out of range.");
                 }
-                else if(value == 0 && trackCount > 1)
+                else if (value == 0 && trackCount > 1)
                 {
                     throw new ArgumentException(
                         "MIDI file format invalid for this track count.");
@@ -313,12 +313,12 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("TrackCount", value,
                         "Track count out of range.");
                 }
-                else if(value > 1 && Format == 0)
+                else if (value > 1 && Format == 0)
                 {
                     throw new ArgumentException(
                         "Track count invalid for this format.");
@@ -344,16 +344,16 @@ namespace Sanford.Multimedia.Midi
             }
             set
             {
-                if(IsSmpte(value))
+                if (IsSmpte(value))
                 {
-                    byte[] data = BitConverter.GetBytes((short)value); 
+                    byte[] data = BitConverter.GetBytes((short)value);
 
-                    if(BitConverter.IsLittleEndian)
+                    if (BitConverter.IsLittleEndian)
                     {
                         Array.Reverse(data);
                     }
 
-                    if((sbyte)data[0] != -(int)SmpteFrameRate.Smpte24 &&                        
+                    if ((sbyte)data[0] != -(int)SmpteFrameRate.Smpte24 &&
                         (sbyte)data[0] != -(int)SmpteFrameRate.Smpte25 &&
                         (sbyte)data[0] != -(int)SmpteFrameRate.Smpte30 &&
                         (sbyte)data[0] != -(int)SmpteFrameRate.Smpte30Drop)
@@ -365,9 +365,9 @@ namespace Sanford.Multimedia.Midi
                         sequenceType = SequenceType.Smpte;
                     }
                 }
-                else 
+                else
                 {
-                    if(value < PpqnClock.PpqnMinValue)
+                    if (value < PpqnClock.PpqnMinValue)
                     {
                         throw new ArgumentOutOfRangeException("Ppqn", value,
                             "Pulses per quarter note is smaller than 24.");
@@ -395,7 +395,7 @@ namespace Sanford.Multimedia.Midi
                 return sequenceType;
             }
         }
-	}
+    }
 
     /// <summary>
     /// MIDI File Exception handles errors relating to the application being unable to read or write to a MIDI or Sequence.

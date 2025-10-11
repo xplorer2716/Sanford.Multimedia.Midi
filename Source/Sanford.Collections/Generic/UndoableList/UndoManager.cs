@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace Sanford.Collections.Generic
@@ -30,12 +29,12 @@ namespace Sanford.Collections.Generic
         {
             #region Guard
 
-            if(undoStack.Count == 0)
+            if (undoStack.Count == 0)
             {
                 return false;
             }
 
-            #endregion
+            #endregion Guard
 
             ICommand command = undoStack.Pop();
 
@@ -57,12 +56,12 @@ namespace Sanford.Collections.Generic
         {
             #region Guard
 
-            if(redoStack.Count == 0)
+            if (redoStack.Count == 0)
             {
                 return false;
             }
 
-            #endregion
+            #endregion Guard
 
             ICommand command = redoStack.Pop();
 
@@ -82,7 +81,7 @@ namespace Sanford.Collections.Generic
             redoStack.Clear();
         }
 
-        #endregion
+        #endregion Methods
 
         #region Properties
 
@@ -108,6 +107,6 @@ namespace Sanford.Collections.Generic
             }
         }
 
-        #endregion
+        #endregion Properties
     }
 }

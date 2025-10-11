@@ -1,8 +1,8 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
@@ -14,7 +14,7 @@ namespace Sanford.Collections.Immutable
 {
     /// <summary>
     /// Provides functionality for iterating over an AVL tree.
-    /// </summary> 
+    /// </summary>
     internal class AvlEnumerator : IEnumerator
     {
         #region AvlEnumerator Members
@@ -36,7 +36,7 @@ namespace Sanford.Collections.Immutable
         // Used for traversing the tree inorder.
         private System.Collections.Stack nodeStack = new System.Collections.Stack();
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
@@ -73,14 +73,14 @@ namespace Sanford.Collections.Immutable
             Reset();
         }
 
-        #endregion
+        #endregion Construction
 
-        #endregion
+        #endregion AvlEnumerator Members
 
         #region IEnumerator Members
 
         /// <summary>
-        /// Sets the enumerator to its initial position, which is before 
+        /// Sets the enumerator to its initial position, which is before
         /// the first element in the AVL tree.
         /// </summary>
         public void Reset()
@@ -92,7 +92,7 @@ namespace Sanford.Collections.Immutable
             IAvlNode currentNode = root;
 
             // Push nodes on to the stack to get to the first item.
-            while(currentNode != AvlNode.NullNode)
+            while (currentNode != AvlNode.NullNode)
             {
                 nodeStack.Push(currentNode);
                 currentNode = currentNode.LeftChild;
@@ -110,7 +110,7 @@ namespace Sanford.Collections.Immutable
         {
             get
             {
-                if(index == 0)
+                if (index == 0)
                 {
                     throw new InvalidOperationException(
                         "The enumerator is positioned before the first " +
@@ -126,8 +126,8 @@ namespace Sanford.Collections.Immutable
         /// Advances the enumerator to the next element of the AVL tree.
         /// </summary>
         /// <returns>
-        /// <b>true</b> if the enumerator was successfully advanced to the 
-        /// next element; <b>false</b> if the enumerator has passed the end 
+        /// <b>true</b> if the enumerator was successfully advanced to the
+        /// next element; <b>false</b> if the enumerator has passed the end
         /// of the collection.
         /// </returns>
         public bool MoveNext()
@@ -135,7 +135,7 @@ namespace Sanford.Collections.Immutable
             bool result;
 
             // If the end of the AVL tree has not yet been reached.
-            if(index < count)
+            if (index < count)
             {
                 // Get the next node.
                 IAvlNode currentNode = (IAvlNode)nodeStack.Pop();
@@ -144,7 +144,7 @@ namespace Sanford.Collections.Immutable
 
                 currentNode = currentNode.RightChild;
 
-                while(currentNode != AvlNode.NullNode)
+                while (currentNode != AvlNode.NullNode)
                 {
                     nodeStack.Push(currentNode);
                     currentNode = currentNode.LeftChild;
@@ -162,6 +162,6 @@ namespace Sanford.Collections.Immutable
             return result;
         }
 
-        #endregion
+        #endregion IEnumerator Members
     }
 }

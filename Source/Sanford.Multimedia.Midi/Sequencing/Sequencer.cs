@@ -113,20 +113,20 @@ namespace Sanford.Multimedia.Midi
             }
         }
 
-        #endregion
+        #endregion Events
 
         /// <summary>
         /// The main sequencer function.
         /// </summary>
         public Sequencer()
         {
-            dispatcher.MetaMessageDispatched += delegate(object sender, MetaMessageEventArgs e)
+            dispatcher.MetaMessageDispatched += delegate (object sender, MetaMessageEventArgs e)
             {
-                if(e.Message.MetaType == MetaType.EndOfTrack)
+                if (e.Message.MetaType == MetaType.EndOfTrack)
                 {
                     tracksPlayingCount--;
 
-                    if(tracksPlayingCount == 0)
+                    if (tracksPlayingCount == 0)
                     {
                         Stop();
 
@@ -139,21 +139,21 @@ namespace Sanford.Multimedia.Midi
                 }
             };
 
-            dispatcher.ChannelMessageDispatched += delegate(object sender, ChannelMessageEventArgs e)
+            dispatcher.ChannelMessageDispatched += delegate (object sender, ChannelMessageEventArgs e)
             {
                 stopper.Process(e.Message);
             };
 
-            clock.Tick += delegate(object sender, EventArgs e)
+            clock.Tick += delegate (object sender, EventArgs e)
             {
-                lock(lockObject)
+                lock (lockObject)
                 {
-                    if(!playing)
+                    if (!playing)
                     {
                         return;
                     }
 
-                    foreach(IEnumerator<int> enumerator in enumerators)
+                    foreach (IEnumerator<int> enumerator in enumerators)
                     {
                         enumerator.MoveNext();
                     }
@@ -174,9 +174,9 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
-                lock(lockObject)
+                lock (lockObject)
                 {
                     Stop();
 
@@ -196,14 +196,14 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
-            #endregion           
+            #endregion Require
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 Stop();
 
@@ -220,29 +220,29 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
-            #endregion
+            #endregion Require
 
             #region Guard
 
-            if(Sequence == null)
+            if (Sequence == null)
             {
                 return;
             }
 
-            #endregion
+            #endregion Guard
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 Stop();
 
                 enumerators.Clear();
 
-                foreach(Track t in Sequence)
+                foreach (Track t in Sequence)
                 {
                     enumerators.Add(t.TickIterator(Position, chaser, dispatcher).GetEnumerator());
                 }
@@ -262,23 +262,23 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
-            #endregion
+            #endregion Require
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 #region Guard
 
-                if(!playing)
+                if (!playing)
                 {
                     return;
                 }
 
-                #endregion
+                #endregion Guard
 
                 playing = false;
                 clock.Stop();
@@ -293,7 +293,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = PlayingCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -306,7 +306,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -321,12 +321,12 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
 
-                #endregion
+                #endregion Require
 
                 return clock.Ticks;
             }
@@ -334,20 +334,20 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException(this.GetType().Name);
                 }
-                else if(value < 0)
+                else if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                #endregion
+                #endregion Require
 
                 bool wasPlaying;
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     wasPlaying = playing;
 
@@ -356,9 +356,9 @@ namespace Sanford.Multimedia.Midi
                     clock.SetTicks(value);
                 }
 
-                lock(lockObject)
+                lock (lockObject)
                 {
-                    if(wasPlaying)
+                    if (wasPlaying)
                     {
                         Continue();
                     }
@@ -379,18 +379,18 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value == null)
+                if (value == null)
                 {
                     throw new ArgumentNullException();
                 }
-                else if(value.SequenceType == SequenceType.Smpte)
+                else if (value.SequenceType == SequenceType.Smpte)
                 {
                     throw new NotSupportedException();
                 }
 
-                #endregion
+                #endregion Require
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     Stop();
                     sequence = value;
@@ -420,7 +420,7 @@ namespace Sanford.Multimedia.Midi
             }
         }
 
-        #endregion
+        #endregion IComponent Members
 
         #region IDisposable Members
 
@@ -431,16 +431,16 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
 
-            #endregion
+            #endregion Guard
 
             Dispose(true);
         }
 
-        #endregion
+        #endregion IDisposable Members
     }
 }

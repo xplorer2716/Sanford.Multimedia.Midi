@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -36,11 +36,11 @@ using System;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Provides basic functionality for generating tick events with pulses per 
+    /// <summary>
+    /// Provides basic functionality for generating tick events with pulses per
     /// quarter note resolution.
-	/// </summary>
-	public abstract class PpqnClock : IClock
+    /// </summary>
+    public abstract class PpqnClock : IClock
     {
         #region PpqnClock Members
 
@@ -97,7 +97,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(timerPeriod < 1)
+            if (timerPeriod < 1)
             {
                 throw new ArgumentOutOfRangeException("timerPeriod", timerPeriod,
                     "Timer period cannot be less than one.");
@@ -130,7 +130,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(tempo < 1)
+            if (tempo < 1)
             {
                 throw new ArgumentOutOfRangeException(
                     "Tempo out of range.");
@@ -183,7 +183,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Tick;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, EventArgs.Empty);
             }
@@ -196,7 +196,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Started;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -209,7 +209,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Stopped;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -222,7 +222,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Continued;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -245,7 +245,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < PpqnMinValue)
+                if (value < PpqnMinValue)
                 {
                     throw new ArgumentOutOfRangeException("Ppqn", value,
                         "Pulses per quarter note is smaller than 24.");

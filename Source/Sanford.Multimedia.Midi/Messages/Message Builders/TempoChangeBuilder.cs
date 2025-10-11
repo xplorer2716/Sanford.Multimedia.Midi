@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -40,7 +40,7 @@ namespace Sanford.Multimedia.Midi
     /// Provides functionality for building tempo messages.
     /// </summary>
 	public class TempoChangeBuilder : IMessageBuilder
-	{
+    {
         #region TempoChangeBuilder Members
 
         #region Constants
@@ -61,7 +61,7 @@ namespace Sanford.Multimedia.Midi
         // Indicates whether the tempo property has been changed since
         // the last time the message was built.
         private bool changed = true;
-        
+
         #endregion
 
         #region Construction
@@ -74,7 +74,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initialize a new instance of the TempoChangeBuilder class with the 
+        /// Initialize a new instance of the TempoChangeBuilder class with the
         /// specified MetaMessage.
         /// </summary>
         /// <param name="m">
@@ -84,13 +84,13 @@ namespace Sanford.Multimedia.Midi
         /// If the specified MetaMessage is not a tempo type.
         /// </exception>
         /// <remarks>
-        /// The TempoChangeBuilder uses the specified MetaMessage to initialize 
+        /// The TempoChangeBuilder uses the specified MetaMessage to initialize
         /// its property values.
         /// </remarks>
         public TempoChangeBuilder(MetaMessage m)
         {
-            Initialize(m);            
-		}
+            Initialize(m);
+        }
 
         #endregion
 
@@ -109,11 +109,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(m == null)
+            if (m == null)
             {
                 throw new ArgumentNullException("m");
             }
-            else if(m.MetaType != MetaType.Tempo)
+            else if (m.MetaType != MetaType.Tempo)
             {
                 throw new ArgumentException("Wrong meta message type.", "m");
             }
@@ -123,12 +123,12 @@ namespace Sanford.Multimedia.Midi
             int t = 0;
 
             // If this platform uses little endian byte order.
-            if(BitConverter.IsLittleEndian)
+            if (BitConverter.IsLittleEndian)
             {
                 int d = m.Length - 1;
 
                 // Pack tempo.
-                for(int i = 0; i < m.Length; i++)
+                for (int i = 0; i < m.Length; i++)
                 {
                     t |= m[d] << (Shift * i);
                     d--;
@@ -136,12 +136,12 @@ namespace Sanford.Multimedia.Midi
             }
             // Else this platform uses big endian byte order.
             else
-            {        
+            {
                 // Pack tempo.
-                for(int i = 0; i < m.Length; i++)
+                for (int i = 0; i < m.Length; i++)
                 {
                     t |= m[i] << (Shift * i);
-                }                    
+                }
             }
 
             tempo = t;
@@ -167,7 +167,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 0)
+                if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("Tempo", value,
                         "Tempo is out of range.");
@@ -194,7 +194,7 @@ namespace Sanford.Multimedia.Midi
 
         #endregion
 
-        #endregion        
+        #endregion
 
         #region IMessageBuilder Members
 
@@ -203,19 +203,19 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         public void Build()
         {
-            // If the tempo has been changed since the last time the message 
+            // If the tempo has been changed since the last time the message
             // was built.
-            if(changed)
+            if (changed)
             {
                 byte[] data = new byte[MetaMessage.TempoLength];
 
                 // If this platform uses little endian byte order.
-                if(BitConverter.IsLittleEndian)
+                if (BitConverter.IsLittleEndian)
                 {
                     int d = data.Length - 1;
 
                     // Unpack tempo.
-                    for(int i = 0; i < data.Length; i++)
+                    for (int i = 0; i < data.Length; i++)
                     {
                         data[d] = (byte)(tempo >> (Shift * i));
                         d--;
@@ -225,7 +225,7 @@ namespace Sanford.Multimedia.Midi
                 else
                 {
                     // Unpack tempo.
-                    for(int i = 0; i < data.Length; i++)
+                    for (int i = 0; i < data.Length; i++)
                     {
                         data[i] = (byte)(tempo >> (Shift * i));
                     }

@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,12 +32,11 @@
 
 #endregion
 
+using Sanford.Multimedia.Timers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Sanford.Multimedia.Timers;
 
 namespace Sanford.Multimedia.Midi
 {
@@ -124,7 +123,7 @@ namespace Sanford.Multimedia.Midi
 
             int result = midiStreamOpen(ref DeviceHandle, ref deviceID, 1, midiOutProc, IntPtr.Zero, CALLBACK_FUNCTION);
 
-            if(result != MidiDeviceException.MMSYSERR_NOERROR)
+            if (result != MidiDeviceException.MMSYSERR_NOERROR)
             {
                 throw new OutputDeviceException(result);
             }
@@ -135,15 +134,15 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
-                lock(lockObject)
+                lock (lockObject)
                 {
                     Reset();
 
                     int result = midiStreamClose(Handle);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         throw new OutputDeviceException(result);
                     }
@@ -165,12 +164,12 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 return;
             }
 
-            #endregion            
+            #endregion
 
             Dispose(true);
         }
@@ -182,18 +181,18 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 int result = midiStreamRestart(Handle);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     throw new OutputDeviceException(result);
                 }
@@ -207,18 +206,18 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 int result = midiStreamPause(Handle);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     throw new OutputDeviceException(result);
                 }
@@ -232,18 +231,18 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 int result = midiStreamStop(Handle);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     throw new OutputDeviceException(result);
                 }
@@ -257,7 +256,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
@@ -275,7 +274,7 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         public void Write(MidiEvent e)
         {
-            switch(e.MidiMessage.MessageType)
+            switch (e.MidiMessage.MessageType)
             {
                 case MessageType.Channel:
                 case MessageType.SystemCommon:
@@ -297,7 +296,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
@@ -312,8 +311,8 @@ namespace Sanford.Multimedia.Midi
 
             // Event code.
             byte[] eventCode = message.GetBytes();
-            eventCode[eventCode.Length - 1] = MEVT_SHORTMSG;            
-            events.AddRange(eventCode);            
+            eventCode[eventCode.Length - 1] = MEVT_SHORTMSG;
+            events.AddRange(eventCode);
 
             offsetTicks = 0;
         }
@@ -322,7 +321,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
@@ -342,7 +341,7 @@ namespace Sanford.Multimedia.Midi
 
             byte[] sysExData;
 
-            if(message.Length % 4 != 0)
+            if (message.Length % 4 != 0)
             {
                 sysExData = new byte[message.Length + (message.Length % 4)];
                 message.GetBytes().CopyTo(sysExData, 0);
@@ -360,7 +359,7 @@ namespace Sanford.Multimedia.Midi
 
         private void Write(int deltaTicks, MetaMessage message)
         {
-            if(message.MetaType == MetaType.Tempo)
+            if (message.MetaType == MetaType.Tempo)
             {
                 // Delta time.
                 events.AddRange(BitConverter.GetBytes(deltaTicks + offsetTicks));
@@ -401,7 +400,7 @@ namespace Sanford.Multimedia.Midi
             eventCode[eventCode.Length - 1] = (byte)(MEVT_NOP | MEVT_CALLBACK);
             events.AddRange(eventCode);
 
-            offsetTicks = 0;            
+            offsetTicks = 0;
         }
 
         /// <summary>
@@ -411,14 +410,14 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 headerBuilder.InitializeBuffer(events);
                 headerBuilder.Build();
@@ -427,7 +426,7 @@ namespace Sanford.Multimedia.Midi
 
                 int result = midiOutPrepareHeader(Handle, headerBuilder.Result, SizeOfMidiHeader);
 
-                if(result == MidiDeviceException.MMSYSERR_NOERROR)
+                if (result == MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     bufferCount++;
                 }
@@ -440,7 +439,7 @@ namespace Sanford.Multimedia.Midi
 
                 result = midiStreamOut(Handle, headerBuilder.Result, SizeOfMidiHeader);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     midiOutUnprepareHeader(Handle, headerBuilder.Result, SizeOfMidiHeader);
 
@@ -458,7 +457,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException("OutputStream");
             }
@@ -469,11 +468,11 @@ namespace Sanford.Multimedia.Midi
 
             t.type = (int)type;
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 int result = midiStreamPosition(Handle, ref t, Marshal.SizeOf(typeof(Time)));
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     throw new OutputDeviceException(result);
                 }
@@ -486,7 +485,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<NoOpEventArgs> handler = NoOpOccurred;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -497,7 +496,7 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected override void HandleMessage(IntPtr hnd, int msg, IntPtr instance, IntPtr param1, IntPtr param2)
         {
-            if(msg == MOM_POSITIONCB)
+            if (msg == MOM_POSITIONCB)
             {
                 delegateQueue.Post(HandleNoOp, param1);
             }
@@ -514,20 +513,20 @@ namespace Sanford.Multimedia.Midi
 
             byte[] midiEvent = new byte[SizeOfMidiEvent];
 
-            for(int i = 0; i < midiEvent.Length; i++)
+            for (int i = 0; i < midiEvent.Length; i++)
             {
                 midiEvent[i] = Marshal.ReadByte(header.data, header.offset + i);
             }
 
             // If this is a NoOp event.
-            if((midiEvent[EventTypeIndex] & MEVT_NOP) == MEVT_NOP)
+            if ((midiEvent[EventTypeIndex] & MEVT_NOP) == MEVT_NOP)
             {
                 // Clear the event type byte.
                 midiEvent[EventTypeIndex] = 0;
 
                 NoOpEventArgs e = new NoOpEventArgs(BitConverter.ToInt32(midiEvent, EventCodeOffset));
 
-                context.Post(new SendOrPostCallback(delegate(object s)
+                context.Post(new SendOrPostCallback(delegate (object s)
                 {
                     OnNoOpOccurred(e);
                 }), null);
@@ -543,7 +542,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(IsDisposed)
+                if (IsDisposed)
                 {
                     throw new ObjectDisposedException("OutputStream");
                 }
@@ -554,11 +553,11 @@ namespace Sanford.Multimedia.Midi
 
                 d.sizeOfProperty = Marshal.SizeOf(typeof(Property));
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     int result = midiStreamProperty(Handle, ref d, MIDIPROP_GET | MIDIPROP_TIMEDIV);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         throw new OutputDeviceException(result);
                     }
@@ -570,11 +569,11 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(IsDisposed)
+                if (IsDisposed)
                 {
                     throw new ObjectDisposedException("OutputStream");
                 }
-                else if(value < PpqnClock.PpqnMinValue)
+                else if (value < PpqnClock.PpqnMinValue)
                 {
                     throw new ArgumentOutOfRangeException("Ppqn", value,
                         "Pulses per quarter note is smaller than 24.");
@@ -587,11 +586,11 @@ namespace Sanford.Multimedia.Midi
                 d.sizeOfProperty = Marshal.SizeOf(typeof(Property));
                 d.property = value;
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     int result = midiStreamProperty(Handle, ref d, MIDIPROP_SET | MIDIPROP_TIMEDIV);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         throw new OutputDeviceException(result);
                     }
@@ -608,7 +607,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(IsDisposed)
+                if (IsDisposed)
                 {
                     throw new ObjectDisposedException("OutputStream");
                 }
@@ -618,11 +617,11 @@ namespace Sanford.Multimedia.Midi
                 Property t = new Property();
                 t.sizeOfProperty = Marshal.SizeOf(typeof(Property));
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     int result = midiStreamProperty(Handle, ref t, MIDIPROP_GET | MIDIPROP_TEMPO);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         throw new OutputDeviceException(result);
                     }
@@ -634,11 +633,11 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(IsDisposed)
+                if (IsDisposed)
                 {
                     throw new ObjectDisposedException("OutputStream");
                 }
-                else if(value < 0)
+                else if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("Tempo", value,
                         "Tempo out of range.");
@@ -650,11 +649,11 @@ namespace Sanford.Multimedia.Midi
                 t.sizeOfProperty = Marshal.SizeOf(typeof(Property));
                 t.property = value;
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     int result = midiStreamProperty(Handle, ref t, MIDIPROP_SET | MIDIPROP_TEMPO);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         throw new OutputDeviceException(result);
                     }

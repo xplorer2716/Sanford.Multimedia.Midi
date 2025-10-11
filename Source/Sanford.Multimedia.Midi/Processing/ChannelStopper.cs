@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -77,10 +77,10 @@ namespace Sanford.Multimedia.Midi
 		/// </summary>
         public void Process(ChannelMessage message)
         {
-            switch(message.Command)
+            switch (message.Command)
             {
                 case ChannelCommand.NoteOn:
-                    if(message.Data2 > 0)
+                    if (message.Data2 > 0)
                     {
                         noteOnMessage[message.MidiChannel, message.Data1] = message;
                     }
@@ -95,10 +95,10 @@ namespace Sanford.Multimedia.Midi
                     break;
 
                 case ChannelCommand.Controller:
-                    switch(message.Data1)
+                    switch (message.Data1)
                     {
                         case (int)ControllerType.HoldPedal1:
-                            if(message.Data2 > 63)
+                            if (message.Data2 > 63)
                             {
                                 holdPedal1Message[message.MidiChannel] = true;
                             }
@@ -109,7 +109,7 @@ namespace Sanford.Multimedia.Midi
                             break;
 
                         case (int)ControllerType.HoldPedal2:
-                            if(message.Data2 > 63)
+                            if (message.Data2 > 63)
                             {
                                 holdPedal2Message[message.MidiChannel] = true;
                             }
@@ -120,7 +120,7 @@ namespace Sanford.Multimedia.Midi
                             break;
 
                         case (int)ControllerType.SustenutoPedal:
-                            if(message.Data2 > 63)
+                            if (message.Data2 > 63)
                             {
                                 sustenutoMessage[message.MidiChannel] = true;
                             }
@@ -141,11 +141,11 @@ namespace Sanford.Multimedia.Midi
         {
             ArrayList stoppedMessages = new ArrayList();
 
-            for(int c = 0; c <= ChannelMessage.MidiChannelMaxValue; c++)
+            for (int c = 0; c <= ChannelMessage.MidiChannelMaxValue; c++)
             {
-                for(int n = 0; n <= ShortMessage.DataMaxValue; n++)
+                for (int n = 0; n <= ShortMessage.DataMaxValue; n++)
                 {
-                    if(noteOnMessage[c, n] != null)
+                    if (noteOnMessage[c, n] != null)
                     {
                         builder.MidiChannel = c;
                         builder.Command = ChannelCommand.NoteOff;
@@ -158,7 +158,7 @@ namespace Sanford.Multimedia.Midi
                     }
                 }
 
-                if(holdPedal1Message[c])
+                if (holdPedal1Message[c])
                 {
                     builder.MidiChannel = c;
                     builder.Command = ChannelCommand.Controller;
@@ -170,7 +170,7 @@ namespace Sanford.Multimedia.Midi
                     holdPedal1Message[c] = false;
                 }
 
-                if(holdPedal2Message[c])
+                if (holdPedal2Message[c])
                 {
                     builder.MidiChannel = c;
                     builder.Command = ChannelCommand.Controller;
@@ -182,7 +182,7 @@ namespace Sanford.Multimedia.Midi
                     holdPedal2Message[c] = false;
                 }
 
-                if(sustenutoMessage[c])
+                if (sustenutoMessage[c])
                 {
                     builder.MidiChannel = c;
                     builder.Command = ChannelCommand.Controller;
@@ -203,9 +203,9 @@ namespace Sanford.Multimedia.Midi
 		/// </summary>
         public void Reset()
         {
-            for(int c = 0; c <= ChannelMessage.MidiChannelMaxValue; c++)
+            for (int c = 0; c <= ChannelMessage.MidiChannelMaxValue; c++)
             {
-                for(int n = 0; n <= ShortMessage.DataMaxValue; n++)
+                for (int n = 0; n <= ShortMessage.DataMaxValue; n++)
                 {
                     noteOnMessage[c, n] = null;
                 }
@@ -223,7 +223,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<StoppedEventArgs> handler = Stopped;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }

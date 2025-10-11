@@ -7,8 +7,8 @@ namespace Sanford.Multimedia.Midi
     /// </summary>
     public class OutputDeviceEventSink : IDisposable
     {
-        readonly OutputDevice FOutDevice;
-        readonly MidiEvents FEventSource;
+        private readonly OutputDevice FOutDevice;
+        private readonly MidiEvents FEventSource;
 
         /// <summary>
 		/// Gets the device ID and returns with a value of -1.
@@ -37,7 +37,6 @@ namespace Sanford.Multimedia.Midi
             FEventSource = eventSource;
 
             RegisterEvents();
-
         }
 
         private void RegisterEvents()
@@ -49,7 +48,6 @@ namespace Sanford.Multimedia.Midi
             FEventSource.SysExMessageReceived += EventSource_SysExMessageReceived;
             FEventSource.SysRealtimeMessageReceived += EventSource_SysRealtimeMessageReceived;
         }
-
 
         private void UnRegisterEvents()
         {
@@ -74,7 +72,6 @@ namespace Sanford.Multimedia.Midi
             if (sysExMessage != null)
                 FOutDevice.Send(sysExMessage);
         }
-
 
         private void EventSource_SysRealtimeMessageReceived(object sender, SysRealtimeMessageEventArgs e)
         {

@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,10 +33,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using Sanford.Multimedia;
 
 namespace Sanford.Multimedia.Midi.UI.Windows
 {
@@ -49,16 +47,16 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             // 17th, 33rd, 47th, code to be called upon boot: A private boolean named 'on' is given a value equal to false.
             private bool on = false;
 
-            // 18th, 34th, 48th code to be called upon boot: 
+            // 18th, 34th, 48th code to be called upon boot:
             private SolidBrush onBrush = new SolidBrush(Color.SkyBlue);
 
-            // 19th, 35th, 49th code to be called upon boot: 
+            // 19th, 35th, 49th code to be called upon boot:
             private SolidBrush offBrush = new SolidBrush(Color.White);
 
-            // 20th, 36th, 50th code to be called upon boot: 
+            // 20th, 36th, 50th code to be called upon boot:
             private int noteID = 60;
 
-            // 21st, 37th, 51st code to be called upon boot: 
+            // 21st, 37th, 51st code to be called upon boot:
             public PianoKey(PianoControl owner)
             {
                 this.owner = owner;
@@ -71,7 +69,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 #region Guard
 
                 // If the 'on' is set to true, this code will activate and return the value.
-                if(on)
+                if (on)
                 {
                     return;
                 }
@@ -92,7 +90,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 #region Guard
 
                 // If the piano key isn't 'on' and is set to false, this code will activate with a return value.
-                if(!on)
+                if (!on)
                 {
                     return;
                 }
@@ -110,7 +108,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             // This will remove and clear out the SolidBrush colors, and remove from RAM, and repeats until all have been removed.
             protected override void Dispose(bool disposing)
             {
-                if(disposing)
+                if (disposing)
                 {
                     onBrush.Dispose();
                     offBrush.Dispose();
@@ -123,7 +121,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             protected override void OnMouseEnter(EventArgs e)
             {
                 // This checks if the left mouse button is pressed while hovering over the key.
-                if(Control.MouseButtons == MouseButtons.Left)
+                if (Control.MouseButtons == MouseButtons.Left)
                 {
                     // This will activate when capture is set to false, to PressPianoKey() again.
                     PressPianoKey();
@@ -136,7 +134,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             // This code is used when the mouse cursor leaves one of the piano keys.
             protected override void OnMouseLeave(EventArgs e)
             {
-                if(on)
+                if (on)
                 {
                     // This code will activate when the left mouse button is released.
                     ReleasePianoKey();
@@ -151,7 +149,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 // PressPianoKey() will activate any sound assigned to the piano key (if any).
                 PressPianoKey();
 
-                if(!owner.Focused)
+                if (!owner.Focused)
                 {
                     owner.Focus();
                 }
@@ -171,7 +169,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             // This code is called when the mouse cursor moves over one of the piano keys while it hovers.
             protected override void OnMouseMove(MouseEventArgs e)
             {
-                if(e.X < 0 || e.X > Width || e.Y < 0 || e.Y > Height)
+                if (e.X < 0 || e.X > Width || e.Y < 0 || e.Y > Height)
                 {
                     // If the mouse cursor moves to another piano key while selecting one of the piano keys, this code will activate by asssigning capture value as false.
                     Capture = false;
@@ -184,7 +182,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             protected override void OnPaint(PaintEventArgs e)
             {
                 // If 'on' is activated for the piano key, it will activate this code.
-                if(on)
+                if (on)
                 {
                     // This draws a filled in skyblue rectangle.
                     e.Graphics.FillRectangle(onBrush, 0, 0, Size.Width, Size.Height);
@@ -217,10 +215,10 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 }
                 set
                 {
-                    // 30th, 45th, 59th code to be called upon boot: 
+                    // 30th, 45th, 59th code to be called upon boot:
                     onBrush.Color = value;
 
-                    if(on)
+                    if (on)
                     {
                         Invalidate();
                     }
@@ -235,10 +233,10 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 }
                 set
                 {
-                    // 42nd code to be called upon boot: 
+                    // 42nd code to be called upon boot:
                     offBrush.Color = value;
 
-                    if(!on)
+                    if (!on)
                     {
                         Invalidate();
                     }
@@ -249,14 +247,14 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             {
                 get
                 {
-                    // 26th, 56th code to be called upon boot: 
+                    // 26th, 56th code to be called upon boot:
                     return noteID;
                 }
                 set
                 {
                     #region Require
 
-                    // 23rd, 39th, 53rd code to be called upon boot: 
+                    // 23rd, 39th, 53rd code to be called upon boot:
                     if (value < 0 || value > ShortMessage.DataMaxValue)
                     {
                         throw new ArgumentOutOfRangeException("NoteID", noteID,
@@ -265,7 +263,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
 
                     #endregion
 
-                    // 24th, 40th, 54th code to be called upon boot: 
+                    // 24th, 40th, 54th code to be called upon boot:
                     noteID = value;
                 }
             }

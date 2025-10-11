@@ -80,7 +80,7 @@ namespace Sanford.Multimedia.Midi
                     context.Post(delegate (object dummy)
                             {
                                 handler(this, e);
-                            }, null); 
+                            }, null);
                 }
                 else
                 {
@@ -119,7 +119,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<ChannelMessageEventArgs> handler = ChannelMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {
@@ -142,7 +142,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysExMessageEventArgs> handler = SysExMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {
@@ -165,7 +165,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysCommonMessageEventArgs> handler = SysCommonMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {
@@ -188,7 +188,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysRealtimeMessageEventArgs> handler = SysRealtimeMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {
@@ -211,7 +211,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<InvalidShortMessageEventArgs> handler = InvalidShortMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {
@@ -234,7 +234,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<InvalidSysExMessageEventArgs> handler = InvalidSysExMessageReceived;
 
-            if(handler != null)
+            if (handler != null)
             {
                 if (PostEventsOnCreationContext)
                 {

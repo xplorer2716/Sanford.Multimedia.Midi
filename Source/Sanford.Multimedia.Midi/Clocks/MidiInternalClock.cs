@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,17 +32,16 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using Sanford.Multimedia.Timers;
+using System;
+using System.ComponentModel;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Generates clock events internally.
-	/// </summary>
-	public class MidiInternalClock : PpqnClock, IComponent
+    /// <summary>
+    /// Generates clock events internally.
+    /// </summary>
+    public class MidiInternalClock : PpqnClock, IComponent
     {
         #region MidiInternalClock Members
 
@@ -71,7 +70,7 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
 		public MidiInternalClock()
             : this(TimerCaps.Default.periodMin)
-        { 
+        {
         }
 
         /// <summary>
@@ -84,17 +83,17 @@ namespace Sanford.Multimedia.Midi
         {
             timer = TimerFactory.Create();
             timer.Period = timerPeriod;
-            timer.Tick += new EventHandler(HandleTick); 
+            timer.Tick += new EventHandler(HandleTick);
         }
 
         /// <summary>
-        /// Initializes a new instance of the MidiInternalClock class with the 
+        /// Initializes a new instance of the MidiInternalClock class with the
         /// specified IContainer.
         /// </summary>
         /// <param name="container">
         /// The IContainer to which the MidiInternalClock will add itself.
         /// </param>
-        public MidiInternalClock(IContainer container) : 
+        public MidiInternalClock(IContainer container) :
             this()
         {
             // Required for Windows.Forms Class Composition Designer support
@@ -112,7 +111,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("MidiInternalClock");
             }
@@ -121,7 +120,7 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(running)
+            if (running)
             {
                 return;
             }
@@ -138,8 +137,7 @@ namespace Sanford.Multimedia.Midi
             timer.Start();
 
             // Indicate that the clock is now running.
-            running = true;           
-            
+            running = true;
         }
 
         /// <summary>
@@ -149,7 +147,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("MidiInternalClock");
             }
@@ -158,7 +156,7 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(running)
+            if (running)
             {
                 return;
             }
@@ -172,7 +170,7 @@ namespace Sanford.Multimedia.Midi
             timer.Start();
 
             // Indicate that the clock is now running.
-            running = true;            
+            running = true;
         }
 
         /// <summary>
@@ -182,7 +180,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("MidiInternalClock");
             }
@@ -191,7 +189,7 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(!running)
+            if (!running)
             {
                 return;
             }
@@ -214,14 +212,14 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(ticks < 0)
+            if (ticks < 0)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
             #endregion
 
-            if(IsRunning)
+            if (IsRunning)
             {
                 Stop();
             }
@@ -238,7 +236,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(message == null)
+            if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
@@ -247,7 +245,7 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(message.MetaType != MetaType.Tempo)
+            if (message.MetaType != MetaType.Tempo)
             {
                 return;
             }
@@ -269,7 +267,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -284,13 +282,13 @@ namespace Sanford.Multimedia.Midi
         {
             int t = GenerateTicks();
 
-            for(int i = 0; i < t; i++)
+            for (int i = 0; i < t; i++)
             {
                 OnTick(EventArgs.Empty);
 
                 ticks++;
-            }            
-        }        
+            }
+        }
 
         #endregion
 
@@ -307,7 +305,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("MidiInternalClock");
                 }
@@ -320,7 +318,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("MidiInternalClock");
                 }
@@ -336,7 +334,7 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         public override int Ticks
         {
-            get 
+            get
             {
                 return ticks;
             }
@@ -379,20 +377,20 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
 
-            #endregion            
+            #endregion
 
-            if(running)
+            if (running)
             {
                 // Stop the multimedia timer.
                 timer.Stop();
-            }            
+            }
 
-            disposed = true;             
+            disposed = true;
 
             timer.Dispose();
 

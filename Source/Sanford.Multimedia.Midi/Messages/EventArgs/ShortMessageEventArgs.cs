@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Sanford.Multimedia.Midi
 {
     /// <summary>
@@ -9,7 +5,7 @@ namespace Sanford.Multimedia.Midi
     /// </summary>
     public class ShortMessageEventArgs : MidiEventArgs
     {
-        ShortMessage message;
+        private ShortMessage message;
 
         /// <summary>
 		/// A short message event that calculates the absolute ticks.

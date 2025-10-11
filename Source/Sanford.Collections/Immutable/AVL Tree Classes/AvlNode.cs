@@ -1,8 +1,8 @@
 /*
- * Created by: Leslie Sanford 
- * 
+ * Created by: Leslie Sanford
+ *
  * Last modified: 02/23/2005
- * 
+ *
  * Contact: jabberdabber@hotmail.com
  */
 
@@ -12,12 +12,12 @@ using System.Diagnostics;
 
 namespace Sanford.Collections.Immutable
 {
-	/// <summary>
-	/// Represents a node in an AVL tree.
-	/// </summary>
-	[ImmutableObject(true)]
-	internal class AvlNode : IAvlNode
-	{
+    /// <summary>
+    /// Represents a node in an AVL tree.
+    /// </summary>
+    [ImmutableObject(true)]
+    internal class AvlNode : IAvlNode
+    {
         #region AvlNode Members
 
         #region Class Fields
@@ -25,7 +25,7 @@ namespace Sanford.Collections.Immutable
         // For use as a null node.
         public static readonly NullAvlNode NullNode = new NullAvlNode();
 
-        #endregion
+        #endregion Class Fields
 
         #region Instance Fields
 
@@ -40,14 +40,15 @@ namespace Sanford.Collections.Immutable
 
         // Left and right children.
         private readonly IAvlNode leftChild;
+
         private readonly IAvlNode rightChild;
 
-        #endregion
+        #endregion Instance Fields
 
         #region Construction
 
         /// <summary>
-        /// Initializes a new instance of the AvlNode class with the specified 
+        /// Initializes a new instance of the AvlNode class with the specified
         /// data and left and right children.
         /// </summary>
         /// <param name="data">
@@ -60,7 +61,7 @@ namespace Sanford.Collections.Immutable
         /// The right child.
         /// </param>
 		public AvlNode(object data, IAvlNode leftChild, IAvlNode rightChild)
-		{
+        {
             // Preconditions.
             Debug.Assert(leftChild != null && rightChild != null);
 
@@ -70,36 +71,36 @@ namespace Sanford.Collections.Immutable
 
             count = 1 + leftChild.Count + rightChild.Count;
             height = 1 + Math.Max(leftChild.Height, rightChild.Height);
-		}
+        }
 
-        #endregion
+        #endregion Construction
 
         #region Methods
-        
+
         #region Rotation Methods
 
         // Left - left single rotation.
         private IAvlNode DoLLRotation(IAvlNode node)
         {
             /*
-             *  An LL rotation looks like the following:  
-             * 
-             *             A          B    
+             *  An LL rotation looks like the following:
+             *
+             *             A          B
              *            /          / \
              *           B    --->  C   A
              *          /
-             *         C 
+             *         C
              */
 
             // Create right child of the new root.
             IAvlNode a = new AvlNode(
-                node.Data, 
-                node.LeftChild.RightChild, 
+                node.Data,
+                node.LeftChild.RightChild,
                 node.RightChild);
 
             IAvlNode b = new AvlNode(
-                node.LeftChild.Data, 
-                node.LeftChild.LeftChild, 
+                node.LeftChild.Data,
+                node.LeftChild.LeftChild,
                 a);
 
             // Postconditions.
@@ -114,28 +115,28 @@ namespace Sanford.Collections.Immutable
         private IAvlNode DoLRRotation(IAvlNode node)
         {
             /*
-             *  An LR rotation looks like the following: 
-             * 
+             *  An LR rotation looks like the following:
+             *
              *       Perform an RR rotation at B:
-             *   
+             *
              *           A              A
              *          /              /
              *         B      --->    C
-             *          \            / 
+             *          \            /
              *           C          B
-             * 
+             *
              *       Perform an LL rotation at A:
-             *     
-             *             A          C    
+             *
+             *             A          C
              *            /          / \
              *           C    --->  B   A
              *          /
-             *         B 
+             *         B
              */
 
             IAvlNode a = new AvlNode(
-                node.Data, 
-                DoRRRotation(node.LeftChild), 
+                node.Data,
+                DoRRRotation(node.LeftChild),
                 node.RightChild);
 
             IAvlNode c = DoLLRotation(a);
@@ -150,26 +151,26 @@ namespace Sanford.Collections.Immutable
 
         // Right - right single rotation.
         private IAvlNode DoRRRotation(IAvlNode node)
-        { 
+        {
             /*
-             *  An RR rotation looks like the following:  
-             * 
-             *        A              B    
+             *  An RR rotation looks like the following:
+             *
+             *        A              B
              *         \            / \
              *          B    --->  A   C
              *           \
-             *            C 
+             *            C
              */
 
             // Create left child of the new root.
             IAvlNode a = new AvlNode(
-                node.Data, 
-                node.LeftChild, 
+                node.Data,
+                node.LeftChild,
                 node.RightChild.LeftChild);
 
             IAvlNode b = new AvlNode(
-                node.RightChild.Data, 
-                a, 
+                node.RightChild.Data,
+                a,
                 node.RightChild.RightChild);
 
             // Postconditions.
@@ -184,27 +185,27 @@ namespace Sanford.Collections.Immutable
         private IAvlNode DoRLRotation(IAvlNode node)
         {
             /*
-             *  An RL rotation looks like the following: 
-             * 
+             *  An RL rotation looks like the following:
+             *
              *       Perform an LL rotation at B:
-             *   
+             *
              *         A            A
-             *          \            \ 
+             *          \            \
              *           B    --->    C
-             *          /              \ 
+             *          /              \
              *         C                B
-             * 
+             *
              *       Perform an RR rotation at A:
-             *     
-             *         A              C    
+             *
+             *         A              C
              *          \            / \
              *           C    --->  A   B
              *            \
-             *             B 
+             *             B
              */
 
             IAvlNode a = new AvlNode(
-                node.Data, 
+                node.Data,
                 node.LeftChild,
                 DoLLRotation(node.RightChild));
 
@@ -213,16 +214,16 @@ namespace Sanford.Collections.Immutable
             // Postconditions.
             Debug.Assert(c.Data == node.RightChild.LeftChild.Data);
             Debug.Assert(c.LeftChild.Data == node.Data);
-            Debug.Assert(c.RightChild.Data == node.RightChild.Data);                
+            Debug.Assert(c.RightChild.Data == node.RightChild.Data);
 
             return c;
         }
 
-        #endregion
+        #endregion Rotation Methods
 
-        #endregion
+        #endregion Methods
 
-        #endregion
+        #endregion AvlNode Members
 
         #region IAvlNode Members
 
@@ -234,20 +235,20 @@ namespace Sanford.Collections.Immutable
         /// </returns>
         public IAvlNode Remove()
         {
-            IAvlNode result; 
+            IAvlNode result;
 
             /*
              * Deal with the three cases for removing a node from a binary tree.
              */
 
             // If the node has no right children.
-            if(this.RightChild == AvlNode.NullNode)
-            {  
+            if (this.RightChild == AvlNode.NullNode)
+            {
                 // The replacement node is the node's left child.
                 result = this.LeftChild;
             }
-                // Else if the node's right child has no left children.
-            else if(this.RightChild.LeftChild == AvlNode.NullNode)
+            // Else if the node's right child has no left children.
+            else if (this.RightChild.LeftChild == AvlNode.NullNode)
             {
                 // The replacement node is the node's right child.
                 result = new AvlNode(
@@ -255,12 +256,12 @@ namespace Sanford.Collections.Immutable
                     this.LeftChild,
                     this.RightChild.RightChild);
             }
-                // Else the node's right child has left children.
+            // Else the node's right child has left children.
             else
             {
                 /*
-                 * Go to the node's right child and descend as far left as 
-                 * possible. The node found at this point will replace the 
+                 * Go to the node's right child and descend as far left as
+                 * possible. The node found at this point will replace the
                  * node to be removed.
                  */
 
@@ -284,16 +285,16 @@ namespace Sanford.Collections.Immutable
             IAvlNode newNode;
 
             // If the bottom of the left tree has been found.
-            if(node.LeftChild == AvlNode.NullNode)
+            if (node.LeftChild == AvlNode.NullNode)
             {
                 // The replacement node is the node found at this point.
                 replacement = node;
 
-                // Get the node's right child. This will be needed as we 
+                // Get the node's right child. This will be needed as we
                 // ascend back up the tree.
                 newNode = node.RightChild;
             }
-                // Else the bottom of the left tree has not been found.
+            // Else the bottom of the left tree has not been found.
             else
             {
                 // Create new node and continue descending down the left tree.
@@ -302,7 +303,7 @@ namespace Sanford.Collections.Immutable
                     node.RightChild);
 
                 // If the node is out of balance.
-                if(!newNode.IsBalanced())
+                if (!newNode.IsBalanced())
                 {
                     // Rebalance the node.
                     newNode = newNode.Balance();
@@ -325,9 +326,9 @@ namespace Sanford.Collections.Immutable
         {
             IAvlNode result;
 
-            if(BalanceFactor < -1)
+            if (BalanceFactor < -1)
             {
-                if(leftChild.BalanceFactor < 0)
+                if (leftChild.BalanceFactor < 0)
                 {
                     result = DoLLRotation(this);
                 }
@@ -336,9 +337,9 @@ namespace Sanford.Collections.Immutable
                     result = DoLRRotation(this);
                 }
             }
-            else if(BalanceFactor > 1)
+            else if (BalanceFactor > 1)
             {
-                if(rightChild.BalanceFactor > 0)
+                if (rightChild.BalanceFactor > 0)
                 {
                     result = DoRRRotation(this);
                 }
@@ -346,7 +347,7 @@ namespace Sanford.Collections.Immutable
                 {
                     result = DoRLRotation(this);
                 }
-            } 
+            }
             else
             {
                 result = this;
@@ -358,7 +359,7 @@ namespace Sanford.Collections.Immutable
         }
 
         /// <summary>
-        /// Indicates whether or not the subtree the node represents is in 
+        /// Indicates whether or not the subtree the node represents is in
         /// balance.
         /// </summary>
         /// <returns>
@@ -435,6 +436,6 @@ namespace Sanford.Collections.Immutable
             }
         }
 
-        #endregion
+        #endregion IAvlNode Members
     }
 }

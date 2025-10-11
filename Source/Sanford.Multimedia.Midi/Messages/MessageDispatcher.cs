@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,7 +33,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 
 namespace Sanford.Multimedia.Midi
 {
@@ -89,14 +88,14 @@ namespace Sanford.Multimedia.Midi
             // The IMidiMessage to dispatch.
             var message = evt.MidiMessage;
 
-            if(message == null)
+            if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
 
             #endregion
 
-            switch(message.MessageType)
+            switch (message.MessageType)
             {
                 case MessageType.Channel:
                     OnChannelMessageDispatched(new ChannelMessageEventArgs((ChannelMessage)message, evt.AbsoluteTicks), track);
@@ -115,7 +114,7 @@ namespace Sanford.Multimedia.Midi
                     break;
 
                 case MessageType.SystemRealtime:
-                    switch(((SysRealtimeMessage)message).SysRealtimeType)
+                    switch (((SysRealtimeMessage)message).SysRealtimeType)
                     {
                         case SysRealtimeType.ActiveSense:
                             OnSysRealtimeMessageDispatched(SysRealtimeMessageEventArgs.ActiveSense, track);
@@ -157,7 +156,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<ChannelMessageEventArgs> handler = ChannelMessageDispatched;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(track, e);
             }
@@ -170,7 +169,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysExMessageEventArgs> handler = SysExMessageDispatched;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(track, e);
             }
@@ -183,7 +182,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysCommonMessageEventArgs> handler = SysCommonMessageDispatched;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(track, e);
             }
@@ -196,7 +195,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<SysRealtimeMessageEventArgs> handler = SysRealtimeMessageDispatched;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(track, e);
             }
@@ -209,7 +208,7 @@ namespace Sanford.Multimedia.Midi
         {
             EventHandler<MetaMessageEventArgs> handler = MetaMessageDispatched;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(track, e);
             }

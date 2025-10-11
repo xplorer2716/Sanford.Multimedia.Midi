@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -86,7 +86,7 @@ namespace Sanford.Multimedia.Timers
     /// <summary>
     /// Represents the Windows multimedia timer.
     /// </summary>
-    sealed class Timer : ITimer
+    internal sealed class Timer : ITimer
     {
         #region Timer Members
 
@@ -132,7 +132,7 @@ namespace Sanford.Multimedia.Timers
         private volatile int period;
 
         // Timer resolution in milliseconds.
-        private volatile int resolution;        
+        private volatile int resolution;
 
         // Called by Windows when a timer periodic event occurs.
         private TimeProc timeProcPeriodic;
@@ -214,7 +214,7 @@ namespace Sanford.Multimedia.Timers
 
         ~Timer()
         {
-            if(IsRunning)
+            if (IsRunning)
             {
                 // Stop and destroy timer.
                 timeKillEvent(timerID);
@@ -252,7 +252,7 @@ namespace Sanford.Multimedia.Timers
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Timer");
             }
@@ -261,7 +261,7 @@ namespace Sanford.Multimedia.Timers
 
             #region Guard
 
-            if(IsRunning)
+            if (IsRunning)
             {
                 return;
             }
@@ -269,7 +269,7 @@ namespace Sanford.Multimedia.Timers
             #endregion
 
             // If the periodic event callback should be used.
-            if(Mode == TimerMode.Periodic)
+            if (Mode == TimerMode.Periodic)
             {
                 // Create and start timer.
                 timerID = timeSetEvent(Period, Resolution, timeProcPeriodic, IntPtr.Zero, (int)Mode);
@@ -282,11 +282,11 @@ namespace Sanford.Multimedia.Timers
             }
 
             // If the timer was created successfully.
-            if(timerID != 0)
+            if (timerID != 0)
             {
                 running = true;
 
-                if(SynchronizingObject != null && SynchronizingObject.InvokeRequired)
+                if (SynchronizingObject != null && SynchronizingObject.InvokeRequired)
                 {
                     SynchronizingObject.BeginInvoke(
                         new EventRaiser(OnStarted),
@@ -295,7 +295,7 @@ namespace Sanford.Multimedia.Timers
                 else
                 {
                     OnStarted(EventArgs.Empty);
-                }                
+                }
             }
             else
             {
@@ -313,7 +313,7 @@ namespace Sanford.Multimedia.Timers
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("Timer");
             }
@@ -322,7 +322,7 @@ namespace Sanford.Multimedia.Timers
 
             #region Guard
 
-            if(!running)
+            if (!running)
             {
                 return;
             }
@@ -336,7 +336,7 @@ namespace Sanford.Multimedia.Timers
 
             running = false;
 
-            if(SynchronizingObject != null && SynchronizingObject.InvokeRequired)
+            if (SynchronizingObject != null && SynchronizingObject.InvokeRequired)
             {
                 SynchronizingObject.BeginInvoke(
                     new EventRaiser(OnStopped),
@@ -346,7 +346,7 @@ namespace Sanford.Multimedia.Timers
             {
                 OnStopped(EventArgs.Empty);
             }
-        }        
+        }
 
         #region Callbacks
 
@@ -356,14 +356,14 @@ namespace Sanford.Multimedia.Timers
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
 
             #endregion
 
-            if(synchronizingObject != null)
+            if (synchronizingObject != null)
             {
                 synchronizingObject.BeginInvoke(tickRaiser, new object[] { EventArgs.Empty });
             }
@@ -379,14 +379,14 @@ namespace Sanford.Multimedia.Timers
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
 
             #endregion
 
-            if(synchronizingObject != null)
+            if (synchronizingObject != null)
             {
                 synchronizingObject.BeginInvoke(tickRaiser, new object[] { EventArgs.Empty });
                 Stop();
@@ -407,7 +407,7 @@ namespace Sanford.Multimedia.Timers
         {
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -418,7 +418,7 @@ namespace Sanford.Multimedia.Timers
         {
             EventHandler handler = Started;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -429,7 +429,7 @@ namespace Sanford.Multimedia.Timers
         {
             EventHandler handler = Stopped;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
@@ -440,13 +440,13 @@ namespace Sanford.Multimedia.Timers
         {
             EventHandler handler = Tick;
 
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, e);
             }
         }
 
-        #endregion        
+        #endregion
 
         #endregion
 
@@ -461,7 +461,7 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
@@ -474,7 +474,7 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
@@ -490,14 +490,14 @@ namespace Sanford.Multimedia.Timers
         /// </summary>
         /// <exception cref="ObjectDisposedException">
         /// If the timer has already been disposed.
-        /// </exception>   
+        /// </exception>
         public int Period
         {
             get
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
@@ -510,11 +510,11 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
-                else if(value < Capabilities.periodMin || value > Capabilities.periodMax)
+                else if (value < Capabilities.periodMin || value > Capabilities.periodMax)
                 {
                     throw new ArgumentOutOfRangeException("Period", value,
                         "Multimedia Timer period out of range.");
@@ -524,7 +524,7 @@ namespace Sanford.Multimedia.Timers
 
                 period = value;
 
-                if(IsRunning)
+                if (IsRunning)
                 {
                     Stop();
                     Start();
@@ -537,12 +537,12 @@ namespace Sanford.Multimedia.Timers
         /// </summary>
         /// <exception cref="ObjectDisposedException">
         /// If the timer has already been disposed.
-        /// </exception>        
+        /// </exception>
         /// <remarks>
-        /// The resolution is in milliseconds. The resolution increases 
-        /// with smaller values; a resolution of 0 indicates periodic events 
-        /// should occur with the greatest possible accuracy. To reduce system 
-        /// overhead, however, you should use the maximum value appropriate 
+        /// The resolution is in milliseconds. The resolution increases
+        /// with smaller values; a resolution of 0 indicates periodic events
+        /// should occur with the greatest possible accuracy. To reduce system
+        /// overhead, however, you should use the maximum value appropriate
         /// for your application.
         /// </remarks>
         public int Resolution
@@ -551,7 +551,7 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
@@ -564,11 +564,11 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
-                else if(value < 0)
+                else if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException("Resolution", value,
                         "Multimedia timer resolution out of range.");
@@ -578,7 +578,7 @@ namespace Sanford.Multimedia.Timers
 
                 resolution = value;
 
-                if(IsRunning)
+                if (IsRunning)
                 {
                     Stop();
                     Start();
@@ -598,7 +598,7 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
@@ -611,16 +611,16 @@ namespace Sanford.Multimedia.Timers
             {
                 #region Require
 
-                if(disposed)
+                if (disposed)
                 {
                     throw new ObjectDisposedException("Timer");
                 }
 
                 #endregion
-                
+
                 mode = value;
 
-                if(IsRunning)
+                if (IsRunning)
                 {
                     Stop();
                     Start();
@@ -681,25 +681,25 @@ namespace Sanford.Multimedia.Timers
         {
             #region Guard
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
 
-            #endregion               
+            #endregion
 
             disposed = true;
 
-            if(running)
+            if (running)
             {
                 // Stop and destroy timer.
                 timeKillEvent(timerID);
-            }                      
+            }
 
             OnDisposed(EventArgs.Empty);
         }
 
-        #endregion       
+        #endregion
     }
 
     /// <summary>
@@ -711,7 +711,7 @@ namespace Sanford.Multimedia.Timers
         /// Initializes a new instance of the TimerStartException class.
         /// </summary>
         /// <param name="message">
-        /// The error message that explains the reason for the exception. 
+        /// The error message that explains the reason for the exception.
         /// </param>
         public TimerStartException(string message) : base(message)
         {

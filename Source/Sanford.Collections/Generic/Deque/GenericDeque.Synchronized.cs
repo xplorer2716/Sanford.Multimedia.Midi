@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 namespace Sanford.Collections.Generic
 {
-	public partial class Deque<T>
-	{
+    public partial class Deque<T>
+    {
         #region SynchronizedDeque Class
 
         // Implements a synchronization wrapper around a deque.
@@ -22,7 +22,7 @@ namespace Sanford.Collections.Generic
             // The object to lock on.
             private object root;
 
-            #endregion
+            #endregion Fields
 
             #region Construction
 
@@ -30,24 +30,24 @@ namespace Sanford.Collections.Generic
             {
                 #region Require
 
-                if(deque == null)
+                if (deque == null)
                 {
                     throw new ArgumentNullException("deque");
                 }
 
-                #endregion
+                #endregion Require
 
                 this.deque = deque;
                 this.root = deque.SyncRoot;
             }
 
-            #endregion
+            #endregion Construction
 
             #region Methods
 
             public override void Clear()
             {
-                lock(root)
+                lock (root)
                 {
                     deque.Clear();
                 }
@@ -55,7 +55,7 @@ namespace Sanford.Collections.Generic
 
             public override bool Contains(T item)
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.Contains(item);
                 }
@@ -63,7 +63,7 @@ namespace Sanford.Collections.Generic
 
             public override void PushFront(T item)
             {
-                lock(root)
+                lock (root)
                 {
                     deque.PushFront(item);
                 }
@@ -71,7 +71,7 @@ namespace Sanford.Collections.Generic
 
             public override void PushBack(T item)
             {
-                lock(root)
+                lock (root)
                 {
                     deque.PushBack(item);
                 }
@@ -79,7 +79,7 @@ namespace Sanford.Collections.Generic
 
             public override T PopFront()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.PopFront();
                 }
@@ -87,7 +87,7 @@ namespace Sanford.Collections.Generic
 
             public override T PopBack()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.PopBack();
                 }
@@ -95,7 +95,7 @@ namespace Sanford.Collections.Generic
 
             public override T PeekFront()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.PeekFront();
                 }
@@ -103,7 +103,7 @@ namespace Sanford.Collections.Generic
 
             public override T PeekBack()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.PeekBack();
                 }
@@ -111,7 +111,7 @@ namespace Sanford.Collections.Generic
 
             public override T[] ToArray()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.ToArray();
                 }
@@ -119,7 +119,7 @@ namespace Sanford.Collections.Generic
 
             public override object Clone()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.Clone();
                 }
@@ -127,7 +127,7 @@ namespace Sanford.Collections.Generic
 
             public override void CopyTo(Array array, int index)
             {
-                lock(root)
+                lock (root)
                 {
                     deque.CopyTo(array, index);
                 }
@@ -135,7 +135,7 @@ namespace Sanford.Collections.Generic
 
             public override IEnumerator<T> GetEnumerator()
             {
-                lock(root)
+                lock (root)
                 {
                     return deque.GetEnumerator();
                 }
@@ -149,13 +149,13 @@ namespace Sanford.Collections.Generic
             /// </returns>
             IEnumerator IEnumerable.GetEnumerator()
             {
-                lock(root)
+                lock (root)
                 {
                     return ((IEnumerable)deque).GetEnumerator();
                 }
             }
 
-            #endregion
+            #endregion Methods
 
             #region Properties
 
@@ -163,7 +163,7 @@ namespace Sanford.Collections.Generic
             {
                 get
                 {
-                    lock(root)
+                    lock (root)
                     {
                         return deque.Count;
                     }
@@ -178,11 +178,11 @@ namespace Sanford.Collections.Generic
                 }
             }
 
-            #endregion
+            #endregion Properties
 
-            #endregion
+            #endregion SynchronziedDeque Members
         }
 
-        #endregion	
-	}
+        #endregion SynchronizedDeque Class
+    }
 }

@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,10 +33,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Sanford.Multimedia.Midi.UI.Windows
@@ -62,7 +58,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
 
         private void lowNoteIDNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if(lowNoteIDNumericUpDown.Value > highNoteIDNumericUpDown.Value)
+            if (lowNoteIDNumericUpDown.Value > highNoteIDNumericUpDown.Value)
             {
                 highNoteIDNumericUpDown.Value = lowNoteIDNumericUpDown.Value;
             }
@@ -70,7 +66,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
 
         private void highNoteIDNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if(highNoteIDNumericUpDown.Value < lowNoteIDNumericUpDown.Value)
+            if (highNoteIDNumericUpDown.Value < lowNoteIDNumericUpDown.Value)
             {
                 lowNoteIDNumericUpDown.Value = highNoteIDNumericUpDown.Value;
             }
@@ -98,7 +94,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             {
                 #region Require
 
-                if(value < 0 || value > ShortMessage.DataMaxValue)
+                if (value < 0 || value > ShortMessage.DataMaxValue)
                 {
                     throw new ArgumentOutOfRangeException("LowNoteID", value,
                         "Low note ID out of range.");
@@ -108,13 +104,13 @@ namespace Sanford.Multimedia.Midi.UI.Windows
 
                 lowNoteID = value;
 
-                lowNoteIDNumericUpDown.Value = value;   
+                lowNoteIDNumericUpDown.Value = value;
 
-                if(lowNoteID > highNoteID)
+                if (lowNoteID > highNoteID)
                 {
                     highNoteID = lowNoteID;
                     highNoteIDNumericUpDown.Value = highNoteID;
-                }                             
+                }
             }
         }
 
@@ -128,7 +124,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             {
                 #region Require
 
-                if(value < 0 || value > ShortMessage.DataMaxValue)
+                if (value < 0 || value > ShortMessage.DataMaxValue)
                 {
                     throw new ArgumentOutOfRangeException("HighNoteID", value,
                         "High note ID out of range.");
@@ -140,7 +136,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
 
                 highNoteIDNumericUpDown.Value = value;
 
-                if(highNoteID < lowNoteID)
+                if (highNoteID < lowNoteID)
                 {
                     lowNoteID = highNoteID;
                     lowNoteIDNumericUpDown.Value = highNoteID;

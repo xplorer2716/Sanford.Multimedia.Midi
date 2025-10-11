@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -40,7 +40,7 @@ namespace Sanford.Multimedia.Midi
     /// Provides easy to use functionality for time signature MetaMessages.
     /// </summary>
 	public class TimeSignatureBuilder : IMessageBuilder
-	{
+    {
         #region TimeSignature Members
 
         #region Constants
@@ -87,7 +87,7 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the TimeSignatureBuilder class with the 
+        /// Initializes a new instance of the TimeSignatureBuilder class with the
         /// specified MetaMessage.
         /// </summary>
         /// <param name="message">
@@ -97,13 +97,13 @@ namespace Sanford.Multimedia.Midi
         /// If the specified MetaMessage is not a time signature type.
         /// </exception>
         /// <remarks>
-        /// The TimeSignatureBuilder uses the specified MetaMessage to 
+        /// The TimeSignatureBuilder uses the specified MetaMessage to
         /// initialize its property values.
         /// </remarks>
 		public TimeSignatureBuilder(MetaMessage message)
         {
-            Initialize(message);            
-		}
+            Initialize(message);
+        }
 
         #endregion
 
@@ -113,7 +113,7 @@ namespace Sanford.Multimedia.Midi
         /// Initializes the TimeSignatureBuilder with the specified MetaMessage.
         /// </summary>
         /// <param name="message">
-        /// The MetaMessage to use for initializing the TimeSignatureBuilder. 
+        /// The MetaMessage to use for initializing the TimeSignatureBuilder.
         /// </param>
         /// <exception cref="ArgumentException">
         /// If the specified MetaMessage is not a time signature type.
@@ -122,7 +122,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(message.MetaType != MetaType.TimeSignature)
+            if (message.MetaType != MetaType.TimeSignature)
             {
                 throw new ArgumentException("Wrong meta event type.", "message");
             }
@@ -152,7 +152,7 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 1)
+                if (value < 1)
                 {
                     throw new ArgumentOutOfRangeException("Numerator", value,
                         "Numerator out of range.");
@@ -170,7 +170,7 @@ namespace Sanford.Multimedia.Midi
         /// Gets or sets the denominator.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// Denominator is set to a value less than 2. 
+        /// Denominator is set to a value less than 2.
         /// </exception>
         /// <exception cref="ArgumentException">
         /// Denominator is set to a value that is not a power of 2.
@@ -185,11 +185,11 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value < 2 || value > 32)
+                if (value < 2 || value > 32)
                 {
                     throw new ArgumentOutOfRangeException("Denominator must be between 2 and 32.");
                 }
-                else if((value & (value - 1)) != 0)
+                else if ((value & (value - 1)) != 0)
                 {
                     throw new ArgumentException("Denominator must be a power of 2.");
                 }
@@ -265,7 +265,7 @@ namespace Sanford.Multimedia.Midi
         {
             // If any of the properties have changed since the last time the
             // message was built.
-            if(changed)
+            if (changed)
             {
                 result = new MetaMessage(MetaType.TimeSignature, data);
                 changed = false;

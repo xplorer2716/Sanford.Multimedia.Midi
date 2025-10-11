@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,7 +33,6 @@
 #endregion
 
 using System;
-using Sanford.Multimedia;
 
 namespace Sanford.Multimedia.Midi
 {
@@ -54,11 +53,11 @@ namespace Sanford.Multimedia.Midi
         }
 
         /// <summary>
-        /// Initializes a new instance of the KeySignatureBuilder class with 
+        /// Initializes a new instance of the KeySignatureBuilder class with
         /// the specified key signature MetaMessage.
         /// </summary>
         /// <param name="message">
-        /// The key signature MetaMessage to use for initializing the 
+        /// The key signature MetaMessage to use for initializing the
         /// KeySignatureBuilder class.
         /// </param>
         public KeySignatureBuilder(MetaMessage message)
@@ -70,18 +69,18 @@ namespace Sanford.Multimedia.Midi
         /// Initializes the KeySignatureBuilder with the specified MetaMessage.
         /// </summary>
         /// <param name="message">
-        /// The key signature MetaMessage to use for initializing the 
+        /// The key signature MetaMessage to use for initializing the
         /// KeySignatureBuilder.
         /// </param>
         public void Initialize(MetaMessage message)
         {
             #region Require
 
-            if(message == null)
+            if (message == null)
             {
                 throw new ArgumentNullException("message");
             }
-            else if(message.MetaType != MetaType.KeySignature)
+            else if (message.MetaType != MetaType.KeySignature)
             {
                 throw new ArgumentException("Wrong meta event type.", "messaege");
             }
@@ -91,9 +90,9 @@ namespace Sanford.Multimedia.Midi
             sbyte b = (sbyte)message[0];
 
             // If the key is major.
-            if(message[1] == 0)
+            if (message[1] == 0)
             {
-                switch(b)
+                switch (b)
                 {
                     case -7:
                         key = Key.CFlatMajor;
@@ -155,12 +154,11 @@ namespace Sanford.Multimedia.Midi
                         key = Key.CSharpMajor;
                         break;
                 }
-
             }
             // Else the key is minor.
             else
             {
-                switch(b)
+                switch (b)
                 {
                     case -7:
                         key = Key.AFlatMinor;
@@ -259,10 +257,10 @@ namespace Sanford.Multimedia.Midi
         public void Build()
         {
             byte[] data = new byte[MetaMessage.KeySigLength];
-            
+
             unchecked
             {
-                switch(Key)
+                switch (Key)
                 {
                     case Key.CFlatMajor:
                         data[0] = (byte)-7;

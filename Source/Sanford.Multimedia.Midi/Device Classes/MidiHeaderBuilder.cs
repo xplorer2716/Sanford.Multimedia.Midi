@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2005 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -38,11 +38,11 @@ using System.Runtime.InteropServices;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Builds a pointer to a MidiHeader structure.
-	/// </summary>
-	internal class MidiHeaderBuilder
-	{
+    /// <summary>
+    /// Builds a pointer to a MidiHeader structure.
+    /// </summary>
+    internal class MidiHeaderBuilder
+    {
         // The length of the system exclusive buffer.
         private int bufferLength;
 
@@ -59,9 +59,9 @@ namespace Sanford.Multimedia.Midi
         /// Initializes a new instance of the MidiHeaderBuilder.
         /// </summary>
 		public MidiHeaderBuilder()
-		{
+        {
             BufferLength = 1;
-		}
+        }
 
         #region Methods
 
@@ -79,7 +79,7 @@ namespace Sanford.Multimedia.Midi
             header.flags = 0;
 
             // Write data to the MidiHeader.
-            for(int i = 0; i < BufferLength; i++)
+            for (int i = 0; i < BufferLength; i++)
             {
                 Marshal.WriteByte(header.data, i, data[i]);
             }
@@ -88,7 +88,7 @@ namespace Sanford.Multimedia.Midi
             {
                 result = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(MidiHeader)));
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Marshal.FreeHGlobal(header.data);
 
@@ -99,7 +99,7 @@ namespace Sanford.Multimedia.Midi
             {
                 Marshal.StructureToPtr(header, result, false);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 Marshal.FreeHGlobal(header.data);
                 Marshal.FreeHGlobal(result);
@@ -119,12 +119,12 @@ namespace Sanford.Multimedia.Midi
         public void InitializeBuffer(SysExMessage message)
         {
             // If this is a start system exclusive message.
-            if(message.SysExType == SysExType.Start)
+            if (message.SysExType == SysExType.Start)
             {
                 BufferLength = message.Length;
 
                 // Copy entire message.
-                for(int i = 0; i < BufferLength; i++)
+                for (int i = 0; i < BufferLength; i++)
                 {
                     data[i] = message[i];
                 }
@@ -135,7 +135,7 @@ namespace Sanford.Multimedia.Midi
                 BufferLength = message.Length - 1;
 
                 // Copy all but the first byte of message.
-                for(int i = 0; i < BufferLength; i++)
+                for (int i = 0; i < BufferLength; i++)
                 {
                     data[i] = message[i + 1];
                 }
@@ -146,11 +146,11 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(events == null)
+            if (events == null)
             {
                 throw new ArgumentNullException("events");
             }
-            else if(events.Count % 4 != 0)
+            else if (events.Count % 4 != 0)
             {
                 throw new ArgumentException("Stream events not word aligned.");
             }
@@ -159,7 +159,7 @@ namespace Sanford.Multimedia.Midi
 
             #region Guard
 
-            if(events.Count == 0)
+            if (events.Count == 0)
             {
                 return;
             }
@@ -178,7 +178,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(!built)
+            if (!built)
             {
                 throw new InvalidOperationException("Cannot destroy MidiHeader");
             }
@@ -219,9 +219,9 @@ namespace Sanford.Multimedia.Midi
             {
                 #region Require
 
-                if(value <= 0)
+                if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException("BufferLength", value, 
+                    throw new ArgumentOutOfRangeException("BufferLength", value,
                         "MIDI header buffer length out of range.");
                 }
 
@@ -244,5 +244,5 @@ namespace Sanford.Multimedia.Midi
         }
 
         #endregion
-	}
+    }
 }

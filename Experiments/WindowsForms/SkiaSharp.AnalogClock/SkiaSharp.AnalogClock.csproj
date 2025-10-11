@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GdkSharp" Version="3.24.24.34" />
-    <PackageReference Include="GtkSharp" Version="3.24.24.34" />
-    <PackageReference Include="SkiaSharp" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.3" />
-    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="2.80.3" />
+    <PackageReference Include="GdkSharp" Version="3.24.24.95" />
+    <PackageReference Include="GtkSharp" Version="3.24.24.95" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" />
+    <PackageReference Include="SkiaSharp.Views.Desktop.Common" Version="3.119.1" />
   </ItemGroup>
 
 </Project>

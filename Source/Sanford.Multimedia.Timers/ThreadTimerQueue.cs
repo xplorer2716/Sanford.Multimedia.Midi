@@ -1,23 +1,23 @@
 ﻿#region License
 
 /* Copyright (c) 2015 Andreas Grimme
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -26,7 +26,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading;
 
 namespace Sanford.Multimedia.Timers
@@ -34,11 +33,11 @@ namespace Sanford.Multimedia.Timers
     /// <summary>
     /// Queues and executes timer events in an internal worker thread.
     /// </summary>
-    class ThreadTimerQueue
+    internal class ThreadTimerQueue
     {
-        Stopwatch watch = Stopwatch.StartNew();
-        Thread loop;
-        List<Tick> tickQueue = new List<Tick>();
+        private Stopwatch watch = Stopwatch.StartNew();
+        private Thread loop;
+        private List<Tick> tickQueue = new List<Tick>();
 
         public static ThreadTimerQueue Instance
         {
@@ -49,10 +48,10 @@ namespace Sanford.Multimedia.Timers
                     instance = new ThreadTimerQueue();
                 }
                 return instance;
-
             }
         }
-        static ThreadTimerQueue instance;
+
+        private static ThreadTimerQueue instance;
 
         private ThreadTimerQueue()
         {
@@ -99,7 +98,7 @@ namespace Sanford.Multimedia.Timers
             }
         }
 
-        class Tick : IComparable
+        private class Tick : IComparable
         {
             public ThreadTimer Timer;
             public TimeSpan Time;
@@ -115,7 +114,7 @@ namespace Sanford.Multimedia.Timers
             }
         }
 
-        static TimeSpan Min(TimeSpan x0, TimeSpan x1)
+        private static TimeSpan Min(TimeSpan x0, TimeSpan x1)
         {
             if (x0 > x1)
             {

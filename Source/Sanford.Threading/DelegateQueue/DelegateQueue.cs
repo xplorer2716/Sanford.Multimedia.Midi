@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,12 +32,11 @@
 
 #endregion
 
+using Sanford.Collections.Generic;
 using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading;
-using Sanford.Collections.Generic;
 
 namespace Sanford.Threading
 {
@@ -66,7 +65,7 @@ namespace Sanford.Threading
         private volatile bool disposed = false;
 
         // Thread ID counter for all DelegateQueues.
-        private volatile static uint threadID = 0;
+        private static volatile uint threadID = 0;
 
         private ISite site = null;
 
@@ -75,7 +74,7 @@ namespace Sanford.Threading
         #region Events
 
         /// <summary>
-        /// Occurs after a method has been invoked as a result of a call to 
+        /// Occurs after a method has been invoked as a result of a call to
         /// the BeginInvoke or BeginInvokePriority methods.
         /// </summary>
         public event EventHandler<InvokeCompletedEventArgs> InvokeCompleted;
@@ -97,7 +96,7 @@ namespace Sanford.Threading
         {
             InitializeDelegateQueue();
 
-            if(SynchronizationContext.Current == null)
+            if (SynchronizationContext.Current == null)
             {
                 context = new SynchronizationContext();
             }
@@ -135,7 +134,7 @@ namespace Sanford.Threading
             // Create thread for processing delegates.
             delegateThread = new Thread(DelegateProcedure);
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 // Increment to next thread ID.
                 threadID++;
@@ -162,9 +161,9 @@ namespace Sanford.Threading
 		/// </summary>
         protected virtual void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
-                lock(lockObject)
+                lock (lockObject)
                 {
                     disposed = true;
 
@@ -179,29 +178,29 @@ namespace Sanford.Threading
         /// Executes the delegate on the main thread that this object executes on.
         /// </summary>
         /// <param name="method">
-        /// A Delegate to a method that takes parameters of the same number and 
-        /// type that are contained in args. 
+        /// A Delegate to a method that takes parameters of the same number and
+        /// type that are contained in args.
         /// </param>
         /// <param name="args">
-        /// An array of type Object to pass as arguments to the given method. 
+        /// An array of type Object to pass as arguments to the given method.
         /// </param>
         /// <returns>
-        /// An IAsyncResult interface that represents the asynchronous operation 
+        /// An IAsyncResult interface that represents the asynchronous operation
         /// started by calling this method.
         /// </returns>
         /// <remarks>
         /// The delegate is placed at the beginning of the queue. Its invocation
-        /// takes priority over delegates already in the queue. 
+        /// takes priority over delegates already in the queue.
         /// </remarks>
         public IAsyncResult BeginInvokePriority(Delegate method, params object[] args)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(method == null)
+            else if (method == null)
             {
                 throw new ArgumentNullException();
             }
@@ -212,11 +211,11 @@ namespace Sanford.Threading
 
             // If BeginInvokePriority was called from a different thread than the one
             // in which the DelegateQueue is running.
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 result = new DelegateQueueAsyncResult(this, method, args, false, NotificationType.BeginInvokeCompleted);
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     // Put the method at the front of the queue.
                     delegateDeque.PushFront(result);
@@ -224,16 +223,16 @@ namespace Sanford.Threading
                     Monitor.Pulse(lockObject);
                 }
             }
-            // Else BeginInvokePriority was called from the same thread in which the 
+            // Else BeginInvokePriority was called from the same thread in which the
             // DelegateQueue is running.
             else
             {
                 result = new DelegateQueueAsyncResult(this, method, args, true, NotificationType.None);
 
-                // The method is invoked here instead of placing it in the 
-                // queue. The reason for this is that if EndInvoke is called 
+                // The method is invoked here instead of placing it in the
+                // queue. The reason for this is that if EndInvoke is called
                 // from the same thread in which the DelegateQueue is running and
-                // the method has not been invoked, deadlock will occur. 
+                // the method has not been invoked, deadlock will occur.
                 result.Invoke();
             }
 
@@ -244,24 +243,24 @@ namespace Sanford.Threading
         /// Executes the delegate on the main thread that this object executes on.
         /// </summary>
         /// <param name="method">
-        /// A Delegate to a method that takes parameters of the same number and 
-        /// type that are contained in args. 
+        /// A Delegate to a method that takes parameters of the same number and
+        /// type that are contained in args.
         /// </param>
         /// <param name="args">
-        /// An array of type Object to pass as arguments to the given method. 
+        /// An array of type Object to pass as arguments to the given method.
         /// </param>
         /// <returns>
-        /// An IAsyncResult interface that represents the asynchronous operation 
+        /// An IAsyncResult interface that represents the asynchronous operation
         /// started by calling this method.
         /// </returns>
         /// <remarks>
         /// <para>
         /// The delegate is placed at the beginning of the queue. Its invocation
-        /// takes priority over delegates already in the queue. 
+        /// takes priority over delegates already in the queue.
         /// </para>
         /// <para>
-        /// Unlike BeginInvoke, this method operates synchronously, that is, it 
-        /// waits until the process completes before returning. Exceptions raised 
+        /// Unlike BeginInvoke, this method operates synchronously, that is, it
+        /// waits until the process completes before returning. Exceptions raised
         /// during the call are propagated back to the caller.
         /// </para>
         /// </remarks>
@@ -269,11 +268,11 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(method == null)
+            else if (method == null)
             {
                 throw new ArgumentNullException();
             }
@@ -284,11 +283,11 @@ namespace Sanford.Threading
 
             // If InvokePriority was called from a different thread than the one
             // in which the DelegateQueue is running.
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 DelegateQueueAsyncResult result = new DelegateQueueAsyncResult(this, method, args, false, NotificationType.None);
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     // Put the method at the back of the queue.
                     delegateDeque.PushFront(result);
@@ -299,7 +298,7 @@ namespace Sanford.Threading
                 // Wait for the result of the method invocation.
                 returnValue = EndInvoke(result);
             }
-            // Else InvokePriority was called from the same thread in which the 
+            // Else InvokePriority was called from the same thread in which the
             // DelegateQueue is running.
             else
             {
@@ -317,28 +316,28 @@ namespace Sanford.Threading
         /// An optional asynchronous callback, to be called when the method is invoked.
         /// </param>
         /// <param name="state">
-        /// A user-provided object that distinguishes this particular asynchronous invoke request from other requests. 
+        /// A user-provided object that distinguishes this particular asynchronous invoke request from other requests.
         /// </param>
         /// <param name="method">
-        /// A Delegate to a method that takes parameters of the same number and 
-        /// type that are contained in args. 
+        /// A Delegate to a method that takes parameters of the same number and
+        /// type that are contained in args.
         /// </param>
         /// <param name="args">
-        /// An array of type Object to pass as arguments to the given method. 
+        /// An array of type Object to pass as arguments to the given method.
         /// </param>
         /// <returns>
-        /// An IAsyncResult interface that represents the asynchronous operation 
+        /// An IAsyncResult interface that represents the asynchronous operation
         /// started by calling this method.
         /// </returns>
         public IAsyncResult BeginInvoke(AsyncCallback callback, object state, Delegate method, params object[] args)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(method == null)
+            else if (method == null)
             {
                 throw new ArgumentNullException();
             }
@@ -347,11 +346,11 @@ namespace Sanford.Threading
 
             DelegateQueueAsyncResult result;
 
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 result = new DelegateQueueAsyncResult(this, callback, state, method, args, false, NotificationType.BeginInvokeCompleted);
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     delegateDeque.PushBack(result);
 
@@ -369,7 +368,7 @@ namespace Sanford.Threading
         }
 
         /// <summary>
-        /// Dispatches an asynchronous message to this synchronization context. 
+        /// Dispatches an asynchronous message to this synchronization context.
         /// </summary>
         /// <param name="d">
         /// The SendOrPostCallback delegate to call.
@@ -378,24 +377,24 @@ namespace Sanford.Threading
         /// The object passed to the delegate.
         /// </param>
         /// <remarks>
-        /// The Post method starts an asynchronous request to post a message. 
+        /// The Post method starts an asynchronous request to post a message.
         /// </remarks>
         public void PostPriority(SendOrPostCallback d, object state)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(d == null)
+            else if (d == null)
             {
                 throw new ArgumentNullException();
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 DelegateQueueAsyncResult result = new DelegateQueueAsyncResult(this, d, new object[] { state }, false, NotificationType.PostCompleted);
 
@@ -407,7 +406,7 @@ namespace Sanford.Threading
         }
 
         /// <summary>
-        /// Dispatches an synchronous message to this synchronization context. 
+        /// Dispatches an synchronous message to this synchronization context.
         /// </summary>
         /// <param name="d">
         /// The SendOrPostCallback delegate to call.
@@ -418,12 +417,12 @@ namespace Sanford.Threading
         public void SendPriority(SendOrPostCallback d, object state)
         {
             InvokePriority(d, state);
-        }       
+        }
 
         // Processes and invokes delegates.
         private void DelegateProcedure()
         {
-            lock(lockObject)
+            lock (lockObject)
             {
                 // Signal the constructor that the thread is now running.
                 Monitor.Pulse(lockObject);
@@ -436,19 +435,19 @@ namespace Sanford.Threading
             DelegateQueueAsyncResult result = null;
 
             // While the DelegateQueue has not been disposed.
-            while(true)
+            while (true)
             {
                 // Critical section.
-                lock(lockObject)
+                lock (lockObject)
                 {
                     // If the DelegateQueue has been disposed, break out of loop; we're done.
-                    if(disposed)
+                    if (disposed)
                     {
                         break;
                     }
 
                     // If there are delegates waiting to be invoked.
-                    if(delegateDeque.Count > 0)
+                    if (delegateDeque.Count > 0)
                     {
                         result = delegateDeque.PopFront();
                     }
@@ -459,7 +458,7 @@ namespace Sanford.Threading
                         Monitor.Wait(lockObject);
 
                         // If the DelegateQueue has been disposed, break out of loop; we're done.
-                        if(disposed)
+                        if (disposed)
                         {
                             break;
                         }
@@ -475,7 +474,7 @@ namespace Sanford.Threading
                 // Invoke the delegate.
                 result.Invoke();
 
-                if(result.NotificationType == NotificationType.BeginInvokeCompleted)
+                if (result.NotificationType == NotificationType.BeginInvokeCompleted)
                 {
                     InvokeCompletedEventArgs e = new InvokeCompletedEventArgs(
                         result.Method,
@@ -485,7 +484,7 @@ namespace Sanford.Threading
 
                     OnInvokeCompleted(e);
                 }
-                else if(result.NotificationType == NotificationType.PostCompleted)
+                else if (result.NotificationType == NotificationType.PostCompleted)
                 {
                     object[] args = result.GetArgs();
 
@@ -515,9 +514,9 @@ namespace Sanford.Threading
         {
             EventHandler<InvokeCompletedEventArgs> handler = InvokeCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
-                context.Post(delegate(object state)
+                context.Post(delegate (object state)
                 {
                     handler(this, e);
                 }, null);
@@ -531,9 +530,9 @@ namespace Sanford.Threading
         {
             EventHandler<PostCompletedEventArgs> handler = PostCompleted;
 
-            if(handler != null)
+            if (handler != null)
             {
-                context.Post(delegate(object state)
+                context.Post(delegate (object state)
                 {
                     handler(this, e);
                 }, null);
@@ -547,23 +546,23 @@ namespace Sanford.Threading
         {
             EventHandler handler = Disposed;
 
-            if(handler != null)
+            if (handler != null)
             {
-                context.Post(delegate(object state)
+                context.Post(delegate (object state)
                 {
                     handler(this, e);
                 }, null);
             }
         }
 
-        #endregion        
+        #endregion
 
         #endregion
 
         #region SynchronizationContext Overrides
 
         /// <summary>
-        /// Dispatches a synchronous message to this synchronization context. 
+        /// Dispatches a synchronous message to this synchronization context.
         /// </summary>
         /// <param name="d">
         /// The SendOrPostCallback delegate to call.
@@ -572,7 +571,7 @@ namespace Sanford.Threading
         /// The object passed to the delegate.
         /// </param>
         /// <remarks>
-        /// The Send method starts an synchronous request to send a message. 
+        /// The Send method starts an synchronous request to send a message.
         /// </remarks>
         public override void Send(SendOrPostCallback d, object state)
         {
@@ -580,7 +579,7 @@ namespace Sanford.Threading
         }
 
         /// <summary>
-        /// Dispatches an asynchronous message to this synchronization context. 
+        /// Dispatches an asynchronous message to this synchronization context.
         /// </summary>
         /// <param name="d">
         /// The SendOrPostCallback delegate to call.
@@ -589,24 +588,24 @@ namespace Sanford.Threading
         /// The object passed to the delegate.
         /// </param>
         /// <remarks>
-        /// The Post method starts an asynchronous request to post a message. 
+        /// The Post method starts an asynchronous request to post a message.
         /// </remarks>
         public override void Post(SendOrPostCallback d, object state)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(d == null)
+            else if (d == null)
             {
                 throw new ArgumentNullException();
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 delegateDeque.PushBack(new DelegateQueueAsyncResult(this, d, new object[] { state }, false, NotificationType.PostCompleted));
 
@@ -646,20 +645,20 @@ namespace Sanford.Threading
         /// Executes the delegate on the main thread that this DelegateQueue executes on.
         /// </summary>
         /// <param name="method">
-        /// A Delegate to a method that takes parameters of the same number and type that 
-        /// are contained in args. 
+        /// A Delegate to a method that takes parameters of the same number and type that
+        /// are contained in args.
         /// </param>
         /// <param name="args">
-        /// An array of type Object to pass as arguments to the given method. This can be 
-        /// a null reference (Nothing in Visual Basic) if no arguments are needed. 
+        /// An array of type Object to pass as arguments to the given method. This can be
+        /// a null reference (Nothing in Visual Basic) if no arguments are needed.
         /// </param>
         /// <returns>
-        /// An IAsyncResult interface that represents the asynchronous operation started 
+        /// An IAsyncResult interface that represents the asynchronous operation started
         /// by calling this method.
         /// </returns>
         /// <remarks>
-        /// <para>The delegate is called asynchronously, and this method returns immediately. 
-        /// You can call this method from any thread. If you need the return value from a process 
+        /// <para>The delegate is called asynchronously, and this method returns immediately.
+        /// You can call this method from any thread. If you need the return value from a process
         /// started with this method, call EndInvoke to get the value.</para>
         /// <para>If you need to call the delegate synchronously, use the Invoke method instead.</para>
         /// </remarks>
@@ -667,11 +666,11 @@ namespace Sanford.Threading
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(method == null)
+            else if (method == null)
             {
                 throw new ArgumentNullException();
             }
@@ -680,11 +679,11 @@ namespace Sanford.Threading
 
             DelegateQueueAsyncResult result;
 
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 result = new DelegateQueueAsyncResult(this, method, args, false, NotificationType.BeginInvokeCompleted);
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     delegateDeque.PushBack(result);
 
@@ -702,33 +701,33 @@ namespace Sanford.Threading
         }
 
         /// <summary>
-        /// Waits until the process started by calling BeginInvoke completes, and then returns 
+        /// Waits until the process started by calling BeginInvoke completes, and then returns
         /// the value generated by the process.
         /// </summary>
         /// <param name="result">
-        /// An IAsyncResult interface that represents the asynchronous operation started 
-        /// by calling BeginInvoke. 
+        /// An IAsyncResult interface that represents the asynchronous operation started
+        /// by calling BeginInvoke.
         /// </param>
         /// <returns>
         /// An Object that represents the return value generated by the asynchronous operation.
         /// </returns>
         /// <remarks>
-        /// This method gets the return value of the asynchronous operation represented by the 
+        /// This method gets the return value of the asynchronous operation represented by the
         /// IAsyncResult passed by this interface. If the asynchronous operation has not completed, this method will wait until the result is available.
         /// </remarks>
         public object EndInvoke(IAsyncResult result)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(!(result is DelegateQueueAsyncResult))
+            else if (!(result is DelegateQueueAsyncResult))
             {
                 throw new ArgumentException();
             }
-            else if(((DelegateQueueAsyncResult)result).Owner != this)
+            else if (((DelegateQueueAsyncResult)result).Owner != this)
             {
                 throw new ArgumentException();
             }
@@ -739,7 +738,7 @@ namespace Sanford.Threading
 
             DelegateQueueAsyncResult r = (DelegateQueueAsyncResult)result;
 
-            if(r.Error != null)
+            if (r.Error != null)
             {
                 throw r.Error;
             }
@@ -757,25 +756,25 @@ namespace Sanford.Threading
         /// An array of type Object that represents the arguments to pass to the given method.
         /// </param>
         /// <returns>
-        /// An Object that represents the return value from the delegate being invoked, or a 
+        /// An Object that represents the return value from the delegate being invoked, or a
         /// null reference (Nothing in Visual Basic) if the delegate has no return value.
         /// </returns>
         /// <remarks>
-        /// <para>Unlike BeginInvoke, this method operates synchronously, that is, it waits until 
-        /// the process completes before returning. Exceptions raised during the call are propagated 
+        /// <para>Unlike BeginInvoke, this method operates synchronously, that is, it waits until
+        /// the process completes before returning. Exceptions raised during the call are propagated
         /// back to the caller.</para>
-        /// <para>Use this method when calling a method from a different thread to marshal the call 
+        /// <para>Use this method when calling a method from a different thread to marshal the call
         /// to the proper thread.</para>
         /// </remarks>
         public object Invoke(Delegate method, params object[] args)
         {
             #region Require
 
-            if(disposed)
+            if (disposed)
             {
                 throw new ObjectDisposedException("DelegateQueue");
             }
-            else if(method == null)
+            else if (method == null)
             {
                 throw new ArgumentNullException();
             }
@@ -784,11 +783,11 @@ namespace Sanford.Threading
 
             object returnValue = null;
 
-            if(InvokeRequired)
+            if (InvokeRequired)
             {
                 DelegateQueueAsyncResult result = new DelegateQueueAsyncResult(this, method, args, false, NotificationType.None);
 
-                lock(lockObject)
+                lock (lockObject)
                 {
                     delegateDeque.PushBack(result);
 
@@ -813,8 +812,8 @@ namespace Sanford.Threading
         /// <b>true</b> if the caller must call Invoke; otherwise, <b>false</b>.
         /// </value>
         /// <remarks>
-        /// This property determines whether the caller must call Invoke when making 
-        /// method calls to this DelegateQueue. If you are calling a method from a different 
+        /// This property determines whether the caller must call Invoke when making
+        /// method calls to this DelegateQueue. If you are calling a method from a different
         /// thread, you must use the Invoke method to marshal the call to the proper thread.
         /// </remarks>
         public bool InvokeRequired
@@ -823,7 +822,7 @@ namespace Sanford.Threading
             {
                 return Thread.CurrentThread.ManagedThreadId != delegateThread.ManagedThreadId;
             }
-        }        
+        }
 
         #endregion
 
@@ -836,7 +835,7 @@ namespace Sanford.Threading
         {
             #region Guards
 
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
@@ -848,6 +847,6 @@ namespace Sanford.Threading
             OnDisposed(EventArgs.Empty);
         }
 
-        #endregion                
+        #endregion
     }
 }

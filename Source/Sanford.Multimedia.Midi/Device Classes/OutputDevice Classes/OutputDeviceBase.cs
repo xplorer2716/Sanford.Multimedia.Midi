@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,12 +32,11 @@
 
 #endregion
 
+using Sanford.Threading;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Sanford.Threading;
 
 namespace Sanford.Multimedia.Midi
 {
@@ -140,7 +139,7 @@ namespace Sanford.Multimedia.Midi
         /// <summary>
         /// The device handle.
         /// </summary>
-        protected IntPtr DeviceHandle = IntPtr.Zero;        
+        protected IntPtr DeviceHandle = IntPtr.Zero;
 
         /// <summary>
         /// Base class for output devices with an integer.
@@ -165,7 +164,7 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
                 delegateQueue.Dispose();
             }
@@ -180,7 +179,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -214,14 +213,14 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 headerBuilder.InitializeBuffer(message);
                 headerBuilder.Build();
@@ -230,7 +229,7 @@ namespace Sanford.Multimedia.Midi
                 int result = midiOutPrepareHeader(Handle, headerBuilder.Result, SizeOfMidiHeader);
 
                 // If the system exclusive buffer was prepared successfully.
-                if(result == MidiDeviceException.MMSYSERR_NOERROR)
+                if (result == MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     bufferCount++;
 
@@ -238,7 +237,7 @@ namespace Sanford.Multimedia.Midi
                     result = midiOutLongMsg(Handle, headerBuilder.Result, SizeOfMidiHeader);
 
                     // If the system exclusive message could not be sent.
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         midiOutUnprepareHeader(Handle, headerBuilder.Result, SizeOfMidiHeader);
                         bufferCount--;
@@ -267,7 +266,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -284,7 +283,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -301,21 +300,21 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 // Reset the OutputDevice.
-                int result = midiOutReset(Handle); 
+                int result = midiOutReset(Handle);
 
-                if(result == MidiDeviceException.MMSYSERR_NOERROR)
+                if (result == MidiDeviceException.MMSYSERR_NOERROR)
                 {
-                    while(bufferCount > 0)
+                    while (bufferCount > 0)
                     {
                         Monitor.Wait(lockObject);
                     }
@@ -324,7 +323,7 @@ namespace Sanford.Multimedia.Midi
                 {
                     // Throw an exception.
                     throw new OutputDeviceException(result);
-                }                
+                }
             }
         }
 
@@ -333,11 +332,11 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected void Send(int message)
         {
-            lock(lockObject)
+            lock (lockObject)
             {
                 int result = midiOutShortMsg(Handle, message);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     throw new OutputDeviceException(result);
                 }
@@ -356,7 +355,7 @@ namespace Sanford.Multimedia.Midi
             int result = midiOutGetDevCaps(devId, ref caps, Marshal.SizeOf(caps));
 
             // If the capabilities could not be retrieved.
-            if(result != MidiDeviceException.MMSYSERR_NOERROR)
+            if (result != MidiDeviceException.MMSYSERR_NOERROR)
             {
                 // Throw an exception.
                 throw new OutputDeviceException(result);
@@ -370,13 +369,13 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected virtual void HandleMessage(IntPtr hnd, int msg, IntPtr instance, IntPtr param1, IntPtr param2)
         {
-            if(msg == MOM_OPEN)
+            if (msg == MOM_OPEN)
             {
             }
-            else if(msg == MOM_CLOSE)
+            else if (msg == MOM_CLOSE)
             {
             }
-            else if(msg == MOM_DONE)
+            else if (msg == MOM_DONE)
             {
                 delegateQueue.Post(ReleaseBuffer, param1);
             }
@@ -387,14 +386,14 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         private void ReleaseBuffer(object state)
         {
-            lock(lockObject)
+            lock (lockObject)
             {
                 IntPtr headerPtr = (IntPtr)state;
 
                 // Unprepare the buffer.
                 int result = midiOutUnprepareHeader(Handle, headerPtr, SizeOfMidiHeader);
 
-                if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                if (result != MidiDeviceException.MMSYSERR_NOERROR)
                 {
                     Exception ex = new OutputDeviceException(result);
 
@@ -408,7 +407,7 @@ namespace Sanford.Multimedia.Midi
 
                 Monitor.Pulse(lockObject);
 
-                Debug.Assert(bufferCount >= 0);                
+                Debug.Assert(bufferCount >= 0);
             }
         }
 
@@ -419,16 +418,16 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 return;
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
-                Close();          
+                Close();
             }
         }
 
@@ -452,6 +451,6 @@ namespace Sanford.Multimedia.Midi
             {
                 return midiOutGetNumDevs();
             }
-        }        
+        }
     }
 }

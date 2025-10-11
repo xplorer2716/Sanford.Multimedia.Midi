@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -32,7 +32,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -40,7 +39,6 @@ namespace Sanford.Collections.Generic
 {
     public partial class UndoableList<T> : IList<T>
     {
-
         #region SetCommand
 
         private class SetCommand : ICommand
@@ -68,7 +66,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -86,7 +84,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -132,7 +130,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -142,15 +140,15 @@ namespace Sanford.Collections.Generic
                 Debug.Assert(index >= 0 && index <= theList.Count);
 
                 count = theList.Count;
-                theList.Insert(index, item);                
-                undone = false;                
+                theList.Insert(index, item);
+                undone = false;
             }
 
             public void Undo()
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -197,7 +195,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -215,7 +213,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -225,7 +223,7 @@ namespace Sanford.Collections.Generic
                 Debug.Assert(index >= 0 && index <= theList.Count);
 
                 theList.RemoveRange(index, insertList.Count);
-                
+
                 undone = true;
             }
 
@@ -236,7 +234,7 @@ namespace Sanford.Collections.Generic
 
         #region RemoveAtCommand
 
-        private class RemoveAtCommand : ICommand        
+        private class RemoveAtCommand : ICommand
         {
             private IList<T> theList;
 
@@ -260,7 +258,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -279,7 +277,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -326,7 +324,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -347,7 +345,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -385,7 +383,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
@@ -403,7 +401,7 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
@@ -412,7 +410,7 @@ namespace Sanford.Collections.Generic
 
                 Debug.Assert(theList.Count == 0);
 
-                foreach(T item in undoList)
+                foreach (T item in undoList)
                 {
                     theList.Add(item);
                 }
@@ -461,14 +459,14 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(!undone)
+                if (!undone)
                 {
                     return;
                 }
 
                 #endregion
 
-                if(reverseRange)
+                if (reverseRange)
                 {
                     theList.Reverse(index, count);
                 }
@@ -484,14 +482,14 @@ namespace Sanford.Collections.Generic
             {
                 #region Guard
 
-                if(undone)
+                if (undone)
                 {
                     return;
                 }
 
                 #endregion
 
-                if(reverseRange)
+                if (reverseRange)
                 {
                     theList.Reverse(index, count);
                 }

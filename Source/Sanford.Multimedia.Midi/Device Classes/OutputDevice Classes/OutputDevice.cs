@@ -1,23 +1,23 @@
 #region License
 
 /* Copyright (c) 2006 Leslie Sanford
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy 
- * of this software and associated documentation files (the "Software"), to 
- * deal in the Software without restriction, including without limitation the 
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
- * sell copies of the Software, and to permit persons to whom the Software is 
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in 
- * all copies or substantial portions of the Software. 
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
 
@@ -33,18 +33,16 @@
 #endregion
 
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Sanford.Multimedia.Midi
 {
-	/// <summary>
-	/// Represents a device capable of sending MIDI messages.
-	/// </summary>
-	public sealed class OutputDevice : OutputDeviceBase
-	{
+    /// <summary>
+    /// Represents a device capable of sending MIDI messages.
+    /// </summary>
+    public sealed class OutputDevice : OutputDeviceBase
+    {
         #region Win32 Midi Output Functions and Constants
 
         [DllImport("winmm.dll")]
@@ -54,13 +52,13 @@ namespace Sanford.Multimedia.Midi
         [DllImport("winmm.dll")]
         private static extern int midiOutClose(IntPtr DeviceHandle);
 
-        #endregion 
+        #endregion
 
         private MidiOutProc midiOutProc;
 
         private bool runningStatusEnabled = false;
 
-        private int runningStatus = 0;        
+        private int runningStatus = 0;
 
         #region Construction
 
@@ -73,7 +71,7 @@ namespace Sanford.Multimedia.Midi
 
             int result = midiOutOpen(out DeviceHandle, deviceID, midiOutProc, IntPtr.Zero, CALLBACK_FUNCTION);
 
-            if(result != MidiDeviceException.MMSYSERR_NOERROR)
+            if (result != MidiDeviceException.MMSYSERR_NOERROR)
             {
                 throw new OutputDeviceException(result);
             }
@@ -86,16 +84,16 @@ namespace Sanford.Multimedia.Midi
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            if(disposing)
+            if (disposing)
             {
-                lock(lockObject)
+                lock (lockObject)
                 {
                     Reset();
 
                     // Close the OutputDevice.
                     int result = midiOutClose(Handle);
 
-                    if(result != MidiDeviceException.MMSYSERR_NOERROR)
+                    if (result != MidiDeviceException.MMSYSERR_NOERROR)
                     {
                         // Throw an exception.
                         throw new OutputDeviceException(result);
@@ -121,14 +119,14 @@ namespace Sanford.Multimedia.Midi
         {
             #region Guard
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 return;
             }
 
             #endregion
 
-            Dispose(true);            
+            Dispose(true);
         }
 
         /// <summary>
@@ -138,7 +136,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -157,20 +155,20 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
 
             #endregion
 
-            lock(lockObject)
+            lock (lockObject)
             {
                 // If running status is enabled.
-                if(runningStatusEnabled)
+                if (runningStatusEnabled)
                 {
                     // If the message's status value matches the running status.
-                    if(message.Status == runningStatus)
+                    if (message.Status == runningStatus)
                     {
                         // Send only the two data bytes without the status byte.
                         Send(message.Message >> 8);
@@ -212,7 +210,7 @@ namespace Sanford.Multimedia.Midi
         {
             #region Require
 
-            if(IsDisposed)
+            if (IsDisposed)
             {
                 throw new ObjectDisposedException(this.GetType().Name);
             }
@@ -245,7 +243,7 @@ namespace Sanford.Multimedia.Midi
                 runningStatus = 0;
             }
         }
-        
+
         #endregion
     }
 
@@ -260,7 +258,7 @@ namespace Sanford.Multimedia.Midi
         #region Win32 Midi Output Error Function
 
         [DllImport("winmm.dll", CharSet = CharSet.Unicode)]
-        private static extern int midiOutGetErrorText(int errCode, 
+        private static extern int midiOutGetErrorText(int errCode,
             StringBuilder message, int sizeOfMessage);
 
         #endregion
@@ -268,7 +266,7 @@ namespace Sanford.Multimedia.Midi
         #region Fields
 
         // The error message.
-        private StringBuilder message = new StringBuilder(128);        
+        private StringBuilder message = new StringBuilder(128);
 
         #endregion
 
@@ -300,7 +298,7 @@ namespace Sanford.Multimedia.Midi
             {
                 return message.ToString();
             }
-        }        
+        }
 
         #endregion
 
