@@ -33,6 +33,8 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Windows.Forms;
 
 namespace Sanford.Multimedia.Midi.UI.Windows
@@ -84,6 +86,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             Close();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int LowNoteID
         {
             get
@@ -114,6 +117,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int HighNoteID
         {
             get

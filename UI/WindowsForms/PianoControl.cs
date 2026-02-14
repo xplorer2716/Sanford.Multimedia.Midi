@@ -34,6 +34,8 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -552,6 +554,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int LowNoteID
         {
             get
@@ -592,6 +595,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public int HighNoteID
         {
             get
@@ -632,6 +636,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
             }
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public Color NoteOnColor
         {
             get

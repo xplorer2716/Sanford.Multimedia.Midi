@@ -33,6 +33,8 @@
 #endregion
 
 using System;
+using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -207,6 +209,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 base.OnResize(e);
             }
 
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public Color NoteOnColor
             {
                 get
@@ -225,6 +228,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 }
             }
 
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public Color NoteOffColor
             {
                 get
@@ -243,6 +247,7 @@ namespace Sanford.Multimedia.Midi.UI.Windows
                 }
             }
 
+            [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
             public int NoteID
             {
                 get
