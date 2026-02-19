@@ -19,7 +19,7 @@ Improvements:
 Since this is developed in .NET, the following will need to be installed:
 - For building: <b>.NET 10 SDK</b>
 - For running: <b>.NET 10 Runtime</b>
-- Both can be downloaded here: https://dotnet.microsoft.com/download/dotnet/8.0
+- Both can be downloaded here: https://dotnet.microsoft.com/download/dotnet/10.0
 
 ~~Also avaliable on Nuget.org~~
 
@@ -34,3 +34,4 @@ Credits:
 http://www.codeproject.com/Articles/6228/C-MIDI-Toolkit
 
 https://code.google.com/p/vsticks/
+
