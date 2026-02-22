@@ -15,6 +15,7 @@ Improvements:
 - Faster midi file reading in Release build
 
 - <b>Minor changes  regarding SysexMessage, ChannelMessage, ControlChangesNames</b>
+-<b> see https://github.com/xplorer2716/Sanford.Multimedia.Midi/tree/master/Source#readme for architectural overview</b>
 
 Since this is developed in .NET, the following will need to be installed:
 - For building: <b>.NET 10 SDK</b>
@@ -34,4 +35,5 @@ Credits:
 http://www.codeproject.com/Articles/6228/C-MIDI-Toolkit
 
 https://code.google.com/p/vsticks/
+
 
