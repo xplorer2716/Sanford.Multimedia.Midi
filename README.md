@@ -1,3 +1,7 @@
+# Archived repository
+**This repository is archived and is no longer maintained.**
+
+
 Sanford.Multimedia.Midi
 =======================
 
